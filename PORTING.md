@@ -117,6 +117,7 @@ tools/
 | `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleOptionsPanel` | Options panel |
 | `amod_weather_snow_reload` | Re-apply the current map's `.smf` snow materials |
+| `hl2a_snow_debug` | Show the current map's `.smf` rules and how many materials each matches |
 | `ToggleSongPanel` | Song panel (original bind: `x`) |
 | `hl2a_play_song <name>` | Play a song by display name |
 | `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |
