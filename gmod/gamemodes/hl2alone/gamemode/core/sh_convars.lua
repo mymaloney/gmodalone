@@ -87,6 +87,7 @@ cv( "amod_weather_rain_splashes", 1 )
 cv( "amod_weather_thunder", 0 )
 cv( "amod_rain_splash_particle_name", "water_splash_01_droplets" )
 cv( "hl2a_weather_enable", 0, "Master switch used when amod_weather_override is 1" )
+cv( "amod_weather_snow_show_on_maps", 0, "Snow-covered map materials (maps/snow_materials/<map>.smf) when amod_weather_override is 1" )
 
 -- Music
 cv( "amod_music_disable", 0 )

@@ -200,9 +200,9 @@ end )
 
 hook.Add( "InputMouseApply", "hl2a.mirror", function( cmd, x, y, ang )
 	if not CV.amod_mirrored:GetBool() then return end
-	local sens = GetConVar( "sensitivity" ):GetFloat()
-	ang.y = ang.y + x * GetConVar( "m_yaw" ):GetFloat() * sens -- normally minus
-	ang.p = math.Clamp( ang.p + y * GetConVar( "m_pitch" ):GetFloat() * sens, -89, 89 )
+	-- x and y already include sensitivity (and zoom scaling); the engine would do ang.y - x * m_yaw
+	ang.y = ang.y + x * GetConVar( "m_yaw" ):GetFloat()
+	ang.p = math.Clamp( ang.p + y * GetConVar( "m_pitch" ):GetFloat(), -89, 89 )
 	cmd:SetViewAngles( ang )
 	return true
 end )
