@@ -126,3 +126,12 @@ hook.Add( "InitPostEntity", "hl2a.mappatches", function()
 		patch()
 	end
 end )
+
+-- The mod's maps leave item_item_crate's model blank ("has no model name!");
+-- the original DLL coped, GMod's crate doesn't. Give it the stock crate model
+-- before keyvalues are applied, so a model set in the map still wins.
+hook.Add( "OnEntityCreated", "hl2a.cratemodel", function( ent )
+	if ent:GetClass() == "item_item_crate" then
+		ent:SetKeyValue( "model", "models/items/item_item_crate.mdl" )
+	end
+end )

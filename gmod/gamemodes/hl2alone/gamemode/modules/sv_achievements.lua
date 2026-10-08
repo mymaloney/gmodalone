@@ -1,11 +1,11 @@
 --[[
-	Server side of achievements: listens for logic_achievement FireEvent,
-	records the component and tells the client (cl_achievements.lua).
+	Server side of achievements: records components fired by the
+	logic_achievement entity (entities/entities/logic_achievement.lua) and
+	tells the client (cl_achievements.lua).
 ]]
 
 local A = HL2A.Achievements
 local SAVE = "hl2alone/achievements.json"
-local EVENT_PREFIX = "ACHIEVEMENT_EVENT_"
 
 util.AddNetworkString( "hl2a.achievement" )
 util.AddNetworkString( "hl2a.achievements_sync" )
@@ -44,33 +44,6 @@ function A.Award( component )
 	net.Broadcast()
 	sync()
 end
-
--- logic_achievement: remember its event and enabled state
-hook.Add( "EntityKeyValue", "hl2a.achievements", function( ent, key, value )
-	if ent:GetClass() ~= "logic_achievement" then return end
-	key = key:lower()
-	if key == "achievementevent" then
-		ent.HL2A_Event = value
-	elseif key == "startdisabled" then
-		ent.HL2A_Disabled = tobool( value )
-	end
-end )
-
-hook.Add( "AcceptInput", "hl2a.achievements", function( ent, input )
-	if ent:GetClass() ~= "logic_achievement" then return end
-	input = input:lower()
-
-	if input == "enable" then ent.HL2A_Disabled = false
-	elseif input == "disable" then ent.HL2A_Disabled = true
-	elseif input == "toggle" then ent.HL2A_Disabled = not ent.HL2A_Disabled
-	elseif input == "fireevent" then
-		local event = ent.HL2A_Event or ""
-		if not ent.HL2A_Disabled and event:StartWith( EVENT_PREFIX ) then
-			A.Award( event:sub( #EVENT_PREFIX + 1 ) )
-			return true
-		end
-	end
-end )
 
 hook.Add( "PlayerInitialSpawn", "hl2a.achievements", function( ply )
 	timer.Simple( 1, function() if IsValid( ply ) then sync( ply ) end end )

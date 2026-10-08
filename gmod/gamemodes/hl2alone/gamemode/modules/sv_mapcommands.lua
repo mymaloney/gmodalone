@@ -9,6 +9,14 @@
 ]]
 
 util.AddNetworkString( "hl2a.cmd" )
+util.AddNetworkString( "hl2a.hudhint" )
+
+--- Shows (or with an empty message, hides) the HL2 key hint. ply nil = everyone.
+function HL2A.SendHudHint( ply, message )
+	net.Start( "hl2a.hudhint" )
+		net.WriteString( message )
+	if IsValid( ply ) then net.Send( ply ) else net.Broadcast() end
+end
 
 local function toClient( ply, name, arg )
 	net.Start( "hl2a.cmd" )
