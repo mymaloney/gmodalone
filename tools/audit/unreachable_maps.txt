@@ -1,0 +1,5 @@
+# not a chapter, menu background or transition target - review before using with --exclude
+maps/amod_outro.bsp
+maps/d1_trainstation_01_snowey.bsp
+maps/devtest_thunder.bsp
+maps/portal_08_old.bsp
