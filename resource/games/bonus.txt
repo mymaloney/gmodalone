@@ -1,0 +1,7 @@
+"games"
+{
+	"Bonus Maps"
+	{
+		"Prefix" "BONUS"
+	}
+}

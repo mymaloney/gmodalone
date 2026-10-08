@@ -68,6 +68,14 @@ function HL2A.ParseColor( str )
 	return Color( v.x, v.y, v.z )
 end
 
+--- Map name used to look up the mod's per-map data (time_info, thunder,
+-- rain cfgs, snow .smf, patches). Maps in subfolders ("bonus/x",
+-- "backgrounds/background01_d") are keyed by their plain name there.
 function HL2A.Map()
-	return game.GetMap():lower()
+	return ( game.GetMap():lower():gsub( "\\", "/" ):match( "([^/]+)$" ) )
+end
+
+--- Full map path under maps/ (e.g. "bonus/d1_trainstation_01_snowey")
+function HL2A.MapPath()
+	return ( game.GetMap():lower():gsub( "\\", "/" ) )
 end

@@ -41,7 +41,7 @@ function HL2A.GetChapterMap( prefix, n )
 	local cfg = HL2A.ReadFile( "cfg/" .. prefix:lower() .. "/chapter" .. n .. ".cfg" )
 	if not cfg then return nil end
 	if cfg:match( "^%s*map_random" ) then return HL2A.RANDOM_MAP end
-	return cfg:match( "map%s+([%w_%-]+)" )
+	return cfg:match( "map%s+([%w_%-/]+)" ) -- may be in a subfolder: "bonus/x"
 end
 
 --- Whether a chapter's map can be loaded.

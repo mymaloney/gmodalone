@@ -44,8 +44,15 @@ ASSET_DIRS = ["materials", "models", "sound", "maps", "particles", "scenes", "me
 # Prefixes kept regardless: UI and screen effects the DLLs / Lua load by name
 KEEP_PREFIXES = (
     "materials/vgui/", "materials/console/", "materials/hud/", "materials/effects/",
-    "materials/particle/", "resource/", "media/",
+    "materials/particle/", "resource/", "particles/hl2alone/",
 )
+
+# Files the GMod port itself loads by name
+PORT_USES = ("sound/music/credits.wav",)  # amod_startcreditssong
+
+# Content GMod can't use at all (the original's Bink videos: menu
+# backgrounds and the outro)
+NOT_USABLE_EXTS = (".bik",)
 
 MODEL_COMPANIONS = (".vvd", ".phy", ".ani", ".vtx", ".dx90.vtx", ".dx80.vtx", ".sw.vtx", ".xbox.vtx")
 SKY_SIDES = ("rt", "lf", "bk", "ft", "up", "dn")
@@ -426,14 +433,28 @@ def main():
     for s in skies:
         tracer.skybox(s, "time_info / Skyboxs.txt")
 
+    # Maps, keyed by path under maps/ ("bonus/x"); the mod's data uses the plain name
     maps = {rel[5:-4]: p for rel, p in files.items() if rel.startswith("maps/") and rel.endswith(".bsp")}
+    base_of = {m: m.split("/")[-1] for m in maps}
+    by_base = defaultdict(list)
+    for m, b in base_of.items():
+        by_base[b].append(m)
+
+    def resolve_map(name):
+        """Chapter / transition target -> map keys it can mean."""
+        n = norm(name)
+        return [n] if n in maps else by_base.get(n.split("/")[-1], [])
+
+    for rel in PORT_USES:
+        tracer.mark(rel, "loaded by the GMod port")
     map_info, reachable = {}, set()
     cc_used = {norm(f) for f in filters} | {"scripts/colorcorrection/cc_epic_filter.raw"}
 
     # Maps the player can reach: chapters, menu backgrounds, then level transitions
     for cfg in (REPO / "cfg").rglob("chapter*.cfg"):
-        reachable.update(m.lower() for m in re.findall(r"\bmap\s+([\w\-]+)", cfg.read_text(errors="replace")))
-    reachable.update(m for m in maps if m.startswith("background") or m == "portal_background")
+        for m in re.findall(r"\bmap\s+([\w\-/\\]+)", cfg.read_text(errors="replace")):
+            reachable.update(resolve_map(m))
+    reachable.update(m for m, b in base_of.items() if b.startswith("background") or b == "portal_background")
 
     for name, p in sorted(maps.items()):
         why = f"map {name}"
@@ -463,7 +484,7 @@ def main():
                 tracer.value(v, why, soundscripts)
         for m in map_materials:
             tracer.material(m, why)
-            base = re.sub(rf"^maps/{re.escape(name)}/", "", m)
+            base = re.sub(rf"^maps/({re.escape(name)}|{re.escape(base_of[name])})/", "", m)
             base = re.sub(r"(_wvt_patch|_-?\d+_-?\d+_-?\d+)$", "", base)
             tracer.material(base, why)
         try:
@@ -480,8 +501,8 @@ def main():
             print(f"  couldn't read embedded content of {name}: {e}")
         for ext in (".nav", ".ain"):
             tracer.mark(f"maps/{name}{ext}", why)
-            tracer.mark(f"maps/graphs/{name}{ext}", why)
-        smf = f"maps/snow_materials/{name}.smf"
+            tracer.mark(f"maps/graphs/{base_of[name]}{ext}", why)
+        smf = f"maps/snow_materials/{base_of[name]}.smf"
         if tracer.mark(smf, why):
             for v in re.findall(r'"Value"\s+"([^"]+)"', read_text(files[smf]), re.I):
                 tracer.texture(v, f"snow materials of {name}")
@@ -496,17 +517,21 @@ def main():
     while frontier:
         m = frontier.pop()
         for t in map_info.get(m, {}).get("targets", ()):
-            if t not in reachable:
-                reachable.add(t)
-                frontier.append(t)
+            for k in resolve_map(t):
+                if k not in reachable:
+                    reachable.add(k)
+                    frontier.append(k)
     unreachable = sorted(m for m in maps if m not in reachable)
 
     # Maps are reported separately, not as unused; files named after a map go with it
+    plain_names = set(base_of.values())
     for rel in files:
-        if rel.startswith("maps/") and rel.split("/")[-1].split(".")[0] in maps:
+        if rel.startswith("maps/") and (rel.endswith(".bsp") or rel.split("/")[-1].split(".")[0] in plain_names):
             tracer.mark(rel, "map")
 
-    unused = sorted(rel for rel in files if rel not in tracer.used and rel not in dup_set)
+    not_usable = sorted(rel for rel in files if rel.endswith(NOT_USABLE_EXTS))
+    unused = sorted(rel for rel in files
+                    if rel not in tracer.used and rel not in dup_set and rel not in not_usable)
 
     # Colour-correction filters in the repo (copied by build_addon.py)
     cc_files = {norm(p.relative_to(REPO).as_posix()): p.stat().st_size
@@ -555,9 +580,11 @@ def main():
          f"Asset folder: {len(files)} files, **{human(total)}**.", "",
          "| Option | Saves | List |", "|---|---|---|",
          f"| Drop duplicates of base game files | {human(size_of(duplicates))} ({len(duplicates)} files) | `duplicates.txt` |",
+         f"| Drop content GMod can't use (Bink videos) | {human(size_of(not_usable))} ({len(not_usable)} files) | `not_usable.txt` |",
          f"| Drop probably-unused assets (review first) | {human(size_of(unused))} ({len(unused)} files) | `unused.txt` |",
          f"| Drop unused colour-correction filters | {human(sum(cc_files[c] for c in cc_unused))} ({len(cc_unused)} files) | `unused.txt` |",
          f"| Drop unreachable maps (review first) | {human(sum(sizes[f'maps/{m}.bsp'] for m in unreachable))} ({len(unreachable)} maps) | `unreachable_maps.txt` |",
+         f"| Drop menu-background maps (GMod can't use them as menu backgrounds) | {human(sum(sizes[f'maps/{m}.bsp'] for m in maps if base_of[m].startswith('background') or base_of[m] == 'portal_background'))} | n/a |",
          f"| Convert .wav music to .ogg | ~{human(max(0, music_bytes - music_ogg))} ({len(music)} files) | `music_wav.txt` |",
          f"| Compress uncompressed textures to DXT | ~{human(sum(v[1] - v[2] for v in vtfs))} ({len(vtfs)} files) | `uncompressed_vtf.txt` |",
          f"| Compress maps (`bspzip -repack -compress`) | ~{human(sum(s for _, s in uncompressed_maps) * 0.4)} ({len(uncompressed_maps)} maps, ~40% estimate) | n/a |",
@@ -568,7 +595,8 @@ def main():
     L += [f"| {k} | {human(v)} |" for k, v in sorted(by_second.items(), key=lambda kv: -kv[1])[:30]]
     L += ["", "## Largest files", "", "| File | Size | Status |", "|---|---|---|"]
     for rel, s in sorted(sizes.items(), key=lambda kv: -kv[1])[:30]:
-        status = "duplicate" if rel in dup_set else ("unused?" if rel in unused else tracer.reasons.get(rel, ""))
+        status = ("duplicate" if rel in dup_set else "not usable in GMod" if rel in not_usable
+                  else "unused?" if rel in unused else tracer.reasons.get(rel, ""))
         L.append(f"| {rel} | {human(s)} | {status} |")
     L += ["", "## Probably unused, by folder", "",
           "Nothing in the maps or the mod's data refers to these. The original DLLs or the Lua could "
@@ -593,7 +621,10 @@ def main():
     (args.out / "unused.txt").write_text(
         "# not referenced by maps or mod data - review before using with --exclude\n"
         + "\n".join(unused + cc_unused) + "\n")
-    (args.out / "unreachable_maps.txt").write_text("\n".join(f"maps/{m}.bsp" for m in unreachable) + "\n")
+    (args.out / "not_usable.txt").write_text("# GMod can't play these\n" + "\n".join(not_usable) + "\n")
+    (args.out / "unreachable_maps.txt").write_text(
+        "# not a chapter, menu background or transition target - review before using with --exclude\n"
+        + "\n".join(f"maps/{m}.bsp" for m in unreachable) + "\n")
     (args.out / "music_wav.txt").write_text("\n".join(r for r, _, _ in music) + "\n")
     (args.out / "uncompressed_vtf.txt").write_text("\n".join(r for r, _, _ in vtfs) + "\n")
     print(f"wrote {args.out / 'size_report.md'} and path lists")

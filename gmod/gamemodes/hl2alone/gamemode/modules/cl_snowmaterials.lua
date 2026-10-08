@@ -189,8 +189,8 @@ function HL2A.ApplySnowMaterials()
 	local rules = HL2A.ParseSnowRules( text )
 
 	local changed = 0
-	for _, name in ipairs( mapMaterials( map ) ) do
-		local base = unpatched( name, map )
+	for _, name in ipairs( mapMaterials( HL2A.MapPath() ) ) do
+		local base = unpatched( name, HL2A.MapPath() )
 		for _, r in ipairs( rules ) do
 			if base:find( r.pattern ) or name:find( r.pattern ) then
 				local mat = Material( name )
@@ -217,7 +217,7 @@ concommand.Add( "hl2a_snow_debug", function()
 	if not text then MsgN( "  no .smf found" ) return end
 	MsgN( "  .smf starts with: " .. text:sub( 1, 300 ):gsub( "%s+", " " ) )
 
-	local mats = mapMaterials( map )
+	local mats = mapMaterials( HL2A.MapPath() )
 	MsgN( "  map uses " .. #mats .. " materials, e.g. " .. table.concat( mats, ", ", 1, math.min( 5, #mats ) ) )
 
 	local rules = HL2A.ParseSnowRules( text )
@@ -226,7 +226,7 @@ concommand.Add( "hl2a_snow_debug", function()
 		if i > 15 then MsgN( "  ..." ) break end
 		local hits = 0
 		for _, name in ipairs( mats ) do
-			if unpatched( name, map ):find( r.pattern ) or name:find( r.pattern ) then hits = hits + 1 end
+			if unpatched( name, HL2A.MapPath() ):find( r.pattern ) or name:find( r.pattern ) then hits = hits + 1 end
 		end
 		MsgN( string.format( "    %-40s %d entries, matches %d", r.name, #r.entries, hits ) )
 	end
