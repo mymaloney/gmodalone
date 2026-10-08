@@ -31,7 +31,9 @@ cv( "amod_epic_filter_day_filename", "scripts/colorcorrection/cc_daytime.raw" )
 cv( "amod_epic_filter_night_filename", "scripts/colorcorrection/cc_epic_filter.raw" )
 cv( "amod_epic_filter_day_intensity", 1 )
 cv( "amod_epic_filter_night_intensity", 1 )
-cv( "amod_saturation", 1 )
+cv( "amod_saturation", 1, "Enable the saturation effect" )
+-- The original strength is in materials/effects/view/saturation.vmt (custom shader); tune to match
+cv( "hl2a_saturation_amount", 1.2, "Colour saturation when amod_saturation is on (1 = unchanged)" )
 
 -- Vignette
 cv( "amod_vignette", 0 )
@@ -90,6 +92,14 @@ cv( "hl2a_weather_enable", 0, "Master switch used when amod_weather_override is 
 cv( "amod_music_disable", 0 )
 cv( "amod_songs_transition_through_levels", 1 )
 cv( "hl2a_music_volume", 1 )
+
+-- Options panel extras
+cv( "amod_mirrored", 0, "Flip the view left to right" )
+cv( "amod_soundscapes_disable", 0 )
+cv( "hl2a_hidehud", 0, "Don't draw the HUD (original: hidehud)" )
+cv( "hl2a_nofootsteps", 0, "Mute footstep sounds (original: sv_footsteps 0)" )
+cv( "hl2a_rollangle", 0, "Camera roll when strafing, 0-10 (original: sv_rollangle)" )
+cv( "hl2a_achievement_notifications_disable", 0 )
 
 -- Episode One countdowns (amod_core_timer entity)
 cv( "amod_do_core_timer", 1 )

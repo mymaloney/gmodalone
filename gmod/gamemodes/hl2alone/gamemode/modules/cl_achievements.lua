@@ -22,6 +22,7 @@ surface.CreateFont( "HL2A.ToastSmall", { font = "Tahoma", size = 15 } )
 
 net.Receive( "hl2a.achievement", function()
 	local id, n, total = net.ReadString(), net.ReadUInt( 8 ), net.ReadUInt( 8 )
+	if HL2A.ConVars.hl2a_achievement_notifications_disable:GetBool() then return end
 	toasts[ #toasts + 1 ] = {
 		title = title( id ),
 		text = n >= total and "Achievement unlocked!" or string.format( "Progress: %d / %d", n, total ),
