@@ -82,3 +82,14 @@ hook.Add( "KeyPress", "hl2a.jumppunch", function( ply, key )
 	if not ply:OnGround() or ply:GetVelocity():Length2D() < CV.amod_jump_vel_min:GetFloat() then return end
 	ply:ViewPunch( Angle( -2, 0, 0 ) )
 end )
+
+-- Campaign level transitions (trigger_changelevel) only work in Single Player
+hook.Add( "PlayerInitialSpawn", "hl2a.spwarning", function( ply )
+	if game.SinglePlayer() then return end
+	MsgN( "[HL2A] WARNING: not in Single Player - level transitions won't work" )
+	timer.Simple( 3, function()
+		if IsValid( ply ) then
+			ply:PrintMessage( HUD_PRINTTALK, "[HL2: Alone] This is a single-player campaign. Level transitions won't work in multiplayer - start it from Single Player." )
+		end
+	end )
+end )
