@@ -79,6 +79,13 @@ function HL2A.ApplyWeather()
 
 	timer.Remove( "hl2a.weather.interval" )
 	if on then setActive( not cfg.intervals ) else SetGlobal2Bool( "hl2a.weather.active", false ) end
+
+	-- The maps' own brush rain would play alongside (e.g. rain under the
+	-- snowey coast theme's snow), so remove it while our weather is on.
+	-- It comes back on the next map load.
+	if on then
+		for _, ent in ipairs( ents.FindByClass( "func_precipitation" ) ) do SafeRemoveEntity( ent ) end
+	end
 end
 
 local function thunder()

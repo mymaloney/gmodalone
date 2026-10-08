@@ -49,6 +49,7 @@ local FILES = {
 	"modules/cl_flashlight.lua",
 	"modules/sv_weather.lua",
 	"modules/cl_weather.lua",
+	"modules/cl_snowmaterials.lua",
 	"modules/cl_music.lua",
 	"modules/sh_chapters.lua",
 	"modules/sv_chapters.lua",

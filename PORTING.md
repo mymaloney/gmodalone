@@ -84,6 +84,7 @@ tools/
 | View bob, stand bob, jump/land punch | client.dll | **Approximated:** tune the formulas | `cl_view.lua`, `sv_player.lua` |
 | Flashlight flicker + lag | client.dll | **Ported** (ProjectedTexture) | `cl_flashlight.lua` |
 | Rain / snow / ash, intervals, thunder | func_precipitation + DLL | **Ported** (Lua particles); rain cfg radius used | `sv_weather.lua`, `cl_weather.lua` |
+| Snow-covered maps (`maps/snow_materials/<map>.smf`, `ShowSnowOnMaps`) | client.dll | **Ported** from disassembly; originals restored on map unload | `cl_snowmaterials.lua` |
 | Song panel, songs across levels | client.dll VGUI | **Ported:** basic Derma panel, `ToggleSongPanel` | `cl_music.lua` |
 | Sound scripts | `scripts/game_sounds_*` | **Ported** (`sound.Add` at runtime) | `sh_sounds.lua` |
 | Localization tokens | UTF-16 `resource/*` | **Ported** (`language.Add`) | `cl_localization.lua` |
@@ -115,6 +116,7 @@ tools/
 | `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
 | `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleOptionsPanel` | Options panel |
+| `amod_weather_snow_reload` | Re-apply the current map's `.smf` snow materials |
 | `ToggleSongPanel` | Song panel (original bind: `x`) |
 | `hl2a_play_song <name>` | Play a song by display name |
 | `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |
