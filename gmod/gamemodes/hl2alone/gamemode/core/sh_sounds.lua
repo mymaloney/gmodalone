@@ -40,7 +40,7 @@ local function channel( str )
 end
 
 local function fixPath( p )
-	return ( p:gsub( "\\", "/" ) )
+	return HL2A.ResolveSound( ( p:gsub( "\\", "/" ) ) )
 end
 
 local function addSoundScript( name, entry )

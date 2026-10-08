@@ -60,6 +60,7 @@ function M.Play( entry, startTime )
 	local group = M.Groups[ entry.value ]
 	local path = group and group[ math.random( #group ) ] or entry.value
 	if not path then return end
+	path = HL2A.ResolveSound( path )
 
 	sound.PlayFile( "sound/" .. path:gsub( "\\", "/" ), "noplay", function( ch, errId, errName )
 		if not IsValid( ch ) then

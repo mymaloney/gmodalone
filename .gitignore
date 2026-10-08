@@ -10,3 +10,6 @@
 # Tool output
 /audit/
 __pycache__/
+
+# build_addon.py --music-ogg conversions
+/.cache/

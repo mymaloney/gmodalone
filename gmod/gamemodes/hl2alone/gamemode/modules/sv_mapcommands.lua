@@ -110,8 +110,14 @@ end )
 local TEXT_CLASSES = { game_text = true, env_message = true, point_message = true }
 
 hook.Add( "EntityKeyValue", "hl2a.f1hint", function( ent, key, value )
-	if key:lower() == "message" and TEXT_CLASSES[ ent:GetClass() ] then
+	if key:lower() ~= "message" then return end
+	local class = ent:GetClass()
+	if TEXT_CLASSES[ class ] then
 		return HL2A.FixHintText( value )
+	elseif class == "ambient_generic" then
+		-- Map music named as .wav may ship as .ogg (build_addon.py --music-ogg)
+		local resolved = HL2A.ResolveSound( value )
+		if resolved ~= value then return resolved end
 	end
 end )
 

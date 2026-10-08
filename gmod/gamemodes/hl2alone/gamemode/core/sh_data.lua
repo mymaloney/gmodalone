@@ -79,3 +79,22 @@ end
 function HL2A.MapPath()
 	return ( game.GetMap():lower():gsub( "\\", "/" ) )
 end
+
+local MUSIC_EXTS = { ".wav", ".ogg", ".mp3" }
+
+--- Music may ship as .ogg (build_addon.py --music-ogg) while the mod's data
+-- and maps still name .wav (and the original even named a missing .mp3).
+-- Returns the path of whichever variant exists; other sounds pass through.
+-- Source's leading sound flags (")", "^", "#" ...) are kept.
+function HL2A.ResolveSound( path )
+	if not isstring( path ) then return path end
+	local flags, rest = path:match( "^([%)%^%*#@<>!%?&~%+%$]*)(.*)$" )
+	local p = rest:gsub( "\\", "/" ):lower() -- build_addon.py lowercases every file
+	if not p:StartWith( "music/" ) or file.Exists( "sound/" .. p, "GAME" ) then return path end
+
+	local base = p:gsub( "%.%w+$", "" )
+	for _, ext in ipairs( MUSIC_EXTS ) do
+		if file.Exists( "sound/" .. base .. ext, "GAME" ) then return flags .. base .. ext end
+	end
+	return path
+end

@@ -18,6 +18,7 @@ Examples:
 import argparse
 import re
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -152,7 +153,34 @@ def fix_vmt_shader(src: Path, dst: Path) -> bool:
     return True
 
 
-def build_assets(out: Path, assets: Path):
+DEFAULT_EXCLUDE = REPO / "tools" / "cleanup_exclude.txt"
+
+# Menu-background maps: GMod can't use them as menu backgrounds
+BACKGROUND_MAPS_DIR = "maps/backgrounds/"
+
+
+MUSIC_CACHE = REPO / ".cache" / "music_ogg"
+
+
+def convert_music(src: Path, dst: Path) -> bool:
+    """sound/music/x.wav -> x.ogg (Vorbis q5, ~160 kbit/s). Conversions are cached
+    in .cache/music_ogg so --clean builds don't redo them."""
+    cached = MUSIC_CACHE / (src.stem.lower() + ".ogg")
+    if not cached.exists() or cached.stat().st_mtime < src.stat().st_mtime:
+        cached.parent.mkdir(parents=True, exist_ok=True)
+        print(f"convert  {src.name} -> .ogg")
+        r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(src),
+                            "-c:a", "libvorbis", "-q:a", "5", str(cached)],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            cached.unlink(missing_ok=True)
+            print(f"warning  couldn't convert {src.name}, copying the .wav instead: {r.stderr.strip()[:200]}")
+            return False
+    copy(cached, dst.with_suffix(".ogg"))
+    return True
+
+
+def build_assets(out: Path, assets: Path, keep_backgrounds: bool, music_ogg: bool):
     vpks = list(assets.glob("*.vpk")) + list(assets.glob("vpk/**/*.vpk"))
     if vpks:
         print("note     VPKs found in the asset folder. GMod addons can't mount custom VPKs;")
@@ -163,20 +191,27 @@ def build_assets(out: Path, assets: Path):
         src = assets / d
         if not src.is_dir():
             continue
-        n = fixed = 0
+        n = fixed = converted = 0
         for f in src.rglob("*"):
             if f.is_file():
                 rel = lower_rel(f, assets)
-                if rel.as_posix() in EXCLUDE:
+                relp = rel.as_posix()
+                if relp in EXCLUDE or (not keep_backgrounds and relp.startswith(BACKGROUND_MAPS_DIR)):
+                    EXCLUDE.add(relp)
                     copy(f, out / rel, rel)  # counts it as excluded
                     continue
                 dst = out / rel
                 if f.suffix.lower() == ".vmt" and fix_vmt_shader(f, dst):
                     fixed += 1
+                elif music_ogg and relp.startswith("sound/music/") and relp.endswith(".wav") and convert_music(f, dst):
+                    converted += 1
                 else:
                     copy(f, dst)
                 n += 1
-        print(f"copied   {n} files from {d}/" + (f" ({fixed} VMTs switched to stock shaders)" if fixed else ""))
+        notes = [f"{fixed} VMTs switched to stock shaders"] if fixed else []
+        if converted:
+            notes.append(f"{converted} music files converted to .ogg")
+        print(f"copied   {n} files from {d}/" + (f" ({', '.join(notes)})" if notes else ""))
 
     # Mod particle files go under particles/hl2alone/ so they only load in this gamemode
     for f in (assets / "particles").glob("*.pcf") if (assets / "particles").is_dir() else []:
@@ -195,8 +230,18 @@ def main():
     ap.add_argument("--clean", action="store_true", help="delete the output folder first")
     ap.add_argument("--exclude", action="append", type=Path, default=[],
                     help="file listing paths to leave out, one per line (e.g. size_report.py's duplicates.txt); repeatable")
+    ap.add_argument("--no-default-exclude", action="store_true",
+                    help=f"don't apply {DEFAULT_EXCLUDE.relative_to(REPO).as_posix()} (the reviewed cleanup list)")
+    ap.add_argument("--keep-background-maps", action="store_true",
+                    help="also copy maps/backgrounds/ (menu-background maps; ~400 MB)")
+    ap.add_argument("--music-ogg", action="store_true",
+                    help="convert sound/music/*.wav to .ogg with ffmpeg (~650 MB smaller)")
     args = ap.parse_args()
 
+    if args.music_ogg and not shutil.which("ffmpeg"):
+        sys.exit("--music-ogg needs ffmpeg on PATH (e.g. 'winget install ffmpeg', then open a new terminal)")
+    if not args.no_default_exclude and DEFAULT_EXCLUDE.exists():
+        args.exclude.insert(0, DEFAULT_EXCLUDE)
     load_excludes(args.exclude)
     out = args.out.resolve()
     if out == REPO or REPO in out.parents:
@@ -208,12 +253,13 @@ def main():
     build_lua(out, args.link_lua)
     build_data(out)
     if args.assets:
-        build_assets(out, args.assets.resolve())
+        build_assets(out, args.assets.resolve(), args.keep_background_maps, args.music_ogg)
     else:
         print("note     no --assets given; materials/models/sound/maps were not copied")
 
-    if EXCLUDE:
-        print(f"excluded {human_mb(excluded_bytes)} listed in {len(args.exclude)} --exclude file(s)")
+    if excluded_bytes:
+        print(f"excluded {human_mb(excluded_bytes)} (cleanup list, --exclude files"
+              + ("" if args.keep_background_maps else ", menu-background maps") + ")")
     print(f"done     {out}")
 
 
