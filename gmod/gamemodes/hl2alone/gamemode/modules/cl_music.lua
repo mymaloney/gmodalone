@@ -76,6 +76,11 @@ function M.Play( entry, startTime )
 	end )
 end
 
+--- Plays a sound path directly (used by map-fired commands like the credits song)
+function M.PlayPath( path )
+	M.Play( { name = path, value = path } )
+end
+
 function M.PlayByName( name )
 	for _, e in ipairs( M.Entries ) do
 		if e.name:lower() == name:lower() then M.Play( e ) return true end

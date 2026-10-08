@@ -16,6 +16,7 @@ Examples:
 """
 
 import argparse
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -112,6 +113,28 @@ def build_data(out: Path):
         copy(f, out / "particles" / "hl2alone" / f.name.lower())
 
 
+# The mod's custom shader DLL isn't available in GMod; map its shaders onto
+# the closest stock ones. Unknown extra parameters are ignored by the engine.
+SHADER_FALLBACKS = {
+    "radialfog_water": "Water",
+    "radialfog_watercheap": "Water",
+}
+SHADER_RE = re.compile(r'^(\s*(?://[^\n]*\n\s*)*)"?([A-Za-z0-9_]+)"?', re.S)
+
+
+def fix_vmt_shader(src: Path, dst: Path) -> bool:
+    """Write dst with a stock shader if src uses a custom one. Returns True if rewritten."""
+    text = src.read_text(encoding="latin-1")
+    m = SHADER_RE.match(text)
+    if not m or m.group(2).lower() not in SHADER_FALLBACKS:
+        return False
+    new = text[:m.start(2) - (1 if text[m.start(2) - 1] == '"' else 0)] + \
+        f'"{SHADER_FALLBACKS[m.group(2).lower()]}"' + text[m.end():]
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    dst.write_text(new, encoding="latin-1")
+    return True
+
+
 def build_assets(out: Path, assets: Path):
     vpks = list(assets.glob("*.vpk")) + list(assets.glob("vpk/**/*.vpk"))
     if vpks:
@@ -123,12 +146,16 @@ def build_assets(out: Path, assets: Path):
         src = assets / d
         if not src.is_dir():
             continue
-        n = 0
+        n = fixed = 0
         for f in src.rglob("*"):
             if f.is_file():
-                copy(f, out / lower_rel(f, assets))
+                dst = out / lower_rel(f, assets)
+                if f.suffix.lower() == ".vmt" and fix_vmt_shader(f, dst):
+                    fixed += 1
+                else:
+                    copy(f, dst)
                 n += 1
-        print(f"copied   {n} files from {d}/")
+        print(f"copied   {n} files from {d}/" + (f" ({fixed} VMTs switched to stock shaders)" if fixed else ""))
 
     # Mod particle files go under particles/hl2alone/ so they only load in this gamemode
     for f in (assets / "particles").glob("*.pcf") if (assets / "particles").is_dir() else []:

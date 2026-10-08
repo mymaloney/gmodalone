@@ -83,3 +83,8 @@ hook.Add( "HUDPaintBackground", "hl2a.vignette", function()
 	surface.SetMaterial( gradU ) surface.DrawTexturedRect( 0, 0, w, bh )
 	surface.SetMaterial( gradD ) surface.DrawTexturedRect( 0, h - bh, w, bh )
 end )
+
+-- Set by sv_timers.lua while the countdown-expired fade plays
+hook.Add( "HUDShouldDraw", "hl2a.hidehud", function( name )
+	if name ~= "CHudGMod" and IsValid( LocalPlayer() ) and LocalPlayer():GetNW2Bool( "hl2a.hidehud" ) then return false end
+end )

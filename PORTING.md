@@ -92,10 +92,15 @@ tools/
 | Weather / effects / options / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
 | Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
 | Volumetric clouds (`r_clouds_*`), horizon fog | engine changes | **Not portable as-is.** Would need a Lua mesh/sprite system | n/a |
-| Custom water shaders (`radialfog_water`), lens dirt, blur | `shaders/fxc` | **Not portable.** Fall back to stock `Water`, redo screen effects in Lua | n/a |
+| Lens dirt, blur screen effects | `shaders/fxc` | **TODO:** redo in Lua if wanted | n/a |
 | GamepadUI main menu, bik menu backgrounds | gamepadui.dll | **Not portable.** GMod's main menu can't be replaced by a gamemode | n/a |
-| Achievements (`AMOD_NEW_LOCATIONS_*`) | server.dll | **TODO:** Lua tracking + HUD notice | n/a |
-| Citadel/core timers, new ending, outro videos | server.dll | **TODO:** check the audit for which commands maps fire | n/a |
+| Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
+| Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
+| Runtime map edits (`ep1_citadel_03_d`) | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
+| Map-fired commands (`quit`, `amod_*`, `startupmenu`) | DLLs / engine | **Ported:** `quit` blocked, the rest handled | `sv/cl_mapcommands.lua` |
+| Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |
+| Outro video on `ep2_outland_12a_d` (`amod_outrotest`) | server.dll + `.bik` | **Not portable:** the normal fade plays instead | n/a |
+| Portal maps (`portal_*`) | Portal entities | **Not portable:** GMod has no portal entities | n/a |
 | GeoGuesser mini-game | client.dll | **TODO** | n/a |
 
 ## Console commands
@@ -108,10 +113,35 @@ tools/
 | `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |
 | `hl2a_timeinfo_dump` | Show the current map's time_info block |
 | `hl2a_entcheck` | Report map entity classes GMod can't create |
+| `amod_show_achievements` | Achievement list with progress |
+| `hl2a_achievements_reset` | Clear achievement progress |
 
 All `amod_*` convars keep their original names and defaults; see
 `core/sh_convars.lua`. GMod doesn't run the mod's `cfg/autoexec.cfg`, so put
 any binds you want into your own GMod autoexec.
+
+## What server.dll did at runtime
+
+Some map behaviour isn't in the `.bsp` files at all; `server.dll` applied it
+in code. The disassembly found:
+
+- **`ep1_citadel_03_d`:**
+  - removes every NPC except bullseyes, all `env_soundscape`s, and the
+    advisor, alarm and combine set-pieces
+  - adds the `music/away.mp3` song and a 7:30 core-collapse countdown
+  - rewires the lift triggers and forces area portals open
+
+  Ported in `sv_mappatches.lua`.
+- **`amod_core_timer`:** countdown entity used in 13 ep1 maps. At zero:
+  freeze the player, fade to black, explosion, reload the last save. GMod
+  saves don't keep Lua state, so after the reload the countdown restarts
+  from its full length.
+- **`ep2_outland_12a_d`:** the `f_portal` fade plays the outro video
+  instead. Not ported.
+
+The 95 maps that fire `quit` do it from map logic; neither DLL refers to
+it. The audit report's "Where traced commands come from" section shows the
+exact chain. The port blocks it regardless.
 
 ## Things to verify in-game first
 
@@ -132,16 +162,17 @@ These rely on engine behaviour I couldn't test outside GMod:
 - **Map entities:** the maps were compiled for SDK 2013. Run the audit, then
   `hl2a_entcheck`. Anything missing needs a Lua SENT with the same
   classname, or a map edit.
+- **`reload` after the countdown:** the timer runs `reload` to load the last
+  save. If GMod refuses it, the player is killed instead, after 2 s.
 - **Stock-path overrides:** materials/sounds in your asset folder that reuse
   stock HL2 paths will override them in *every* gamemode while the addon is
   installed.
 
 ## Suggested next steps
 
-1. Get one map (`d1_trainstation_01_d`) loading cleanly: run the audit, fix
-   missing entities and shaders.
-2. Implement the console commands the audit finds the maps firing
-   (`amod_*`). Those are the map-driven story features.
+1. Get one map (`d1_trainstation_01_d`) loading cleanly. Run
+   `hl2a_entcheck` for entity classes GMod lacks.
+2. Play through `ep1_citadel_03_d` to check the map patch and countdown.
 3. Rebuild the Weather/Options panels in Derma using the layouts in
    `resource/panels/` as reference.
 4. Achievements and the remaining server.dll features.

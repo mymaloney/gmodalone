@@ -20,7 +20,17 @@ local RAIN_LOOP = "ambient/weather/rumble_rain_nowind.wav"
 local MAX_PER_FRAME = 40
 local emitter
 local loop
+local loopMuted = false
 local accum = 0
+
+HL2A.Weather = HL2A.Weather or {}
+
+--- Maps fire amod_rain_stopsounds to silence the rain ambience (e.g. underground)
+function HL2A.Weather.MuteLoop()
+	loopMuted = true
+	if loop then loop:Stop() end
+	loop = nil
+end
 
 local function skyAbove( pos )
 	local tr = util.TraceLine( { start = pos, endpos = pos + Vector( 0, 0, 16384 ), mask = MASK_SOLID_BRUSHONLY } )
@@ -82,7 +92,7 @@ hook.Add( "Think", "hl2a.weather", function()
 
 	emitter = emitter or ParticleEmitter( vector_origin, false )
 
-	if kind == 1 and not loop and file.Exists( "sound/" .. RAIN_LOOP, "GAME" ) then
+	if kind == 1 and not loop and not loopMuted and file.Exists( "sound/" .. RAIN_LOOP, "GAME" ) then
 		loop = CreateSound( ply, RAIN_LOOP )
 		loop:PlayEx( 0.5, 100 )
 	end
