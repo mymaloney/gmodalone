@@ -5,15 +5,39 @@
 	(cfg/AloneMod_Config.txt and cfg/autoexec.cfg) so existing configs and
 	map-fired commands keep working. hl2a_* variables are new to the port.
 
-	Everything is archived + replicated: this is a single-player gamemode, so
-	the listen-server host owns every setting.
+	Settings the server uses are archived + replicated (the single-player
+	host owns them). Settings only the client reads (view effects,
+	flashlight look, music, mirror ...) are plain client convars: GMod can
+	leave a Lua-created replicated convar stale on the client after a map
+	load until it changes, which broke mirror mode until it was toggled.
 ]]
 
 local FLAGS = { FCVAR_ARCHIVE, FCVAR_REPLICATED }
 
+-- Prefixes of client-only settings (never read by server code)
+local CLIENT_ONLY = {
+	"amod_fog_disabled", "amod_saturation", "hl2a_saturation_amount", "amod_vignette", "amod_new_vignette_",
+	"amod_viewbob_", "amod_standbob_", "amod_flashlight", "hl2a_flashlight_", "amod_music_disable",
+	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
+	"hl2a_rollangle", "hl2a_achievement_notifications_disable",
+}
+
 HL2A.ConVars = HL2A.ConVars or {}
+HL2A.ClientConVars = HL2A.ClientConVars or {}
+
+local function isClientOnly( name )
+	for _, p in ipairs( CLIENT_ONLY ) do
+		if name:StartWith( p ) then return true end
+	end
+	return false
+end
 
 local function cv( name, default, help )
+	if isClientOnly( name ) then
+		HL2A.ClientConVars[ name ] = true
+		if CLIENT then HL2A.ConVars[ name ] = CreateClientConVar( name, tostring( default ), true, false, help or "" ) end
+		return
+	end
 	HL2A.ConVars[ name ] = CreateConVar( name, tostring( default ), FLAGS, help or "" )
 end
 

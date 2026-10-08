@@ -156,9 +156,16 @@ local function buildPanel()
 			b:SetSize( S( c[ 4 ] ), S( c[ 5 ] ) )
 			b:SetText( phrase( c[ 6 ] ) )
 			b.DoClick = function()
+				-- Client settings apply here; server settings go to the server
 				local list = {}
 				for name, v in pairs( pending ) do
-					if GetConVar( name ):GetString() ~= v then list[ #list + 1 ] = { name, v } end
+					if GetConVar( name ):GetString() ~= v then
+						if HL2A.ClientConVars[ name ] then
+							RunConsoleCommand( name, v )
+						else
+							list[ #list + 1 ] = { name, v }
+						end
+					end
 				end
 				if #list > 0 then
 					net.Start( "hl2a.options" )
