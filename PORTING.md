@@ -90,11 +90,29 @@ which bundles HL2 content. `audit/size_report.md` lists:
 - **Candidates for conversion:** `.wav` music (to `.ogg`), uncompressed
   textures (to DXT), and uncompressed maps (`bspzip -repack -compress`).
 
-Apply the lists you approve when building:
+`build_addon.py` already applies the low-risk cleanup by default:
+
+- `tools/cleanup_exclude.txt`, a reviewed list: the Bink outro videos,
+  maps nothing leads to, unused colour-correction filters and leftovers.
+  Assets for original features that aren't ported yet (breathing, rain
+  ambience, lightning, clouds/stars) are deliberately kept.
+  `--no-default-exclude` turns it off.
+- Menu-background maps (`maps/backgrounds/`, ~400 MB) are skipped, since
+  GMod can't use them as menu backgrounds. `--keep-background-maps` keeps them.
+
+Optional extras:
 
 ```
-python tools/build_addon.py --out ... --assets ... --exclude audit/duplicates.txt --exclude audit/unused.txt
+python tools/build_addon.py --out ... --assets ... --clean --music-ogg --exclude audit/duplicates.txt
 ```
+
+- `--music-ogg` converts `sound/music/*.wav` to `.ogg` with ffmpeg
+  (~650 MB smaller; install with `winget install ffmpeg`). Conversions are
+  cached in `.cache/`, so later `--clean` builds are fast. The port finds the
+  `.ogg` wherever the mod's data or maps still name the `.wav`.
+- `--exclude <list>` drops anything else listed, e.g. `duplicates.txt`.
+
+Use `--clean` when changing these, so files from earlier builds don't linger.
 
 ## Where things go in the built addon
 
