@@ -60,6 +60,9 @@ local FILES = {
 	"modules/sh_achievements.lua",
 	"modules/sv_achievements.lua",
 	"modules/cl_achievements.lua",
+	"modules/sh_options.lua",
+	"modules/sv_options.lua",
+	"modules/cl_options.lua",
 	"modules/sv_dev.lua",
 }
 

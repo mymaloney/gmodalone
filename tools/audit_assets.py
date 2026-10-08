@@ -141,6 +141,63 @@ def audit_maps(assets: Path):
     return classes, class_maps, commands, traces, errors
 
 
+def audit_transitions(assets: Path):
+    """Every level change in every map, with problems that would stop it."""
+    maps = {}
+    for bsp in sorted((assets / "maps").glob("*.bsp")):
+        try:
+            maps[bsp.stem.lower()] = parse_entities(read_entity_lump(bsp))
+        except Exception:  # noqa: BLE001 - already reported by audit_maps
+            pass
+
+    landmarks = {m: {dict(kvs).get("targetname", "").lower() for kvs in ents
+                     if dict(kvs).get("classname") == "info_landmark"} for m, ents in maps.items()}
+
+    rows = []  # (map, how, target map, landmark, problems)
+    for m, ents in sorted(maps.items()):
+        fired = defaultdict(list)  # trigger name -> "class.Output" that fire its ChangeLevel input
+        for kvs in ents:
+            d = dict(kvs)
+            for k, v in kvs:
+                parts = output_parts(v)
+                if not parts:
+                    continue
+                target, inp, param = parts[0].lower(), parts[1].lower(), parts[2].strip()
+                if inp == "changelevel":
+                    fired[target].append(f"{d.get('classname')}.{k}")
+                elif inp == "command" and re.match(r"(changelevel2?|map)\s", param.lower()):
+                    words = param.split()
+                    tm = words[1].lower() if len(words) > 1 else ""
+                    problems = [] if tm in maps else [f"map '{tm}' not found"]
+                    rows.append((m, f"command `{param}` via {d.get('classname')}.{k}", tm, "", problems))
+
+        for kvs in ents:
+            d = {k.lower(): v for k, v in kvs}
+            if d.get("classname") != "trigger_changelevel":
+                continue
+            tm, lm = d.get("map", "").lower(), d.get("landmark", "").lower()
+            name = d.get("targetname", "").lower()
+            flags = int(d.get("spawnflags", "0") or 0)
+            problems = []
+            if tm not in maps:
+                problems.append(f"map '{tm}' not found")
+            if lm and lm not in landmarks[m]:
+                problems.append(f"landmark '{lm}' missing in this map")
+            if lm and tm in maps and lm not in landmarks[tm]:
+                problems.append(f"landmark '{lm}' missing in {tm}")
+            if d.get("startdisabled") == "1":
+                problems.append("starts disabled (needs an Enable input)")
+            if flags & 2:
+                how = "trigger (touch disabled; fired by " + (", ".join(fired[name]) or "NOTHING") + ")"
+                if not fired[name]:
+                    problems.append("touch disabled and nothing fires ChangeLevel")
+            else:
+                how = "trigger (touch)"
+            rows.append((m, how, tm, lm, problems))
+
+    return rows
+
+
 def audit_materials(assets: Path):
     shaders = Counter()
     examples = defaultdict(list)
@@ -189,6 +246,14 @@ def main():
                 continue
             shown.add(key)
             lines += [f"- `{m}` ({cmd}):", "  ```", *[f"  {l}" for l in t], "  ```"]
+
+    rows = audit_transitions(args.assets)
+    bad = [r for r in rows if r[4]]
+    lines += ["", "### Level transitions", "",
+              f"{len(rows)} transitions, {len(bad)} with problems.", "",
+              "| map | how | to | landmark | problems |", "|---|---|---|---|---|"]
+    for m, how, tm, lm, problems in sorted(rows, key=lambda r: (not r[4], r[0])):
+        lines.append(f"| {m} | {how} | {tm} | {lm} | {'; '.join(problems) or 'ok'} |")
 
     lines += ["", "### Entity classes", "", "| class | count | maps |", "|---|---|---|"]
     for cls, n in classes.most_common():

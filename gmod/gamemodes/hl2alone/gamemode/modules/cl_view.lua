@@ -39,6 +39,13 @@ function GM:CalcView( ply, origin, angles, fov, znear, zfar )
 		view.origin = view.origin - Vector( 0, 0, sz * CV.amod_viewbob_scale_z:GetFloat() * k )
 	end
 
+	-- Strafe roll, like HL2's sv_rollangle (sv_rollspeed 200)
+	local rollAngle = CV.hl2a_rollangle:GetFloat()
+	if rollAngle > 0 then
+		local side = ply:GetVelocity():Dot( angles:Right() )
+		view.angles.r = view.angles.r + math.Clamp( side / 200, -1, 1 ) * rollAngle
+	end
+
 	-- Breathing sway while standing still
 	if CV.amod_standbob_enabled:GetBool() and now - lastMove > CV.amod_standbob_wait:GetFloat() then
 		local w = math.Clamp( ( now - lastMove - CV.amod_standbob_wait:GetFloat() ) / 2, 0, 1 ) * ( 1 - math.min( bobWeight, 1 ) )
@@ -55,7 +62,7 @@ local gradL, gradR = Material( "vgui/gradient-l" ), Material( "vgui/gradient-r" 
 local gradU, gradD = Material( "vgui/gradient-u" ), Material( "vgui/gradient-d" )
 
 hook.Add( "RenderScreenspaceEffects", "hl2a.view", function()
-	local sat = CV.amod_saturation:GetFloat()
+	local sat = CV.amod_saturation:GetBool() and CV.hl2a_saturation_amount:GetFloat() or 1
 	if sat ~= 1 then
 		DrawColorModify( {
 			[ "$pp_colour_addr" ] = 0, [ "$pp_colour_addg" ] = 0, [ "$pp_colour_addb" ] = 0,
@@ -85,6 +92,9 @@ hook.Add( "HUDPaintBackground", "hl2a.vignette", function()
 end )
 
 -- Set by sv_timers.lua while the countdown-expired fade plays
+-- Hidden by the "Dont Draw The Hud" option, or by sv_timers.lua during the countdown-expired fade
 hook.Add( "HUDShouldDraw", "hl2a.hidehud", function( name )
-	if name ~= "CHudGMod" and IsValid( LocalPlayer() ) and LocalPlayer():GetNW2Bool( "hl2a.hidehud" ) then return false end
+	if name == "CHudGMod" or name == "CHudChat" then return end
+	if CV.hl2a_hidehud:GetBool() then return false end
+	if IsValid( LocalPlayer() ) and LocalPlayer():GetNW2Bool( "hl2a.hidehud" ) then return false end
 end )

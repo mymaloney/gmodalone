@@ -89,7 +89,10 @@ tools/
 | Localization tokens | UTF-16 `resource/*` | **Ported** (`language.Add`) | `cl_localization.lua` |
 | Chapter select | New Game panel + `cfg/<game>/chapterN.cfg` | **Ported:** panel (F1 / `togglenewgamepanel`, auto on background maps) + `hl2a_chapter` | `sh/sv/cl_chapters.lua` |
 | HL2 movement speeds, god mode, suit | autoexec / DLL | **Ported** (`hl2a_*speed`, `amod_enable_god`) | `sv_player.lua` |
-| Weather / effects / options / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
+| Options panel | VGUI `.res` + DLL | **Ported** (`ToggleOptionsPanel`, Options button on chapter select); filter brightness sliders, Daytime, Effects/Credits/Ending left out | `sh/sv/cl_options.lua` |
+| Mirrored view, hide HUD, footsteps off, strafe roll, soundscapes off | DLL / engine cvars | **Ported** | `cl_options.lua`, `cl_view.lua`, `sh/sv_options.lua` |
+| TAB screen filter (`Amod_ToggleFilter`) | DLL | **TODO** (not the epic filter) | n/a |
+| Weather / effects / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
 | Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
 | Volumetric clouds (`r_clouds_*`), horizon fog | engine changes | **Not portable as-is.** Would need a Lua mesh/sprite system | n/a |
 | Lens dirt, blur screen effects | `shaders/fxc` | **TODO:** redo in Lua if wanted | n/a |
@@ -111,6 +114,7 @@ tools/
 |---|---|
 | `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
 | `togglenewgamepanel` (F1) | Chapter select panel |
+| `ToggleOptionsPanel` | Options panel |
 | `ToggleSongPanel` | Song panel (original bind: `x`) |
 | `hl2a_play_song <name>` | Play a song by display name |
 | `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |
@@ -165,6 +169,9 @@ These rely on engine behaviour I couldn't test outside GMod:
 - **Map entities:** the maps were compiled for SDK 2013. Run the audit, then
   `hl2a_entcheck`. Anything missing needs a Lua SENT with the same
   classname, or a map edit.
+- **Saturation strength:** the original used a custom shader whose strength
+  is set in `materials/effects/view/saturation.vmt`. The port approximates
+  it with `hl2a_saturation_amount` (default 1.2), so tune that to match.
 - **`reload` after the countdown:** the timer runs `reload` to load the last
   save. If GMod refuses it, the player is killed instead, after 2 s.
 - **Stock-path overrides:** materials/sounds in your asset folder that reuse

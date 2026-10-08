@@ -91,6 +91,13 @@ local function buildPanel()
 	load:SetText( phrase( "#Amod_NewGamePanel_LoadChapter" ) )
 	load:SetEnabled( false )
 
+	local options = bottom:Add( "DButton" )
+	options:Dock( LEFT )
+	options:SetWide( 140 )
+	options:DockMargin( 0, 0, 12, 0 )
+	options:SetText( phrase( "#AMod_OptionsPanel_Title" ) )
+	options.DoClick = function() HL2A.ToggleOptionsPanel() end
+
 	local status = bottom:Add( "DLabel" )
 	status:Dock( FILL )
 	status:SetTextColor( DIM )
