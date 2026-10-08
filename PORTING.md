@@ -76,7 +76,7 @@ tools/
 
 | Feature | Original | Status | Where |
 |---|---|---|---|
-| Day/night per map (`amod_day`) | time_info | **Ported:** skybox, env_sun, fog, filter | `sv_atmosphere.lua`, `cl_fog.lua` |
+| Day/night per map (`amod_day`) | time_info | **Shelved:** code works (skybox, env_sun, fog, filter), but the maps' baked night lighting makes day look wrong; hidden from the start menu | `sv_atmosphere.lua`, `cl_fog.lua` |
 | time_info themes (snowey coast, hl2 beta) | time_info subfolders | **Ported:** `hl2a_timeinfo_theme` | `sh_timeinfo.lua` |
 | Fog + FogCubeTriggers + city fogs | client.dll | **Ported**, with blending | `cl_fog.lua` |
 | Epic filter / colour correction | client.dll | **Ported** via `color_correction` entity; verify weight changes in-game | `sv_atmosphere.lua` |
