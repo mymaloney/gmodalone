@@ -19,7 +19,7 @@ local CLIENT_ONLY = {
 	"amod_fog_disabled", "amod_saturation", "hl2a_saturation_amount", "amod_vignette", "amod_new_vignette_",
 	"amod_viewbob_", "amod_standbob_", "amod_flashlight", "hl2a_flashlight_", "amod_music_disable",
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
-	"hl2a_rollangle", "hl2a_achievement_notifications_disable",
+	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom",
 }
 
 HL2A.ConVars = HL2A.ConVars or {}
@@ -106,7 +106,8 @@ cv( "amod_weather_wait_min", 300 )
 cv( "amod_weather_wait_max", 600 )
 cv( "amod_weather_rain_density", 0.001 )
 cv( "amod_weather_rain_splashes", 1 )
-cv( "amod_weather_thunder", 0 )
+cv( "amod_weather_thunder", 0, "Thunder sounds while it rains (the soundscape's ThunderSoundscape, default common.thunder)" )
+cv( "amod_do_breathing", 0, "Show the player's breath every few seconds" )
 cv( "amod_rain_splash_particle_name", "water_splash_01_droplets" )
 cv( "hl2a_weather_enable", 0, "Master switch used when amod_weather_override is 1" )
 cv( "amod_weather_snow_show_on_maps", 0, "Snow-covered map materials (maps/snow_materials/<map>.smf) when amod_weather_override is 1" )
@@ -117,6 +118,7 @@ cv( "amod_songs_transition_through_levels", 1 )
 cv( "hl2a_music_volume", 1 )
 
 -- Options panel extras
+cv( "hl2a_bloom", 1, "Per-map bloom from time_info (BloomEnabled maps only)" )
 cv( "amod_mirrored", 0, "Flip the view left to right" )
 cv( "amod_soundscapes_disable", 0 )
 cv( "hl2a_hidehud", 0, "Don't draw the HUD (original: hidehud)" )

@@ -94,8 +94,8 @@ which bundles HL2 content. `audit/size_report.md` lists:
 
 - `tools/cleanup_exclude.txt`, a reviewed list: the Bink outro videos,
   maps nothing leads to, unused colour-correction filters and leftovers.
-  Assets for original features that aren't ported yet (breathing, rain
-  ambience, lightning, clouds/stars) are deliberately kept.
+  Assets for original features (breathing, rain ambience, lightning,
+  clouds/stars) are deliberately kept.
   `--no-default-exclude` turns it off.
 - Menu-background maps (`maps/backgrounds/`, ~400 MB) are skipped, since
   GMod can't use them as menu backgrounds. `--keep-background-maps` keeps them.
@@ -138,14 +138,18 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Saturation, vignette | client.dll + custom shader | **Ported** (Lua screen effects) | `cl_view.lua` |
 | View bob, stand bob, jump/land punch | client.dll | **Approximated:** tune the formulas | `cl_view.lua`, `sv_player.lua` |
 | Flashlight flicker + lag | client.dll | **Ported** (ProjectedTexture) | `cl_flashlight.lua` |
-| Rain / snow / ash, intervals, thunder | func_precipitation + DLL | **Ported** (Lua particles); rain cfg radius used | `sv_weather.lua`, `cl_weather.lua` |
+| Rain / snow / ash, intervals | func_precipitation + DLL | **Ported** (Lua particles); rain cfg radius used | `sv_weather.lua`, `cl_weather.lua` |
+| Rain / snow / thunder ambience | client.dll soundscape layers (`RainSoundscape`, `RainSoundscapeKV`, `RainVolume`, Snow…/Thunder… keys) | **Ported:** the active soundscape is tracked server-side; its weather soundscape is layered on while it rains/snows. Thunder (`amod_weather_thunder`): each strike gets a random distance; close = bright flash, near-instant loud clap; far = dim flash, quieter clap up to ~5 s later | `sv_soundscapes.lua`, `cl_weathersound.lua` |
+| Visible breath (`amod_do_breathing`) | server.dll timer + client.dll `amod_do_breath` | **Ported** from disassembly (fog_breath particle, `player/breathe2.wav`) | `sh_breath.lua` |
+| Per-map bloom (`BloomEnabled`/`BloomScale`/`BloomScalarFactor`) | time_info + client.dll | **Approximated:** HDR maps scale `mat_bloom_scalefactor_scalar`; LDR maps get a DrawBloom pass. `hl2a_bloom 0` turns it off | `cl_bloom.lua` |
+| Map brushes `brush_clouds`, `_brush_night`, `_brush_bg` | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
 | Snow-covered maps (`maps/snow_materials/<map>.smf`, `ShowSnowOnMaps`) | client.dll | **Ported** from disassembly; originals restored on map unload | `cl_snowmaterials.lua` |
 | Song panel, songs across levels | client.dll VGUI | **Ported:** basic Derma panel, `ToggleSongPanel` | `cl_music.lua` |
 | Sound scripts | `scripts/game_sounds_*` | **Ported** (`sound.Add` at runtime) | `sh_sounds.lua` |
 | Localization tokens | UTF-16 `resource/*` | **Ported** (`language.Add`) | `cl_localization.lua` |
 | Chapter select | New Game panel + `cfg/<game>/chapterN.cfg` | **Ported:** panel (F1 / `togglenewgamepanel`, auto on background maps) + `hl2a_chapter` | `sh/sv/cl_chapters.lua` |
 | HL2 movement speeds, god mode, suit | autoexec / DLL | **Ported** (`hl2a_*speed`, `amod_enable_god`) | `sv_player.lua` |
-| Options panel | VGUI `.res` + DLL | **Ported** (`ToggleOptionsPanel`, Options button on chapter select); filter brightness sliders, Daytime, Effects/Credits/Ending left out | `sh/sv/cl_options.lua` |
+| Options panel | VGUI `.res` + DLL | **Ported** (`ToggleOptionsPanel`, Options button on chapter select); filter brightness sliders, Daytime, Effects/Credits/Ending left out. Thunder and breath checkboxes borrowed from the Weather panel until it's ported | `sh/sv/cl_options.lua` |
 | Mirrored view, hide HUD, footsteps off, strafe roll, soundscapes off | DLL / engine cvars | **Ported** | `cl_options.lua`, `cl_view.lua`, `sh/sv_options.lua` |
 | TAB screen filter (`Amod_ToggleFilter`) | DLL | **TODO** (not the epic filter) | n/a |
 | Weather / effects / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
@@ -171,6 +175,9 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
 | `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleOptionsPanel` | Options panel |
+| `amod_do_breath` | Breathe once (fog puff + sound) |
+| `hl2a_weathersound_debug` | Show the tracked soundscape and the rain/snow/thunder layers playing |
+| `hl2a_thunder_test` | One thunder strike at a random distance (flash, delay, clap) |
 | `amod_weather_snow_reload` | Re-apply the current map's `.smf` snow materials |
 | `hl2a_snow_debug` | Show the current map's `.smf` rules and how many materials each matches |
 | `ToggleSongPanel` | Song panel (original bind: `x`) |
@@ -204,6 +211,9 @@ in code. The disassembly found:
   from its full length.
 - **`ep2_outland_12a_d`:** the `f_portal` fade plays the outro video
   instead. Not ported.
+- **Every map:** removes `brush_clouds`, fires `Enable` on every
+  `_brush_night` and resets `_brush_bg` to white. Ported in
+  `sv_mappatches.lua`.
 
 The 95 maps that fire `quit` do it from map logic; neither DLL refers to
 it. The audit report's "Where traced commands come from" section shows the
@@ -216,7 +226,12 @@ These rely on engine behaviour I couldn't test outside GMod:
 - **Soundscapes:** GMod should load `scripts/soundscapes_*.txt` from addons.
   If the amod soundscapes don't play, they need registering another way.
   The mod's modified `scripts/soundscapes.txt` (a stock filename) isn't
-  copied, to avoid overriding HL2's soundscapes globally.
+  copied, to avoid overriding HL2's soundscapes globally. All soundscape
+  files are also shipped as data, for the weather layers.
+- **Weather soundscape tracking:** `sv_soundscapes.lua` re-implements the
+  engine's choice of soundscape (closest in radius and in sight). If the
+  rain sounds wrong for a room, compare `hl2a_weathersound_debug` with
+  `developer 1` soundscape messages.
 - **`data_static` reads:** the Lua reads data via the `DATA` path
   (`data_static/hl2alone/…`), falling back to `GAME`. Check the console at
   startup for `[HL2A] time_info: N maps`. 0 maps means the data isn't being
