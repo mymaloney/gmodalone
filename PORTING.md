@@ -87,7 +87,7 @@ tools/
 | Song panel, songs across levels | client.dll VGUI | **Ported:** basic Derma panel, `ToggleSongPanel` | `cl_music.lua` |
 | Sound scripts | `scripts/game_sounds_*` | **Ported** (`sound.Add` at runtime) | `sh_sounds.lua` |
 | Localization tokens | UTF-16 `resource/*` | **Ported** (`language.Add`) | `cl_localization.lua` |
-| Chapter select | New Game panel + `cfg/<game>/chapterN.cfg` | **Partial:** `hl2a_chapter` command, no UI yet | `sv_chapters.lua` |
+| Chapter select | New Game panel + `cfg/<game>/chapterN.cfg` | **Ported:** panel (F1 / `togglenewgamepanel`, auto on background maps) + `hl2a_chapter` | `sh/sv/cl_chapters.lua` |
 | HL2 movement speeds, god mode, suit | autoexec / DLL | **Ported** (`hl2a_*speed`, `amod_enable_god`) | `sv_player.lua` |
 | Weather / effects / options / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
 | Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
@@ -110,6 +110,7 @@ tools/
 | Command | Does |
 |---|---|
 | `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
+| `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleSongPanel` | Song panel (original bind: `x`) |
 | `hl2a_play_song <name>` | Play a song by display name |
 | `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |

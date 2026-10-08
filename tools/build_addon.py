@@ -32,6 +32,7 @@ DATA_GLOBS = [
     "resource/thunder_locations.txt",
     "resource/Skyboxs.txt",
     "resource/gamelist.txt",
+    "resource/games/*.txt",
     "resource/HL2_AloneMod_english.txt",
     "cfg/**/*.cfg",
     "cfg/AloneMod_Config.txt",
