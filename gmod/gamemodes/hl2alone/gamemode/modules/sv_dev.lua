@@ -45,3 +45,23 @@ concommand.Add( "hl2a_timeinfo_dump", function( ply )
 	if not block then MsgN( "    no time_info entry" ) return end
 	PrintTable( HL2A.KV.ToTable( block ), 1 )
 end )
+
+-- hl2a_timer <core|citadel> <seconds|stop|show>: drive the Episode One
+-- countdowns directly (same as the amod_core_timer entity's inputs)
+concommand.Add( "hl2a_timer", function( ply, _, args )
+	if IsValid( ply ) and not ply:IsListenServerHost() then return end
+
+	local kind, arg = args[ 1 ], args[ 2 ]
+	if ( kind ~= "core" and kind ~= "citadel" ) or not arg then
+		MsgN( "usage: hl2a_timer <core|citadel> <seconds|stop|show>" )
+		return
+	end
+	if not GetConVar( "amod_do_" .. kind .. "_timer" ):GetBool() then
+		MsgN( "[HL2A] amod_do_" .. kind .. "_timer is 0, so the timer is disabled" )
+		return
+	end
+
+	if arg == "stop" then HL2A.StopTimer( kind )
+	elseif arg == "show" then HL2A.ShowTimer( kind )
+	else HL2A.StartTimer( kind, tonumber( arg ) or 0 ) end
+end, nil, "Test the Episode One countdowns: hl2a_timer <core|citadel> <seconds|stop|show>" )

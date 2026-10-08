@@ -124,6 +124,7 @@ tools/
 | `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |
 | `hl2a_timeinfo_dump` | Show the current map's time_info block |
 | `hl2a_entcheck` | Report map entity classes GMod can't create |
+| `hl2a_timer <core\|citadel> <seconds\|stop\|show>` | Drive the Episode One countdowns directly (testing) |
 | `amod_show_achievements` | Achievement list with progress |
 | `hl2a_achievements_reset` | Clear achievement progress |
 
