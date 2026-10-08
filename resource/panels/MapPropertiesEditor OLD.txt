@@ -1,0 +1,784 @@
+"Map Properties Editor"
+{
+	"x" "0"
+	"y" "0"
+	"w" "550"
+	"h" "905"
+	"minwide" "540"
+	"mintall" "800"
+	
+	//our dividers
+	"Dividers"
+	{
+		//fog
+		"FogDividerAbove"
+		{
+			"x" "-1"
+			"y" "28"
+			"w" "802"
+			"h" "1"
+		}
+		"FogEnableDivider"
+		{
+			"x" "-1"
+			"y" "67"
+			"w" "802"
+			"h" "1"
+		}
+		"FogEnableSkyboxDivider"
+		{
+			"x" "-1"
+			"y" "87"
+			"w" "802"
+			"h" "1"
+		}
+		"FogButtonsDivider"
+		{
+			"x" "-1"
+			"y" "108"
+			"w" "802"
+			"h" "1"
+		}
+		"FogBottomDivider"
+		{
+			"x" "-1"
+			"y" "289"
+			"w" "802"
+			"h" "1"
+		}
+		
+		//skybox side divider
+		"SkyboxSideDivider"
+		{
+			"x" "240"
+			"y" "289"
+			"w" "1"
+			"h" "270"
+		}
+		
+		//post processing filter divider
+		"PostProcessingFilterDIvider"
+		{
+			"x" "240"
+			"y" "410"
+			"w" "400"
+			"h" "1"
+		}
+		
+		
+		//clouds divider
+		"CloudsDivider"
+		{
+			"x" "240"
+			"y" "468"
+			"w" "400"
+			"h" "1"
+		}
+		
+		//skybox + bloom bottom divider
+		"SkyboxBloomBottomDivider"
+		{
+			"x" "-1"
+			"y" "558"
+			"w" "802"
+			"h" "1"
+		}
+		
+		//sun -overlay size divider
+		"SunOverlaySizeDivider"
+		{
+			"x" "-1"
+			"y" "763"
+			"w" "802"
+			"h" "1"
+		}
+		
+		//sun - apply button divider
+		"SunToApplyButtonDivider"
+		{
+			"x" "-1"
+			"y" "868"
+			"w" "802"
+			"h" "1"
+		}
+	}
+	
+	//our labels
+	"Labels"
+	{
+		//fog labels
+		"FogStartLabel"
+		{
+			"Text" "Fog Start"
+			"x" "15"
+			"y" "162"
+			"w" "130"
+			"h" "20"
+		}
+		"FogEndLabel"
+		{
+			"Text" "Fog End"
+			"x" "15"
+			"y" "182"
+			"w" "130"
+			"h" "20"
+		}
+		"FogStartSkyboxLabel"
+		{
+			"Text" "Fog Start Skybox"
+			"x" "15"
+			"y" "202"
+			"w" "130"
+			"h" "20"
+		}
+		"FogEndSkyboxLabel"
+		{
+			"Text" "Fog End Skybox"
+			"x" "15"
+			"y" "222"
+			"w" "130"
+			"h" "20"
+		}
+		"FogDensityLabel"
+		{
+			"Text" "Fog Density"
+			"x" "15"
+			"y" "242"
+			"w" "130"
+			"h" "20"
+		}
+		"FogSkyboxDensityLabel"
+		{
+			"Text" "Fog Density Skybox"
+			"x" "15"
+			"y" "262"
+			"w" "130"
+			"h" "20"
+		}
+		
+		//skybox
+		"SkyboxTitle"
+		{
+			"Text" "Skybox Settings:"
+			"x" "20"
+			"y" "295"
+			"w" "200"
+			"h" "20"
+			"alignment" "center"
+		}
+		
+		//post processing filter
+		"FilterTitle"
+		{
+			"Text" "Post Processing Filter Setting:"
+			"x" "245"
+			"y" "295"
+			"w" "305"
+			"h" "20"
+			"alignment" "center"
+		}
+		
+		//cloud color
+		"CloudsTitle"
+		{
+			"Text" "Cloud Settings:"
+			"x" "245"
+			"y" "415"
+			"w" "305"
+			"h" "20"
+			"alignment" "center"
+		}
+		
+		//bloom
+		"BloomTitle"
+		{
+			"x" "245"
+			"y" "468"
+			"w" "305"
+			"h" "20"
+			"Text" "Bloom Settings:"
+			"alignment" "center"
+		}
+		
+		//sun labels
+		"SunPitchLabel"
+		{
+			"Text" "Sun Pitch Angle:"
+			"x" "85"
+			"y" "565"
+			"w" "95"
+			"h" "20"
+		}
+		"SunYawLabel"
+		{
+			"Text" "Sun Yaw Angle:"
+			"x" "365"
+			"y" "565"
+			"w" "95"
+			"h" "20"
+		}
+		"SunSizeLabel"
+		{
+			"Text" "Sun Size:"
+			"x" "5"
+			"y" "660"
+			"w" "540"
+			"h" "20"
+			"alignment" "center"
+		}
+		"SunMaterialLabel"
+		{
+			"Text" "Sun Material:"
+			"x" "245"
+			"y" "705"
+			"w" "295"
+			"h" "25"
+			"alignment" "center"
+		}
+		"SunOverlaySizeLabel"
+		{
+			"Text" "Sun Overlay Size (-1 = same size as sun):"
+			"x" "5"
+			"y" "765"
+			"w" "540"
+			"h" "20"
+			"alignment" "center"
+		}
+		"SunOverlayMaterialLabel"
+		{
+			"Text" "Sun Overlay Material:"
+			"x" "245"
+			"y" "810"
+			"w" "295"
+			"h" "25"
+			"alignment" "center"
+		}
+	}
+	
+	//override fog
+	"FogOverrideCheckButton"
+	{
+		"Text" "Override Fog"
+		"x" "219"
+		"y" "30"
+		"w" "125"
+		"h" "20"
+	}
+	
+	//pixel fog
+	"EnablePixelFogButton"
+	{
+		"Text" "Enable Pixel Fog"
+		"x" "214"
+		"y" "50"
+		"w" "125"
+		"h" "20"
+	}
+	
+	//enable fog
+	"FogEnableCheckButton"
+	{
+		"Text" "Enable Fog"
+		"x" "159"
+		"y" "70"
+		"w" "115"
+		"h" "20"
+	}
+	"OverrideFogEnableCheckButton"
+	{
+		"Text" "Override Maps Fog Value"
+		"x" "260"
+		"y" "70"
+		"w" "175"
+		"h" "20"
+	}
+	
+	//enable skybox fog
+	"FogEnableSkyboxCheckButton"
+	{
+		"Text" "Enable Skybox Fog"
+		"x" "115"
+		"y" "90"
+		"w" "135"
+		"h" "20"
+	}
+	"OverrideFogEnableSkyboxCheckButton"
+	{
+		"Text" "Override Maps Fog Value"
+		"x" "260"
+		"y" "90"
+		"w" "175"
+		"h" "20"
+	}
+	
+	//fog color
+	"FogColorButton"
+	{
+		"Text" "Fog Color"
+		"x" "10"
+		"y" "113"
+		"w" "355"
+		"h" "20"
+	}
+	"FogColorOverrideButton"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "116"
+		"w" "355"
+		"h" "20"
+	}
+	"FogColorRect" "375 113 20 20"
+	
+	//fog skybox color
+	"FogSkyboxColorButton"
+	{
+		"Text" "Fog Skybox Color"
+		"x" "10"
+		"y" "136"
+		"w" "355"
+		"h" "20"
+	}
+	"FogSkyboxColorOverrideButton"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "137"
+		"w" "355"
+		"h" "20"
+	}
+	"FogSkyboxColorRect" "375 136 20 20"
+	
+	//fog start
+	"FogStartSlider"
+	{
+		"x" "150"
+		"y" "162"
+		"w" "220"
+		"h" "20"
+		"min" "-10000"
+		"max" "25000"
+	}
+	"FogStartValueLabel"
+	{
+		"x" "370"
+		"y" "162"
+		"w" "60"
+		"h" "20"
+	}
+	"FogStartOverride"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "162"
+		"w" "100"
+		"h" "20"
+	}
+	
+	//fog end
+	"FogEndSlider"
+	{
+		"x" "150"
+		"y" "182"
+		"w" "220"
+		"h" "20"
+		"min" "-5000"
+		"max" "35000"
+	}
+	"FogEndValueLabel"
+	{
+		"x" "370"
+		"y" "182"
+		"w" "60"
+		"h" "20"
+	}
+	"FogEndOverride"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "182"
+		"w" "100"
+		"h" "20"
+	}
+	
+	//fog start skybox
+	"FogStartSkyboxSlider"
+	{
+		"x" "150"
+		"y" "202"
+		"w" "220"
+		"h" "20"
+		"min" "-20000"
+		"max" "75000"
+	}
+	"FogStartSkyboxValueLabel"
+	{
+		"x" "370"
+		"y" "202"
+		"w" "60"
+		"h" "20"
+	}
+	"FogStartSkyboxOverride"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "202"
+		"w" "100"
+		"h" "20"
+	}
+	
+	//fog end skybox
+	"FogEndSkyboxSlider"
+	{
+		"x" "150"
+		"y" "222"
+		"w" "220"
+		"h" "20"
+		"min" "-10000"
+		"max" "100000"
+	}
+	"FogEndSkyboxValueLabel"
+	{
+		"x" "370"
+		"y" "222"
+		"w" "60"
+		"h" "20"
+	}
+	"FogEndSkyboxOverride"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "222"
+		"w" "100"
+		"h" "20"
+	}
+	
+	//fog density
+	"FogDensitySlider"
+	{
+		"x" "150"
+		"y" "242"
+		"w" "220"
+		"h" "20"
+		"min" "0"
+		"max" "1000"
+	}
+	"FogDensityValueLabel"
+	{
+		"x" "370"
+		"y" "242"
+		"w" "60"
+		"h" "20"
+	}
+	"FogDensityOverride"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "242"
+		"w" "100"
+		"h" "20"
+	}
+	
+	//fog skybox density
+	"FogSkyboxDensitySlider"
+	{
+		"x" "150"
+		"y" "262"
+		"w" "220"
+		"h" "20"
+		"min" "0"
+		"max" "1000"
+	}
+	"FogSkyboxDensityValueLabel"
+	{
+		"x" "370"
+		"y" "262"
+		"w" "60"
+		"h" "20"
+	}
+	"FogSkyboxDensityOverride"
+	{
+		"Text" "Override"
+		"x" "434"
+		"y" "262"
+		"w" "100"
+		"h" "20"
+	}
+	
+	
+	
+	
+	
+	
+	//skybox section
+	"SkyboxBackground"
+	{
+		"x" "15"
+		"y" "316"
+		"w" "210"
+		"h" "210"
+		"fillcolor" "0 0 0 255"
+		"squaresize" "1"
+	}
+	"SkyboxForeground"
+	{
+		"x" "20"
+		"y" "321"
+		"w" "200"
+		"h" "200"
+		"fillcolor" "255 0 0 255"
+		"squaresize" "1"
+	}
+	
+	//combo box
+	"SkyboxNames"
+	{
+		"x" "15"
+		"y" "529"
+		"w" "210"
+		"h" "22"
+	}
+	
+	
+	
+	
+	
+	
+	//post processing filter
+	"FilterIntensityComboBox"
+	{
+		"x" "255"
+		"y" "320"
+		"w" "285"
+		"h" "22"
+	}
+	"FilterIntensityText"
+	{
+		"x" "260"
+		"y" "346"
+		"w" "270"
+		"h" "22"
+		"alignment" "center"
+	}
+	"FilterIntensitySlider"
+	{
+		"x" "260"
+		"y" "370"
+		"w" "280"
+		"h" "22"
+		"min" "0"
+		"max" "100"
+	}
+	
+	
+	
+	
+	
+	//clouds
+	"CloudButton"
+	{
+		"x" "278"
+		"y" "440"
+		"w" "265"
+		"h" "20"
+		"Text" "Change Clouds Color"
+	}
+	"CloudColorRect" "255 440 19 19"
+	
+	
+	
+	
+	
+	
+	//bloom
+	"BloomEnabledButton"
+	{
+		"x" "245"
+		"y" "488"
+		"w" "400"
+		"h" "18"
+		"Text" "Enable Bloom"
+	}	
+	
+	//bloom scale
+	"BloomScaleSlider"
+	{
+		"x" "255"
+		"y" "510"
+		"w" "250"
+		"h" "20"
+		"min" "1"
+		"max" "500"
+	}
+	"BloomScaleText"
+	{
+		"x" "505"
+		"y" "510"
+		"w" "100"
+		"h" "20"
+	}
+	
+	//bloom scalar
+	"BloomScalarSlider"
+	{
+		"x" "255"
+		"y" "530"
+		"w" "250"
+		"h" "20"
+		"min" "1"
+		"max" "10000"
+	}
+	"BloomScalarText"
+	{
+		"x" "505"
+		"y" "530"
+		"w" "100"
+		"h" "20"
+	}
+	
+	
+	
+	
+	
+	//sun
+	"SunEnabledCheckButton"
+	{
+		"Text" "Enable The Sun"
+		"x" "205"
+		"y" "565"
+		"w" "125"
+		"h" "20"
+	}
+	
+	//sun pitch
+	"SunPitchSlider"
+	{
+		"x" "5"
+		"y" "590"
+		"w" "270"
+		"h" "20"
+		"min" "180"
+		"max" "-179"
+	}
+	"SunPitchText"
+	{
+		"x" "5"
+		"y" "610"
+		"w" "25"
+		"h" "20"
+	}
+	
+	//sun yaw
+	"SunYawSlider"
+	{
+		"x" "275"
+		"y" "590"
+		"w" "270"
+		"h" "20"
+		"min" "0"
+		"max" "359"
+	}
+	"SunYawText"
+	{
+		"x" "275"
+		"y" "610"
+		"w" "25"
+		"h" "20"
+	}
+	
+	//pitch to eye angle button
+	"PitchToEyeAngleButton"
+	{
+		"x" "20"
+		"y" "635"
+		"w" "510"
+		"h" "25"
+		"Text" "Set suns angle to players eye angle"
+	}
+	
+	//sun size
+	"SunSizeSlider"
+	{
+		"x" "5"
+		"y" "680"
+		"w" "540"
+		"h" "20"
+		"min" "-150"
+		"max" "300"
+	}
+	"SunSizeText"
+	{
+		"x" "5"
+		"y" "705"
+		"w" "25"
+		"h" "20"
+	}
+	
+	//sun color
+	"SunColorButton"
+	{
+		"x" "5"
+		"y" "730"
+		"w" "200"
+		"h" "25"
+		"Text" "Set sun color"
+	}
+	"SunColorRect" "210 729 25 25"
+	
+	//sun material text entry
+	"SunMaterialTextEntry"
+	{
+		"x" "245"
+		"y" "730"
+		"w" "295"
+		"h" "25"
+	}
+	
+	//sun overlay size
+	"SunOverlaySizeSlider"
+	{
+		"x" "5"
+		"y" "785"
+		"w" "540"
+		"h" "20"
+		"min" "-150"
+		"max" "300"
+	}
+	"SunOverlaySizeText"
+	{
+		"x" "5"
+		"y" "810"
+		"w" "25"
+		"h" "20"
+	}
+	
+	//sun color
+	"SunOverlayColorButton"
+	{
+		"x" "5"
+		"y" "835"
+		"w" "200"
+		"h" "25"
+		"Text" "Set sun overlay color"
+	}
+	"SunOverlayColorRect" "210 834 25 25"
+	
+	//sun material text entry
+	"SunOverlayMaterialTextEntry"
+	{
+		"x" "245"
+		"y" "835"
+		"w" "295"
+		"h" "25"
+	}
+	
+	//apply button
+	"ApplyButton"
+	{
+		"Text" "Apply"
+		"x" "20"
+		"y" "874"
+		"w" "510"
+		"h" "25"
+	}
+}

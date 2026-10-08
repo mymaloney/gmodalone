@@ -1,0 +1,188 @@
+"SongPanel"
+{
+	"Title" "#Amod_SongPanel_Title"
+	"XPos" "100"
+	"YPos" "100"
+	"Wide" "508"
+	"Tall" "600"
+
+	"SongList"
+	{
+		"XPos" "10"
+		"YPos" "325"
+		"Wide" "490"
+		"Tall" "22"
+		"ActiveItem" "0"
+	}
+	"AddSongButton"
+	{
+		"Text" "#Amod_SongPanel_AddSongToPlaylist"
+		"XPos" "10"
+		"YPos" "352"
+		"Wide" "130"
+		"Tall" "22"
+	}
+	"RemoveSongButton"
+	{
+		"Text" "#Amod_SongPanel_RemoveSongFromPlaylist"
+		"XPos" "145"
+		"YPos" "352"
+		"Wide" "170"
+		"Tall" "22"
+	}
+	"ChangeSongButton"
+	{
+		"Text" "#Amod_SongPanel_ChangeSelectedSong"
+		"XPos" "320"
+		"YPos" "352"
+		"Wide" "180"
+		"Tall" "22"
+	}
+	"MoveSongDownButton"
+	{
+		"Text" "#Amod_SongPanel_MoveSelectedDown"
+		"XPos" "10"
+		"YPos" "378"
+		"Wide" "240"
+		"Tall" "22"
+	}
+	"MoveSongUpButton"
+	{
+		"Text" "#Amod_SongPanel_MoveSelectedUp"
+		"XPos" "260"
+		"YPos" "378"
+		"Wide" "240"
+		"Tall" "22"
+	}
+	"LoopSongCheckButton"
+	{
+		"Text" "#Amod_SongPanel_ShouldLoopPlaylist"
+		"XPos" "180"
+		"YPos" "400"
+		"Wide" "240"
+		"Tall" "22"
+	}
+	"Divider2"
+	{
+		"XPos" "-5"
+		"YPos" "425"
+		"Wide" "600"
+		"Tall" "2"
+	}
+	"Divider1"
+	{
+		"XPos" "-5"
+		"YPos" "495"
+		"Wide" "600"
+		"Tall" "2"
+	}
+	"PreviousSongButton" 
+	{
+		"Text" "#Amod_SongPanel_PlayPreviousSong"
+		"XPos" "10"
+		"YPos" "545"
+		"Wide" "240"
+		"Tall" "22"
+	} 
+	"NextSongButton" 
+	{
+		"Text" "#Amod_SongPanel_PlayNextSong"
+		"XPos" "260"
+		"YPos" "545"
+		"Wide" "240"
+		"Tall" "22"
+	} 
+	"PlayButton" 
+	{
+		"Text" "#Amod_SongPanel_PlaySelectedSong"
+		"XPos" "10"
+		"YPos" "572"
+		"Wide" "150"
+		"Tall" "22"
+	} 
+	"PlayPlaylistButton" 
+	{
+		"Text" "#Amod_SongPanel_PlayPlaylistFromStart"
+		"XPos" "165"
+		"YPos" "572"
+		"Wide" "180"
+		"Tall" "22"
+	} 
+	"StopButton" 
+	{
+		"Text" "#Amod_SongPanel_StopSongAndPlaylist"
+		"XPos" "350"
+		"YPos" "572"
+		"Wide" "150"
+		"Tall" "22"
+	}
+	"SliderVol"
+	{
+		"XPos" "10"
+		"YPos" "515"
+		"Wide" "235"
+		"Tall" "20"
+		"Min" "2"
+		"Max" "100"
+	}
+	"VolumeText"
+	{
+		"XPos" "15"
+		"YPos" "497"
+		"Wide" "170"
+		"Tall" "20"
+		"Text" "#Amod_SongPanel_SongVolume"
+	}
+	"SliderPitch"
+	{
+		"XPos" "260"
+		"YPos" "515"
+		"Wide" "235"
+		"Tall" "20"
+		"Min" "50"
+		"Max" "150"
+	}
+	"PitchText"
+	{
+		"XPos" "265"
+		"YPos" "497"
+		"Wide" "300"
+		"Tall" "20"
+		"Text" "#Amod_SongPanel_SpeedAndPitch"
+	}
+	"PlaylistTest" 
+	{
+		"XPos" "10"
+		"YPos" "30"
+		"Wide" "490"
+		"Tall" "285"
+	}
+	"ProgressBar" 
+	{
+		"XPos" "10"
+		"YPos" "465"
+		"Wide" "485"
+		"Tall" "20"
+	}
+	"DurationText"
+	{
+		"XPos" "410"
+		"YPos" "445"
+		"Wide" "150"
+		"Tall" "20"
+	}
+	"ElapsedText"
+	{
+		"XPos" "12"
+		"YPos" "445"
+		"Wide" "180"
+		"Tall" "20"
+	}
+	"CurrentlyPlayingText"
+	{
+		"XPos" "0"
+		"YPos" "430"
+		"Wide" "508"
+		"Tall" "22"
+	}
+}

@@ -1,0 +1,12 @@
+"NPC_Combine_Cannon.FireBullet"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"0.95"
+	"pitch"			"97,104"
+
+	"soundlevel"	"SNDLVL_120DB"
+
+	"wave"	"^npc/sniper/fire1.wav"
+}
+
+

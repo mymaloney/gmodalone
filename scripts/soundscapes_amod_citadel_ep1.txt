@@ -1,0 +1,221 @@
+//------------------------------------------------------------------------------------
+//
+// Auto-generated soundscape file created with modbases soundscape tool
+//
+//------------------------------------------------------------------------------------
+"util.distant_destrution"
+{
+    "dsp"    "0"
+    "dsp_volume"    "1"
+    "Soundmixer"    "Default_Mix"
+    "playrandom"
+    {
+        "volume"    "0.19,0.36"
+        "pitch"    "90,110"
+        "time"    "4,10"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\explosions\exp1.wav"
+            "wave"    "ambient\explosions\exp2.wav"
+            "wave"    "ambient\explosions\exp3.wav"
+            "wave"    "ambient\explosions\exp4.wav"
+        }
+    }
+}
+
+"outside.ep1_citadel"
+{
+    "dsp"    "0"
+    "dsp_volume"    "1"
+    "Soundmixer"    "Default_Mix"
+    "playsoundscape"
+    {
+        "name"    "outside_station.base"
+        "volume"    "0.450000"
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.distant_destrution"
+        "volume"    "0.700000"
+    }
+
+    "playlooping"
+    {
+        "wave"    "ambient\levels\citadel\citadel_drone_loop4.wav"
+        "pitch"    "100"
+        "volume"    "0.400000"
+        "suppress_on_restore"    "0"
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.16,0.26"
+        "pitch"    "90,110"
+        "time"    "8,18"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\materials\rock1.wav"
+            "wave"    "ambient\materials\rock2.wav"
+            "wave"    "ambient\materials\rock3.wav"
+            "wave"    "ambient\materials\rock4.wav"
+            "wave"    "ambient\materials\rock5.wav"
+        }
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.8,0.9"
+        "pitch"    "90,110"
+        "time"    "6,11"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\atmosphere\thunder1.wav"
+            "wave"    "ambient\atmosphere\thunder2.wav"
+            "wave"    "ambient\atmosphere\thunder3.wav"
+            "wave"    "ambient\atmosphere\thunder4.wav"
+        }
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.018,0.31"
+        "pitch"    "90,110"
+        "time"    "32,43"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\levels\intro\vanfall_2_14_00.wav"
+            "wave"    "weapons\debris1.wav"
+            "wave"    "ambient\intro\debris02.wav"
+            "wave"    "ambient\atmosphere\city_skybeam1.wav"
+        }
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.random_flies"
+        "volume"    "0.200000"
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.random_critters"
+        "volume"    "0.100000"
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.wind_moans"
+        "volume"    "0.300000"
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.random.metal_groans"
+        "volume"    "0.850000"
+    }
+}
+
+"inside.citadel_ep1"
+{
+    "dsp"    "0"
+    "dsp_volume"    "1"
+    "Soundmixer"    "Default_Mix"
+    "playlooping"
+    {
+        "wave"    "ambient\levels\citadel\citadel_drone_loop3.wav"
+        "pitch"    "100"
+        "volume"    "0.625000"
+        "suppress_on_restore"    "0"
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.distant_destrution"
+        "volume"    "0.450000"
+    }
+
+    "playsoundscape"
+    {
+        "name"    "util.random.metal_groans"
+        "volume"    "0.850000"
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.4,0.6"
+        "pitch"    "90,110"
+        "time"    "9,17"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\atmosphere\thunder1.wav"
+            "wave"    "ambient\atmosphere\thunder2.wav"
+            "wave"    "ambient\atmosphere\thunder3.wav"
+            "wave"    "ambient\atmosphere\thunder4.wav"
+        }
+    }
+
+    "playsoundscape"
+    {
+        "name"    "utility.random.metal_creaking"
+        "volume"    "0.700000"
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.08,0.19"
+        "pitch"    "90,110"
+        "time"    "32,43"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\levels\intro\vanfall_2_14_00.wav"
+            "wave"    "weapons\debris1.wav"
+            "wave"    "ambient\intro\debris02.wav"
+            "wave"    "ambient\atmosphere\city_skybeam1.wav"
+        }
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.2,0.65"
+        "pitch"    "95,105"
+        "time"    "12,24"
+        "position"    "Random"
+        "soundlevel"    "SNDLVL_95dB"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\levels\citadel\citadel_5sirens.wav"
+            "wave"    "ambient\levels\citadel\citadel_5sirens2.wav"
+            "wave"    "ambient\levels\citadel\citadel_5sirens3.wav"
+        }
+    }
+
+    "playrandom"
+    {
+        "volume"    "0.05,0.15"
+        "pitch"    "95,105"
+        "time"    "10,20"
+        "position"    "Random"
+        "soundlevel"    "SNDLVL_65dB"
+        "suppress_on_restore"    "0"
+        "rndwave"
+        {
+            "wave"    "ambient\levels\citadel\strange_talk11.wav"
+        }
+    }
+
+    "playlooping"
+    {
+        "wave"    "ambient\levels\citadel\citadel_sickdrone_loop1.wav"
+        "volume"    "0.360000"
+        "pitch"    "100"
+        "suppress_on_restore"    "0"
+    }
+}

@@ -1,0 +1,499 @@
+//the fogs for the city maps when its daytime
+//Only meant for demo 7 maps so if this is in any other version i probably accidentally
+//added it to version 6 whilst updating it
+"AlondModCityFogs"
+{
+	"d1_town_01_d"
+	{	
+		"r_pixelfog" "1"
+		
+		"fog_color" "255 255 255"
+		"fog_colorskybox" "255 255 255"
+		
+		"fog_start" "500"
+		"fog_end" "3000"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "3200"
+		
+		"fog_maxdensity" "0.45"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d1_town_01a_d"
+	{	
+		"r_pixelfog" "1"
+		
+		"fog_color" "255 255 255"
+		"fog_colorskybox" "255 255 255"
+		
+		"fog_start" "500"
+		"fog_end" "3000"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "3200"
+		
+		"fog_maxdensity" "0.3"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d1_town_02_d"
+	{	
+		"r_pixelfog" "1"
+		
+		"fog_color" "255 255 255"
+		"fog_colorskybox" "255 255 255"
+		
+		"fog_start" "1000"
+		"fog_end" "5000"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "3200"
+		
+		"fog_maxdensity" "0.3"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d1_town_02a_d"
+	{	
+		"r_pixelfog" "1"
+		
+		"fog_color" "255 255 255"
+		"fog_colorskybox" "255 255 255"
+		
+		"fog_start" "750"
+		"fog_end" "3000"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "3200"
+		
+		"fog_maxdensity" "0.4"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d1_town_03_d"
+	{	
+		"r_pixelfog" "1"
+		
+		"fog_color" "255 255 255"
+		"fog_colorskybox" "255 255 255"
+		
+		"fog_start" "750"
+		"fog_end" "2000"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "3200"
+		
+		"fog_maxdensity" "0.4"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d1_town_04_d"
+	{	
+		"fog_override" "0"
+	}
+	"d3_c17_02_d"
+	{	
+		"r_pixelfog" "0"
+		
+		"fog_color" "55 55 60"
+		"fog_colorskybox" "55 55 60"
+		
+		"fog_start" "1500"
+		"fog_end" "3000"
+		
+		"fog_startskybox" "1500"
+		"fog_endskybox" "3000"
+		
+		"fog_maxdensity" "0.7"
+		"fog_maxdensityskybox" "0.55"
+	}
+	"d3_c17_03_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_color" "50 50 60"
+		"fog_colorskybox" "50 50 60"
+		
+		"fog_start" "1500"
+		"fog_end" "3500"
+		
+		"fog_startskybox" "1500"
+		"fog_endskybox" "3000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d3_c17_04_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "45 45 55"
+		"fog_colorskybox" "45 45 55"
+		
+		"fog_start" "500"
+		"fog_end" "4000"
+		
+		"fog_startskybox" "750"
+		"fog_endskybox" "3500"
+		
+		"fog_maxdensity" "0.7"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d3_c17_05_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_color" "55 55 60"
+		"fog_colorskybox" "55 55 60"
+		
+		"fog_start" "1000"
+		"fog_end" "2250"
+		
+		"fog_startskybox" "1250"
+		"fog_endskybox" "2750"
+		
+		"fog_maxdensity" "0.65"
+		"fog_maxdensityskybox" "0.6"
+	}
+	"d3_c17_06a_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_color" "55 55 60"
+		"fog_colorskybox" "55 55 60"
+		
+		"fog_start" "1500"
+		"fog_end" "2750"
+		
+		"fog_startskybox" "1500"
+		"fog_endskybox" "3000"
+		
+		"fog_maxdensity" "0.95"
+		"fog_maxdensityskybox" "0.35"
+	}
+	"d3_c17_06b_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "60 60 60"
+		"fog_colorskybox" "60 60 60"
+		
+		"fog_start" "450"
+		"fog_end" "2000"
+		
+		"fog_startskybox" "450"
+		"fog_endskybox" "2000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.6"
+	}
+	"d3_c17_07_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_color" "60 60 60"
+		"fog_colorskybox" "60 60 60"
+		
+		"fog_start" "750"
+		"fog_end" "2000"
+		
+		"fog_startskybox" "750"
+		"fog_endskybox" "2000"
+		
+		"fog_maxdensity" "0.85"
+		"fog_maxdensityskybox" "0.8"
+	}
+	"d3_c17_08_d"
+	{
+		"fog_enable" "0"
+		"fog_enableskybox" "0"
+	}
+	"d3_c17_09_d"
+	{
+		"fog_color" "50 50 55"
+		"fog_colorskybox" "50 50 55"
+	}
+	"d3_c17_10a_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_color" "60 60 60"
+		"fog_colorskybox" "60 60 60"
+		
+		"fog_start" "1000"
+		"fog_end" "2250"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "2000"
+		
+		"fog_maxdensity" "0.8"
+		"fog_maxdensityskybox" "0.65"
+	}
+	"d3_c17_10b_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_enable" "0"
+		"fog_colorskybox" "55 55 60"
+		"fog_maxdensityskybox" "0.3"
+	}
+	"d3_c17_11_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "55 55 60"
+		"fog_colorskybox" "55 55 60"
+		
+		"fog_start" "1200"
+		"fog_end" "3000"
+		
+		"fog_startskybox" "1200"
+		"fog_endskybox" "3000"
+		
+		"fog_maxdensity" "0.5"
+		"fog_maxdensityskybox" "0.55"
+	}
+	"d3_c17_12b_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "55 55 55"
+		"fog_colorskybox" "55 55 55"
+		
+		"fog_start" "1000"
+		"fog_end" "4500"
+		
+		"fog_startskybox" "1000"
+		"fog_endskybox" "4500"
+		
+		"fog_maxdensity" "0.85"
+		"fog_maxdensityskybox" "0.5"
+	}
+	"d3_c17_13_d"
+	{
+		"r_pixelfog" "1"
+		
+		"fog_color" "55 55 60"
+		"fog_colorskybox" "55 55 60"
+		
+		"fog_start" "2000"
+		"fog_end" "4500"
+		
+		"fog_startskybox" "2000"
+		"fog_endskybox" "4500"
+		
+		"fog_maxdensity" "0.7"
+		"fog_maxdensityskybox" "0.6"
+	}
+	"d3_citadel_01_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "55 55 60"
+		"fog_colorskybox" "55 55 60"
+		
+		"fog_start" "2000"
+		"fog_end" "4500"
+		
+		"fog_startskybox" "3000"
+		"fog_endskybox" "5000"
+		
+		"fog_maxdensity" "0.8"
+		"fog_maxdensityskybox" "0.8"
+	}
+	"d3_citadel_02_d"
+	{
+		"fog_override" "0"
+	}
+	"d3_citadel_03_d"
+	{
+		"fog_override" "0"
+	}
+	"d3_citadel_04_d"
+	{
+		"fog_override" "0"
+	}
+	"d3_citadel_05_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "-1 -1 -1"
+		"fog_colorskybox" "45 45 45"
+		
+		"fog_start" "-1"
+		"fog_end" "-1"
+		
+		"fog_startskybox" "20000"
+		"fog_endskybox" "100000"
+		
+		"fog_maxdensity" "-1"
+		"fog_maxdensityskybox" "1"
+	}
+	"d3_breen_01_d"
+	{
+		"r_pixelfog" "0"
+		
+		"fog_color" "-1 -1 -1"
+		"fog_colorskybox" "45 45 45"
+		
+		"fog_start" "-1"
+		"fog_end" "-1"
+		
+		"fog_startskybox" "20000"
+		"fog_endskybox" "100000"
+		
+		"fog_maxdensity" "-1"
+		"fog_maxdensityskybox" "1"
+	}
+	"background07_d"
+	{
+		"fog_override" "0"
+	}
+
+	//episode 2
+	"ep2_outland_01_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.8"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "11000"
+	}
+	"ep2_outland_01a_d"
+	{
+		"fog_override" "0"
+	}
+	"ep2_outland_02_d"
+	{
+		"fog_override" "0"
+	}
+	"ep2_outland_03_d"
+	{
+		"fog_override" "0"
+	}
+	"ep2_outland_04_d"
+	{
+		"fog_override" "0"
+	}
+	"ep2_outland_05_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.8"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "10100"
+	}
+	"ep2_outland_06_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "10100"
+	}
+	"ep2_outland_06a_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "10100"
+	}
+	"ep2_outland_07_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "10100"
+	}	
+	"ep2_outland_08_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "10100"
+	}
+	"ep2_outland_09_d"
+	{
+		"fog_override" "1"
+		"fog_enable" "1"
+		
+		"fog_color" "20 20 25"
+		"fog_colorskybox" "20 20 25"
+		
+		"fog_start" "1000"
+		"fog_startskybox" "1000"
+		
+		"fog_end" "4000"
+		"fog_endskybox" "4000"
+		
+		"fog_maxdensity" "0.6"
+		"fog_maxdensityskybox" "0.85"
+		
+		"r_farz" "10150"
+	}
+}

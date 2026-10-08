@@ -1,0 +1,5 @@
+bonus_maps_manifest
+{
+	"dir"		"scripts/old_maps"
+	"dir"		"scripts/bonus_maps"
+}

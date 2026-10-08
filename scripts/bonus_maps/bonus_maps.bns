@@ -1,0 +1,24 @@
+"Snowey Station 01"
+{
+	"map"		"bonus/d1_trainstation_01_snowey"
+	"image"		"bonusmaps/station_01_snowey"
+	"comment"	"The 1st map of the game but snowey themed with snow falling from the sky and covering the entire map"
+}
+"Snowey Station 02"
+{
+	"map"		"bonus/d1_trainstation_02_snowey"
+	"image"		"bonusmaps/station_02_snowey"
+	"comment"	"The 2nd map of the game but snowey themed with snow falling from the sky and covering the entire map (this map was rushed so some parts may look a tiny bit unfinished)."
+}
+"Gmod - Snowey Station"
+{
+	"map"		"bonus/gm_snoweystation"
+	"image"		"bonusmaps/gm_station_snowey"
+	"comment"	"This is a gmod version of the snowey trainstation 01 and 02 maps. I didnt end up uploading it to gmod (cause the map is unfinished and lighting is off in some parts) so here it is! NOTE: i dont know why some things are shiny :)"
+}
+"Snowey Outland 01"
+{
+	"map"		"bonus/ep2_outland_01_snowey"
+	"image"		"bonusmaps/outland_01_snowey"
+	"comment"	"The 1st episode 2 map of the game but snowey themed with snow falling from the sky and covering the entire map"
+}

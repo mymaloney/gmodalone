@@ -1,0 +1,206 @@
+//------------------------------------------------------------------------------------
+//
+// Auto-generated soundscape file created with modbases soundscape tool'
+//
+//------------------------------------------------------------------------------------
+"inside_eli.entrance"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.310000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playrandom"
+	{
+		"volume"	"0.09,0.12"
+		"pitch"	"90,110"
+		"time"	"17,29"
+		"rndwave"
+		{
+			"wave"	"ambient/atmosphere/cave_hit1.wav"
+			"wave"	"ambient/atmosphere/cave_hit2.wav"
+			"wave"	"ambient/atmosphere/cave_hit3.wav"
+			"wave"	"ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+	}
+}
+
+"inside_eli.start"
+{
+	//rain
+	"RainVolume" "0.05"
+	"RainSoundscape" "common.rain.inside.apartments"
+	
+	"fadetime"	"0.300000"
+	"playlooping"
+	{
+		"volume"	"0.230000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random.metal_groans"
+		"volume"	"0.070000"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.340000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+		"position"	"0"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+	}
+}
+
+"inside_eli.start_quieter"
+{
+	"fadetime"	"0.300000"
+	"playlooping"
+	{
+		"volume"	"0.200000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random.metal_groans"
+		"volume"	"0.070000"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.240000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+		"position"	"0"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+	}
+}
+
+"inside_eli.elevator"
+{
+	"fadetime"	"0.300000"
+	"playlooping"
+	{
+		"volume"	"0.420000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+	}
+}
+
+"inside_eli.to_ravenholm"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.300000"
+		"pitch"	"100"
+		"wave"	"ambient\water\lake_water.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.310000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playrandom"
+	{
+		"volume"	"0.09,0.12"
+		"pitch"	"90,110"
+		"time"	"17,29"
+		"rndwave"
+		{
+			"wave"	"ambient/atmosphere/cave_hit1.wav"
+			"wave"	"ambient/atmosphere/cave_hit2.wav"
+			"wave"	"ambient/atmosphere/cave_hit3.wav"
+			"wave"	"ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+	}
+}
+
+"outside.eli"
+{
+	"fadetime"	"1"
+	"playsoundscape"
+	{
+		"name"	"outside_station.base"
+		"volume"	"0.400000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_critters"
+		"volume"	"0.250000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_birds"
+		"volume"	"0.350000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.wind_moans"
+		"volume"	"0.200000"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient/creatures/crickets.wav"
+		"pitch"	"100"
+		"volume"	"0.040000"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+}

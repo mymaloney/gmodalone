@@ -1,0 +1,48 @@
+"Old station"
+{
+	"map"		"bonus_maps/old_station01"
+	"image"		"bonusmaps/old_station"
+	"comment"	"from early demo 6 development. the 1st station map i made that had the beta staricase, then i removed the stair way because i thought it changed to much in the map"
+}
+"Old Outside Apartments"
+{
+	"map"		"bonus_maps/old_apartments01"
+	"image"		"bonusmaps/old_apartments"
+	"comment"	"this map was made when i was editing every map to fix up the lighting. was made early demo 6 developement"
+}
+"Old City 17 - 05"
+{
+	"map"		"bonus_maps/old_city17_05"
+	"image"		"bonusmaps/old_c17_05"
+	"comment"	"one of the 1st versions of d3_c17_05_d. this version is the version seen in the 1st city 17 preview"
+}
+"Old City 17 - 06a"
+{
+	"map"		"bonus_maps/old_city17_06a"
+	"image"		"bonusmaps/old_c17_06a"
+	"comment"	"one of the 1st versions of d3_c17_06a_d. the reason its so dark is because i wanted to make it the 1st real 'horror' map"
+}
+"Old Episode 1 City 17 - 01"
+{
+	"map"		"bonus_maps/old_ep1_c17_01"
+	"image"		"bonusmaps/old_ep1_c17_01"
+	"comment"	"one of the 1st and very unfinished versions of ep1_c17_01_d"
+}
+"Old Episode 1 City 17 - 03"
+{
+	"map"		"bonus_maps/old_ep1_c17_02b"
+	"image"		"bonusmaps/old_ep1_c17_02b"
+	"comment"	"the 1st and very unfinished versions of ep1_c17_02b_d"
+}
+"Thunder Devtest"
+{
+	"map"		"bonus_maps/devtest_thunder"
+	"image"		"bonusmaps/dev_thunder"
+	"comment"	"devtest for thunder concept i had. i didnt end up going through with it though so i scrapped the idea but kept the map"
+}
+"Outro Map"
+{
+	"map"		"bonus_maps/amod_outro"
+	"image"		"bonusmaps/outro_video"
+	"comment"	"the outro map for alone mod (the one showed in the ending 1 video)"
+}

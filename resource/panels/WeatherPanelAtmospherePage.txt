@@ -1,0 +1,255 @@
+"WeatherPanelAtmospherePage.txt"
+{
+	"Wide" "260"
+	"Tall" "390"
+	
+	// texts
+	"Labels"
+	{
+		"CloudSettingsLabel"
+		{
+			"x" "0"
+			"y" "2"
+			"w" "245"
+			"h" "20"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_CloudsLabel"
+			"alignment" "center"
+		}
+	
+		"HorizonSettingsLabel"
+		{
+			"x" "0"
+			"y" "90"
+			"w" "245"
+			"h" "20"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_HorizonLabel"
+			"alignment" "center"
+		}
+		
+		"StarsSettingsLabel"
+		{
+			"x" "0"
+			"y" "130"
+			"w" "245"
+			"h" "20"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_StarsLabel"
+			"alignment" "center"
+		}
+		
+		"SunSettingsLabel"
+		{
+			"x" "0"
+			"y" "190"
+			"w" "245"
+			"h" "20"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_SunLabel"
+			"alignment" "center"
+		}
+		
+		"OtherSettingsLabel"
+		{
+			"x" "0"
+			"y" "230"
+			"w" "245"
+			"h" "20"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_OtherLabel"
+			"alignment" "center"
+		}
+	}
+	
+	// dividers
+	"Dividers"
+	{
+		"CloudsDividers"
+		{
+			"x" "0"
+			"y" "90"
+			"w" "260"
+			"h" "1"
+		}
+		"HorizonDividers"
+		{
+			"x" "0"
+			"y" "130"
+			"w" "260"
+			"h" "1"
+		}
+		"StarsDividers"
+		{
+			"x" "0"
+			"y" "190"
+			"w" "260"
+			"h" "1"
+		}
+		"SunDividers"
+		{
+			"x" "0"
+			"y" "230"
+			"w" "260"
+			"h" "1"
+		}
+	}
+	
+	// enable clouds button
+	"EnableCloudsButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_EnableClouds"
+		"x" "10"
+		"y" "25"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_EnableClouds"
+		}
+	}
+	
+	// override clouds color button
+	"OverrideCloudsColorButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_OverrideCloudsColor"
+		"x" "10"
+		"y" "45"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_OverrideCloudsColor"
+		}
+	}
+	
+	// set clouds color button
+	"SetCloudsColorButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_SetCloudsColor"
+		"x" "10"
+		"y" "65"
+		"w" "200"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_SetCloudsColor"
+		}
+	}
+	"CloudsColorRect" "215 65 20 20"
+	
+	// enable horizon fog button
+	"EnableHorizonButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_EnableHorizon"
+		"x" "10"
+		"y" "110"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_EnableHorizon"
+		}
+	}
+	
+	// enable stars button
+	"EnableStarsButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_EnableStars"
+		"x" "10"
+		"y" "150"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_EnableStars"
+		}
+	}
+	
+	// force stars button
+	"ForceStarsButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_ForceStars"
+		"x" "10"
+		"y" "170"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_ForceStars"
+		}
+	}
+	
+	// enable the sun button
+	"DisableSunButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_DisableSun"
+		"x" "10"
+		"y" "210"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_DisableSun"
+		}
+	}
+	
+	// enable thunder button
+	"EnableThunderButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_EnableThunder"
+		"x" "10"
+		"y" "250"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_EnableThunder"
+		}
+	}
+	
+	// show players breaths button
+	"ShowPlayersBreathsButton"
+	{
+		"Text" "#Amod_WeatherPanel_AtmospherePage_ShowBreaths"
+		"x" "10"
+		"y" "270"
+		"w" "255"
+		"h" "20"
+	
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text" "#Amod_WeatherPanel_AtmospherePage_ToolTip_ShowBreaths"
+		}
+	}
+}

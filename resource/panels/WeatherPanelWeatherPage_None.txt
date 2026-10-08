@@ -1,0 +1,139 @@
+"WeatherPanelWeatherPage_None.txt"
+{
+	"Wide" "275"
+	"Tall" "165"
+
+	//override button
+	"OverrideWeatherButton"
+	{
+		"x" "10"
+		"y" "10"
+		"w" "200"
+		"h" "20"
+		"text" "#Amod_WeatherPanel_WeatherPage_OverrideWeather"
+		
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text"	"#Amod_WeatherPanel_WeatherPage_ToolTip_OverrideWeather"
+		}
+	}
+
+	//weather type combo box
+	"WeatherTypeComboBox"
+	{
+		"x" "10"
+		"y" "35"
+		"w" "240"
+		"h" "22"
+		
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text"	"#Amod_WeatherPanel_WeatherPage_ToolTip_WeatherType"
+		}
+	}
+	
+	//rain splash particles
+	"EnableRainSplashesButton"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+		
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text"	"#Amod_WeatherPanel_WeatherPage_ToolTip_RainSplashParticles"
+		}
+	}
+	
+	//rain intensity stuff
+	"RainIntensityLabel"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+	}
+	"RainIntensitySlider"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+		
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text"	"#Amod_WeatherPanel_WeatherPage_ToolTip_RainIntensity"
+		}
+	}
+	
+	//snow show on maps button
+	"ShowSnowOnMapsCheckButton"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+		
+		"TooltipData"
+		{
+			"Enabled" "1"
+			"DelayInMS" "100"
+			"TooltipMultiline" "1"
+			"Text"	"#Amod_WeatherPanel_WeatherPage_ToolTip_SnowOnMaps"
+		}
+	}
+	
+	//weather run in intervals button
+	"WeatherInIntervals"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+	}
+	
+	//weather wait time stuff
+	"WeatherWaitTimeMinLabel"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+	}
+	"WeatherWaitTimeMinSlider"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+	}
+	
+	//weather wait time stuff
+	"WeatherWaitTimeMaxLabel"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+	}
+	"WeatherWaitTimeMaxSlider"
+	{
+		"x" "0"
+		"y" "0"
+		"w" "0"
+		"h" "0"
+	}
+}

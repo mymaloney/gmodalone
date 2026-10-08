@@ -1,0 +1,114 @@
+"SongPanel"
+{
+	"Title" "Song Panel"
+	"XPos" "100"
+	"YPos" "100"
+	"Wide" "212"
+	"Tall" "239"
+
+	"SongList"
+	{
+		"XPos" "10"
+		"YPos" "27"
+		"Wide" "198"
+		"Tall" "25"
+		"ActiveItem" "0"
+		"Songs"
+		{
+			"Background Song" "music/background_song.wav"
+			"Background Song (Full)" "music/portal_sef_slowed.mp3"
+			"Self Esteem Fund" "music/portal_self_esteem_fund.mp3"
+			"Self Esteem Fund Extended" "music/sef_extended.mp3"
+			"Self Esteem Fund Reversed" "music/self_esteem_fund_reversed.mp3"
+			"Self Esteem Fund Extended Reversed" "music/sef_extended_reversed.mp3"
+			"Android Hell" "music/portal_android_hell.mp3"
+			"Android Hell Reversed" "music/portal_android_hell_reversed.mp3"
+			"Absence" "music/absence.mp3"
+			"Dark Interval" "music/dark_Interval.mp3"
+			"Loneliness" "music/loneliness.mp3"
+			"Alone" "music/Alone.wav"
+			"Alone Extended" "music/Alone_Extended.mp3"
+			"Gone (By dominicb)" "music/Gone.mp3"
+			"Alienated" "music/Alienated.wav"
+			"Isolation" "music/isolation.mp3"
+			"Isolation Reversed" "music/isolation_reversed.mp3"
+			"End (By TheAR3Guy)" "music/End.mp3"
+			"Quarantine" "music/quarantine.wav"
+			"Stop What You Are Doing" "music/portal_stop_what_you_are_doing.mp3"
+			"Under" "music/under_new.mp3"
+			"Desolate" "music/desolate.mp3"
+			"Away" "music/away.mp3"
+			"Null" "music/null.mp3"
+			"Offline" "music/Offline.wav"
+			"[random]Random Android Hell Song" "[discard]Offline[discard]Desolate[discard]Alienated[discard]quarantine[discard]Absence[discard]Self Esteem Fund Extended Reversed[discard]Self Esteem Fund Reversed[discard]Null[discard]Away[discard]Self Esteem Fund Extended[discard]Under (old version)[discard]Under[discard]End (By TheAR3Guy)[discard]Isolation Reversed[discard]Isolation[discard]Stop What You Are Doing[discard]Gone[discard]Alone[discard]Alone Extended[discard]Self Esteem Fund[discard]Background Song (Full)[discard]Background Song[discard]Dark Interval"
+			"[random]Random S-E-F Song" "[discard]Offline[discard]Desolate[discard]Alienated[discard]quarantine[discard]Absence[discard]Null[discard]Away[discard]Under (old version)[discard]Under[discard]End (By TheAR3Guy)[discard]Isolation Reversed[discard]Isolation[discard]Stop What You Are Doing[discard]Gone[discard]Android Hell[discard]Android Hell Slowed[discard]Dark Interval"
+			"[random]Random" ""
+		}
+	}
+	"PlayButton" 
+	{
+		"Text" "Play"
+		"XPos" "10"
+		"YPos" "190"
+		"Wide" "94"
+		"Tall" "20"
+	} 
+	"StopButton" 
+	{
+		"Text" "Stop"
+		"XPos" "108"
+		"YPos" "190"
+		"Wide" "94"
+		"Tall" "20"
+	}
+	"ResetPitch" 
+	{
+		"Text" "Reset Pitch Slider"
+		"XPos" "10"
+		"YPos" "213"
+		"Wide" "192"
+		"Tall" "20"
+	} 
+	"SliderVol"
+	{
+		"XPos" "10"
+		"YPos" "70"
+		"Wide" "200"
+		"Tall" "20"
+		"Min" "1"
+		"Max" "100"
+	}
+	"VolumeText"
+	{
+		"XPos" "6"
+		"YPos" "54"
+		"Wide" "170"
+		"Tall" "20"
+		"Text" "Music Volume"
+	}
+	"SliderPitch"
+	{
+		"XPos" "10"
+		"YPos" "125"
+		"Wide" "200"
+		"Tall" "20"
+		"Min" "50"
+		"Max" "120"
+	}
+	"PitchText"
+	{
+		"XPos" "6"
+		"YPos" "80"
+		"Wide" "195"
+		"Tall" "55"
+		"Text" "Music Pitch\n(Cant Change While Song Playing)"
+	}
+	"TransCB"
+	{
+		"XPos" "-3"
+		"YPos" "136"
+		"Wide" "210"
+		"Tall" "60"
+		"Text" "Music Can Transition Through\nLevels."
+	}
+}

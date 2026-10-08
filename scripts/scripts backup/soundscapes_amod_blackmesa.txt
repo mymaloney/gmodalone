@@ -1,0 +1,120 @@
+//------------------------------------------------------------------------------------
+//
+// Auto-generated soundscape file created with modbases soundscape tool'
+//
+//------------------------------------------------------------------------------------
+"hl1_black_mesa.inside_intro"
+{
+	"dsp"	"0"
+	"playsoundscape"
+	{
+		"volume"	"0.850000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.700000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.300000"
+		"pitch"	"100"
+		"wave"	"ambience/wind1.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+}
+
+"hl1_black_mesa.parked_tram"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.250000"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambience/wind1.wav"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.500000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.600000"
+		"name"	"utility.random.metal_creaking"
+	}
+}
+
+"hl1_black_mesa.airlock"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.950000"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient/levels/canals/tunnel_wind_loop1.wav"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.500000"
+		"name"	"utility.random.metal_creaking"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.450000"
+		"name"	"util.random.metal_groans"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.200000"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_NORM"
+		"wave"	"ambient/machines/city_ventpump_loop1.wav"
+	}
+}
+
+"hl1_black_mesa.inside_facility"
+{
+	"dsp"	"0"
+	"playsoundscape"
+	{
+		"volume"	"0.400000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.425000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.15"
+		"pitch"	"100"
+		"wave"	"ambience/wind1.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.225"
+		"pitch"	"100"
+		"soundlevel"	"SNDLVL_STATIC"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+	}
+}

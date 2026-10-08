@@ -1,0 +1,489 @@
+"OptionsPanel"
+{
+	"Title" "#AMod_OptionsPanel_Title"
+	"XPos" "center"
+	"YPos" "center"
+	"Wide" "475"
+	"Tall" "405"
+	
+	//view settings
+	"ViewSettingsLabel"
+	{
+		"XPos" "35"
+		"YPos" "19"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_ViewTitle"
+	}
+	"CBDFootstebSnds"
+	{
+		"XPos" "5"
+		"YPos" "35"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_DisableFootstepSounds"
+	}
+	"CBDisableHud" 
+	{
+		"XPos" "5"
+		"YPos" "53"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_DisableHud"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_DisableHud_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"MirroredCB"
+	{
+		"XPos" "5"
+		"YPos" "71"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableMirroredView"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableMirroredView_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	"VignetteCB"
+	{
+		"XPos" "5"
+		"YPos" "89"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableVignette"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableVignette_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"SaturationCB"
+	{
+		"XPos" "5"
+		"YPos" "107"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableSaturation"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableSaturation_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"ViewBobbingCB"
+	{
+		"XPos" "5"
+		"YPos" "126"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableCameraBob"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableCameraBob_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"StandBobCB"
+	{
+		"XPos" "5"
+		"YPos" "145"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableCameraStandBob"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableCameraStandBob_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"JumpViewpunchCB"
+	{
+		"XPos" "5"
+		"YPos" "163"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableJumpViewpunch"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableJumpViewpunch_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"LandViewpunchCB"
+	{
+		"XPos" "5"
+		"YPos" "181"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_View_EnableLandViewpunch"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_View_EnableLandViewpunch_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"RollAngleLabel"
+	{
+		"XPos" "126"
+		"YPos" "194"
+		"YPos" "70"
+		"Wide" "110"
+		"Tall" "40"
+		"Text" "#AMod_OptionsPanel_View_EnableCameraRoll_Text"
+	}
+	"RollAngleSlider"
+	{
+		"XPos" "10"
+		"YPos" "204"
+		"Wide" "115"
+		"Tall" "20"
+		"Min" "0"
+		"Max" "10"
+	}
+	
+	//divider
+	"SettingsDivider4"
+	{
+		"XPos" "-2"
+		"YPos" "234"
+		"Wide" "238"
+		"Tall" "2"
+	}
+	
+	//filter settings
+	"FilterSettingsLabel"
+	{
+		"XPos" "75"
+		"YPos" "240"
+		"Wide" "100"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_FilterTitle"
+	}
+	"FilterBOnLabel"
+	{
+		"XPos" "120" 
+		"YPos" "263"
+		"Wide" "116"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_Filter_FilterOnBrightnessLabel"
+	}
+	"FilterOnBSlider"
+	{
+		"XPos" "5" 
+		"YPos" "263"
+		"Wide" "110"
+		"Tall" "25"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_Filter_FilterOnBrightness_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"FilterBOnExpLabel"
+	{
+		"XPos" "120" 
+		"YPos" "290"
+		"Wide" "116"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_Filter_FilterOnExponentLabel"
+	}
+	"FilterOnExpBSlider"
+	{
+		"XPos" "5" 
+		"YPos" "290"
+		"Wide" "110"
+		"Tall" "25"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_Filter_FilterOnExponent_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	"FilterBOffLabel"
+	{
+		"XPos" "120" 
+		"YPos" "320"
+		"Wide" "116"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_Filter_FilterOffBrightnessLabel"
+	}
+	"FilterOffBSlider"
+	{
+		"XPos" "5" 
+		"YPos" "320"
+		"Wide" "110"
+		"Tall" "25"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_Filter_FilterOffBrightness_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	"EpicFilterCB"
+	{
+		"XPos" "15" 
+		"YPos" "346"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_Filter_EnableEpicFilter"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	
+	//divider
+	"SettingsDivider5"
+	{
+		"XPos" "-2"
+		"YPos" "370"
+		"Wide" "238"
+		"Tall" "2"
+	}
+	
+	//effects panel
+	"EffectsButton"
+	{
+		"XPos" "5" 
+		"YPos" "380"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_ToggleEffectsPanel"
+	}
+	
+	//divider
+	"SettingsDivider2"
+	{
+		"XPos" "235"
+		"YPos" "-2"
+		"Wide" "2"
+		"Tall" "410"
+	}
+	
+	//flashlight settings
+	"FlashlightSettingsLabel"
+	{
+		"XPos" "285"
+		"YPos" "10"
+		"Wide" "150"
+		"Tall" "20"
+		"Text" "#AMod_OptionsPanel_FlashlightTitle"
+	}
+	"FlashlightFarLabel"
+	{
+		"XPos" "410"
+		"YPos" "27"
+		"Wide" "100"
+		"Tall" "40"
+		"Text" "#AMod_OptionsPanel_Flashlight_StrengthText"
+	}
+	"FlashlightFarCombobox"
+	{
+		"XPos" "245"
+		"YPos" "36"
+		"Wide" "158"
+		"Tall" "25"
+		"Data"
+		{
+			"#AMod_OptionsPanel_Flashlight_Strength_VeryLow" "450"
+			"#AMod_OptionsPanel_Flashlight_Strength_Low" "700"
+			"#AMod_OptionsPanel_Flashlight_Strength_Medium" "1250"
+			"#AMod_OptionsPanel_Flashlight_Strength_High" "1875"
+			"#AMod_OptionsPanel_Flashlight_Strength_VeryHigh" "2500"
+			"#AMod_OptionsPanel_Flashlight_Strength_ExtremelyHigh" "4000"
+		}
+	}
+	"FlashlightFovLabel"
+	{
+		"XPos" "410"
+		"YPos" "62"
+		"Wide" "100"
+		"Tall" "40"
+		"Text" "#AMod_OptionsPanel_Flashlight_FovText"
+	}
+	"FlashlightFovCombobox"
+	{
+		"XPos" "245"
+		"YPos" "68"
+		"Wide" "158"
+		"Tall" "25"
+		"Data"
+		{
+			"#AMod_OptionsPanel_Flashlight_Fov_Low" "35"
+			"#AMod_OptionsPanel_Flashlight_Fov_Medium" "45"
+			"#AMod_OptionsPanel_Flashlight_Fov_High" "60"
+			"#AMod_OptionsPanel_Flashlight_Fov_VeryHigh" "75"
+			"#AMod_OptionsPanel_Flashlight_Fov_ExtremelyHigh" "100"
+			"#AMod_OptionsPanel_Flashlight_Fov_Full360" "170"
+		}
+	}
+	"FFlickerCBox"
+	{
+		"XPos" "234"
+		"YPos" "95"
+		"Wide" "240"
+		"Tall" "30"
+		"Text" "#AMod_OptionsPanel_Flashlight_EnableFlicker"
+	}
+	"FLagCBox"
+	{
+		"XPos" "234"
+		"YPos" "120"
+		"Wide" "240"
+		"Tall" "25"
+		"Text" "#AMod_OptionsPanel_Flashlight_EnableLag"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#AMod_OptionsPanel_Flashlight_EnableLag_ToolTip"
+		"ToolTipMultiline" "1"
+	}
+	
+	//divider
+	"SettingsDivider3"
+	{
+		"XPos" "236"
+		"YPos" "148"
+		"Wide" "240"
+		"Tall" "2"
+	}
+	
+	//other settings
+	"CheatSettings"
+	{
+		"XPos" "305"
+		"YPos" "151"
+		"Wide" "200"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_OtherTitle"
+	}
+	"GodModeCB"
+	{
+		"XPos" "234"
+		"YPos" "168"
+		"Wide" "120"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_EnableGod"
+	}
+	"NoSoundscapesCB"
+	{
+		"XPos" "234"
+		"YPos" "187"
+		"Wide" "230"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_DisableSoundscapes"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#Amod_OptionsPanel_Other_DisableSoundscapes_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	"NoMusicCB"
+	{
+		"XPos" "234"
+		"YPos" "206"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_DisableMusic"
+	}
+	"TransitionMusicCB"
+	{
+		"XPos" "234"
+		"YPos" "225"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_MusicTransitionThroughLevels"
+	}
+	"CitadelTimerCB"
+	{
+		"XPos" "234"
+		"YPos" "244"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_CitadelTimer"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#Amod_OptionsPanel_Other_CitadelTimer_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	"CoreTimerCB"
+	{
+		"XPos" "234"
+		"YPos" "263"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_CoreTimer"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#Amod_OptionsPanel_Other_CoreTimer_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	"DisableAchievementsCB"
+	{
+		"XPos" "234"
+		"YPos" "282"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_DisableAchievementNotifications"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#Amod_OptionsPanel_Other_DisableAchievementNotifications_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	"DayTimeCBox"
+	{
+		"XPos" "234"
+		"YPos" "301"
+		"Wide" "225"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Other_EnableDaytime"
+		
+		"ToolTipEnabled" "1"
+		"ToolTipDelay" "100"
+		"ToolTipText" "#Amod_OptionsPanel_Other_EnableDaytime_Tooltip"
+		"ToolTipMultiline" "1"
+	}
+	
+	//divider
+	"SettingsDivider1"
+	{
+		"XPos" "235"
+		"YPos" "324"
+		"Wide" "290"
+		"Tall" "2"
+	}
+	
+	//ending stuff
+	"EndingComboBox"
+	{
+		"XPos" "247"
+		"YPos" "333"
+		"Wide" "219"
+		"Tall" "20"
+	}
+	"CreditsButton"
+	{
+		"XPos" "247"
+		"YPos" "356"
+		"Wide" "219"
+		"Tall" "20"
+		"Text" "#Amod_OptionsPanel_Credits"
+	}
+	"ApplyButton"
+	{
+		"XPos" "247"
+		"YPos" "379"
+		"Wide" "219"
+		"Tall" "21"
+		"Text" "#Amod_OptionsPanel_ApplySettings"
+	}
+}

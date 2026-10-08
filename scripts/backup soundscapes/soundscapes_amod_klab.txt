@@ -1,0 +1,120 @@
+"inside.klab_start"
+{
+	"playlooping"
+	{
+		"volume"	".34"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+		"position"  "0"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".34"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+		"position"  "1"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".19"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.02,0.03"
+		"pitch" "90,110"
+		"time" "17,29"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/cave_hit1.wav"
+			"wave" "ambient/atmosphere/cave_hit2.wav"
+			"wave" "ambient/atmosphere/cave_hit3.wav"
+			"wave" "ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" "0.1"
+	}
+}
+
+"inside.klab_hallway"
+{
+	"playlooping"
+	{
+		"volume"	".41"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.02,0.04"
+		"pitch" "90,110"
+		"time" "20,29"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/cave_hit1.wav"
+			"wave" "ambient/atmosphere/cave_hit2.wav"
+			"wave" "ambient/atmosphere/cave_hit3.wav"
+			"wave" "ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" "0.09"
+	}
+}
+
+"inside.klab"
+{
+	"playlooping"
+	{
+		"volume"	".14"
+		"pitch"		"100"
+		"wave"		"ambient\levels\labs\equipment_printer_loop1.wav"
+		"position" "0"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".18"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".28"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.01,0.04"
+		"pitch" "90,110"
+		"time" "17,29"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/cave_hit1.wav"
+			"wave" "ambient/atmosphere/cave_hit2.wav"
+			"wave" "ambient/atmosphere/cave_hit3.wav"
+			"wave" "ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" "0.05"
+	}
+}

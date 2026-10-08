@@ -1,0 +1,169 @@
+//im making this inside and not outside so it tricks the rain system
+//into making the rain quieter when you enter this
+
+//the rain system just uses the soundscape system and does a couple of
+//checks to see if it is currently raining. and if it is it plays common.rain
+//(found in soundscapes.txt) if it should play the common.rain soundscape then it 
+//checks the name to get the specified volume. the thing 1stly looks for the 
+//string "inside" inside the soundscape name and if it finds it then it makes the 
+//volume quieter then the "outside" soundscapes
+"inside.city.under_buildings"
+{
+	"fadetime" "1"
+
+	"playsoundscape"
+	{
+		"name" "outside_station.base"
+		"volume" "0.15"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.wind_moans"
+		"volume" "0.5"
+	}
+}
+
+"inside.city_museum"
+{
+	"dsp"	"1"
+	"fadetime" "1"
+
+	"playlooping"
+	{
+		"volume"	".275"
+		"pitch"		"100"
+		"wave"		"ambient\levels\citadel\citadel_drone_loop4.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" ".45"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".34"
+	}
+}
+
+"inside.city_museum_gas"
+{
+	"dsp"	"1"
+	"fadetime" "1"
+
+	"playlooping"
+	{
+		"volume"	".29"
+		"pitch"		"100"
+		"wave"		"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	".4"
+		"pitch"		"100"
+		"position" 	"0"
+		"wave"		"ambient\gas\steam_loop1.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" ".10"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".08"
+	}
+}
+
+"inside.city_museum_metal"
+{
+	"dsp"	"1"
+	"fadetime" "1"
+
+	"playlooping"
+	{
+		"volume"	".275"
+		"pitch"		"100"
+		"wave"		"ambient\levels\citadel\citadel_drone_loop4.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" ".43"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".39"
+	}
+}
+
+"inside.city_museum_lights"
+{
+	"playlooping"
+	{
+		"volume"	".36"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".15"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" ".18"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".10"
+	}
+}
+
+"inside.city_car.lot"
+{
+	"playlooping"
+	{
+		"volume"	".27"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".15"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.16,0.26"
+		"pitch" "90,110"
+		"time" "14,28"
+		"rndwave"
+		{
+			"wave" "ambient\materials\rock1.wav"
+			"wave" "ambient\materials\rock2.wav"
+			"wave" "ambient\materials\rock3.wav"
+			"wave" "ambient\materials\rock4.wav"
+			"wave" "ambient\materials\rock5.wav"
+		}
+	}
+}

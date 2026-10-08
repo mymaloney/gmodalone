@@ -1,0 +1,8 @@
+If you want to add custom maps into the new game panel then you need to add a file and make it be something like:
+"games"
+{
+	"Display Name"
+	{
+		"Prefix" "DIRECTORY"			//this is the suffex for the cfg/* and materials/vgui/chapters/* directories.
+	}
+}

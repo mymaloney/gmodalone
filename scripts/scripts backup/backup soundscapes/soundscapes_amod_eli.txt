@@ -1,0 +1,155 @@
+"inside_eli.entrance"
+{
+	"fadetime" "1"
+	
+	"playlooping"
+	{
+		"volume"	".31"
+		"pitch"		"100"
+		"wave"		"ambient/wind/Underground_wind_lp_01.wav"
+	}
+	"playrandom"
+	{
+		"volume" "0.09,0.12"
+		"pitch" "90,110"
+		"time" "17,29"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/cave_hit1.wav"
+			"wave" "ambient/atmosphere/cave_hit2.wav"
+			"wave" "ambient/atmosphere/cave_hit3.wav"
+			"wave" "ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+}
+
+"inside_eli.start"
+{
+	"fadetime" "0.3"
+	
+	"playlooping"
+	{
+		"volume"	".23"
+		"pitch"		"100"
+		"wave"		"ambient/wind/Underground_wind_lp_01.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".07"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".34"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+		"position"  "0"
+	}
+}
+
+"inside_eli.start_quieter"
+{
+	"fadetime" "0.3"
+	
+	"playlooping"
+	{
+		"volume"	".20"
+		"pitch"		"100"
+		"wave"		"ambient/wind/Underground_wind_lp_01.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".07"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".24"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor2.wav"
+		"position"  "0"
+	}
+}
+
+
+"inside_eli.elevator"
+{
+	"fadetime" "0.3"
+
+	"playlooping"
+	{
+		"volume"	".42"
+		"pitch"		"100"
+		"wave"		"ambient/wind/Underground_wind_lp_01.wav"
+	}
+}
+
+"inside_eli.to_ravenholm"
+{
+	"fadetime" "1"
+	
+	"playlooping"
+	{
+		"volume" ".30"
+		"pitch" "100"
+		"wave" "ambient\water\lake_water.wav"
+	}
+	"playlooping"
+	{
+		"volume"	".31"
+		"pitch"		"100"
+		"wave"		"ambient/wind/Underground_wind_lp_01.wav"
+	}
+	"playrandom"
+	{
+		"volume" "0.09,0.12"
+		"pitch" "90,110"
+		"time" "17,29"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/cave_hit1.wav"
+			"wave" "ambient/atmosphere/cave_hit2.wav"
+			"wave" "ambient/atmosphere/cave_hit3.wav"
+			"wave" "ambient/atmosphere/cave_hit4.wav"
+		}
+	}
+}
+
+"outside.eli"
+{
+	"fadetime" "1"
+	
+	"playsoundscape"
+	{
+		"name" "outside_station.base"
+		"volume" "0.4"
+	}
+	"playsoundscape"
+	{
+		"name" "util.random_critters"
+		"volume" "0.25"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_birds"
+		"volume" "0.35"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.wind_moans"
+		"volume" "0.20"
+	}
+	
+	"playlooping"
+	{
+		"wave" "ambient/creatures/crickets.wav"
+		"pitch" "100"
+		"volume" "0.04"
+	}
+}

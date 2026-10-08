@@ -1,0 +1,592 @@
+"util.portal_testchamber_synths"
+{
+	"playrandom"
+	{
+		"volume"	"0.4"
+		"pitch"		"100"
+		"time"		"12.0, 12.0"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_85dB" 
+		"rndwave"
+		{
+			"wave" "ambient/synth/amb_beautiful_destruction_01.wav"
+			"wave" "ambient/synth/amb_beautiful_destruction_02.wav"
+			"wave" "ambient/synth/amb_beautiful_destruction_03.wav"
+			"wave" "ambient/synth/amb_beautiful_destruction_04.wav"
+			"wave" "ambient/synth/amb_beautiful_destruction_05.wav"
+		}
+	}
+}
+
+"util.portal_testchamber_grain_clicks"
+{
+	"playrandom"
+	{
+		"volume"	"0.25"
+		"pitch"		"90, 100"
+		"time"		"6.0, 12.0"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_85dB" 
+		"rndwave"
+		{
+			"wave" "playonce/ambient/synth/amb_grain_click_01.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_02.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_03.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_04.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_05.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_06.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_07.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_08.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_09.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_11.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_12.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_13.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_14.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_15.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_16.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_17.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_18.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_19.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_20.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_21.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_22.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_23.wav"
+			"wave" "playonce/ambient/synth/amb_grain_click_24.wav"
+		}
+	}
+}
+
+"util.portal_testchamber_scraped_metal"
+{
+	"playrandom"
+	{
+		"volume"	"0.70,0.90"
+		"pitch"		"75, 100"
+		"time"		"7.0, 12.0"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_75dB"
+		"rndwave"
+		{
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_01.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_02.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_03.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_04.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_05.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_07.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_08.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_09.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_10.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_11.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_12.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_13.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_14.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_15.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_16.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_17.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_18.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_19.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_20.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_21.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_22.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_23.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_24.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_25.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_26.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_27.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_28.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_29.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_30.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_31.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_32.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_33.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_34.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_35.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_36.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_37.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_38.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_39.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_40.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_41.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_42.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_43.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_44.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_45.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_46.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_47.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_48.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_49.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_50.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_51.wav"
+			"wave" "playonce/ambient/metal/amb_metal_scrape_wronk_52.wav"
+		}
+	}
+}
+
+"util.portal_lo_end_mach"
+{
+	"playrandom"
+	{
+		"time"		"6,14"
+		"volume"	".45,1"
+		"pitch"		"65,105"
+		"position"	"random"
+
+		"rndwave"
+		{
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_01.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_02.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_03.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_04.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_05.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_06.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_07.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_08.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_09.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_10.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_11.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_12.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_13.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_14.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_15.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_16.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_17.wav"
+			"wave"		"ambient/industrial/amb_muffled_lo_mach_18.wav"
+		}
+	}
+}
+
+"portal.inside_facility_metal_intro"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.340000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.355000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.090000"
+		"pitch"	"100"
+		"wave"	"ambience/wind1.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch"	"100"
+		"volume"	"0.10000"
+	}
+}
+
+"portal.inside_facility_metal_intro_loudrain"
+{
+	"playsoundscape"
+	{
+		"volume"	"1"
+		"name"	"portal.inside_facility_metal_intro"
+	}
+}
+
+"portal.inside_facility_bts_glados"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.540000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.565000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.190000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"util.portal_lo_end_mach"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"wave"	"ambient/industrial/amb_industrial_muffled_lp_01.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch"	"100"
+		"volume"	"0.120000"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+	
+	"playsoundscape"
+	{
+		"volume"	"0.07"
+		"name"	"util.portal_testchamber_scraped_metal"
+	}
+}
+
+"portal.inside_facility_bts_glados_goo"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.540000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.565000"
+		"name"	"util.random.metal_groans"
+	}
+	
+	"playsoundscape"
+	{
+		"volume"	"0.190000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"util.portal_lo_end_mach"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"wave"	"ambient/industrial/amb_industrial_muffled_lp_01.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch"	"100"
+		"volume"	"0.120000"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+	
+	"playsoundscape"
+	{
+		"volume"	"0.07"
+		"name"	"util.portal_testchamber_scraped_metal"
+	}
+	
+	"playlooping"
+	{
+		"volume" "0.15"
+		"wave" "ambient\ambient_sludge.wav"
+		"pitch" "100"
+	}
+}
+
+"portal.inside_facility_bts"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.240000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+	
+	"playsoundscape"
+	{
+		"volume"	"0.230000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"util.portal_lo_end_mach"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.255000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/industrial/amb_industrial_muffled_lp_01.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch"	"100"
+		"volume"	"0.1"
+	}
+}
+
+"portal.inside_facility_testchamber_bts"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.9"
+		"name"	"portal.inside_facility_bts"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.31"
+		"name"	"util.portal_testchamber_synths"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.345"
+		"name"	"util.portal_testchamber_grain_clicks"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.210"
+		"name"	"util.portal_testchamber_scraped_metal"
+	}
+}
+
+"portal.inside_facility_testchamber_bts_goo"
+{
+	"playsoundscape"
+	{
+		"volume" "1.0"
+		"name" "portal.inside_facility_testchamber_bts"
+	}
+	
+	"playlooping"
+	{
+		"volume" "0.15"
+		"wave" "ambient\ambient_sludge.wav"
+		"pitch" "100"
+	}
+}
+
+"portal.inside_facility_elevator_shaft"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.370000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.365000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.255000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch"	"100"
+		"volume"	"0.180000"
+	}
+}
+
+"portal.inside_facility_metal_staircase"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"1.0"
+		"name"	"portal.inside_facility_metal_intro"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.255"
+		"name"	"util.portal_testchamber_grain_clicks"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.055"
+		"name"	"util.portal_testchamber_scraped_metal"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.225000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\corridor2.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+}
+
+"portal.inside_facility_the_fall"
+{
+	
+	"playsoundscape"
+	{
+		"volume"	"0.720000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.665000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.155"
+		"name"	"util.portal_testchamber_scraped_metal"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.150000"
+		"pitch"	"100"
+		"wave"	"ambience/wind1.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch"	"100"
+		"volume"	"0.090000"
+	}
+}
+
+"portal.inside_facility_old_aperture_base"
+{
+	"playsoundscape"
+	{
+		"volume"	"0.750000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.565000"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.205"
+		"name"	"util.portal_testchamber_scraped_metal"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.225"
+		"name"	"util.portal_testchamber_grain_clicks"
+	}
+	
+	"playsoundscape"
+	{
+		"volume"	"0.190"
+		"name"	"util.portal_testchamber_synths"
+	}
+}
+
+"portal.inside_facility_old_aperture_begining"
+{
+	"playsoundscape"
+	{
+		"volume"	"0.95000"
+		"name"	"portal.inside_facility_old_aperture_base"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.100000"
+		"pitch"	"100"
+		"wave"	"ambience/wind1.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+}
+
+"portal.inside_facility_old_aperture_ending"
+{
+	"playsoundscape"
+	{
+		"volume"	"0.60000"
+		"name"	"portal.inside_facility_old_aperture_base"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.050000"
+		"pitch"	"100"
+		"wave"	"ambience/wind1.wav"
+		"soundlevel"	"SNDLVL_NORM"
+	}
+	
+	"playlooping"
+	{
+		"volume" "0.610000"
+		"pitch"	"100"
+		"wave"	"ambient/atmosphere/indoor2.wav"
+	}
+}
+
+"portal.inside_facility_old_aperture_elevator_shaft"
+{
+	"dsp"	"1"
+
+	"playsoundscape"
+	{
+		"volume"	"0.65000"
+		"name"	"portal.inside_facility_old_aperture_base"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.6"
+		"wave"		"ambient/atmosphere/elev_shaft1.wav"
+		"pitch"		"95"
+		"attenuation"	"0"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.650000"
+		"soundlevel"	"SNDLVL_NORM"
+		"name"	"utility.random.metal_creaking"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.565000"
+		"name"	"util.random.metal_groans"
+	}
+	
+	"playsoundscape"
+	{
+		"volume"	"0.325"
+		"name"	"util.portal_testchamber_grain_clicks"
+	}
+}

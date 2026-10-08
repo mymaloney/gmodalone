@@ -1,0 +1,389 @@
+//------------------------------------------------------------------------------------
+//
+// Auto-generated soundscape file created with modbases soundscape tool'
+//
+//------------------------------------------------------------------------------------
+"util_random.wood_creaks.louder"
+{
+	"dsp"	"0"
+	"playrandom"
+	{
+		"pitch"	"90,105"
+		"time"	"8,14"
+		"volume"	"0.19,0.24"
+		"rndwave"
+		{
+			"wave"	"ambient\materials\wood_creak1.wav"
+			"wave"	"ambient\materials\wood_creak2.wav"
+			"wave"	"ambient\materials\wood_creak3.wav"
+			"wave"	"ambient\materials\wood_creak4.wav"
+		}
+	}
+}
+
+"outside_ravenholm.base_base"
+{
+	"playlooping"
+	{
+		"pitch"	"95"
+		"volume"	"0.350000"
+		"wave"	"ambient/atmosphere/ambience_base.wav"
+	}
+}
+
+"inside_ravenholm.metal"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.520000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random.metal_groans"
+		"volume"	"0.280000"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.080000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+		"position"	"0"
+	}
+}
+
+"inside_ravenholm.metal.louder"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.220000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random.metal_groans"
+		"volume"	"0.430000"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.080000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+		"position"	"0"
+	}
+}
+
+"inside_ravenholm.metal.quiet"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.180000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random.metal_groans"
+		"volume"	"0.230000"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.040000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+		"position"	"0"
+	}
+}
+
+"inside_ravenholm.base"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.220000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.080000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor2.wav"
+		"position"	"0"
+	}
+}
+
+"outside.ravenholm.base"
+{
+	"fadetime"	"1"
+	"playsoundscape"
+	{
+		"name"	"outside_ravenholm.base_base"
+		"volume"	"0.350000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_critters"
+		"volume"	"0.250000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_birds.more"
+		"volume"	"0.380000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.wind_moans"
+		"volume"	"0.300000"
+	}
+
+	"playlooping"
+	{
+		"wave"	"ambient/creatures/crickets.wav"
+		"pitch"	"100"
+		"volume"	"0.022000"
+	}
+}
+
+"outside.ravenholm.base_no_crickets"
+{
+	"fadetime"	"1"
+	"playsoundscape"
+	{
+		"name"	"outside_ravenholm.base_base"
+		"volume"	"0.400000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_critters"
+		"volume"	"0.250000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_birds.more"
+		"volume"	"0.380000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.wind_moans"
+		"volume"	"0.300000"
+	}
+}
+
+"inside.ravenholm_wood_creaking"
+{
+	"fadetime"	"1"
+	"playsoundscape"
+	{
+		"name"	"util_random.wood_creaks.louder"
+		"volume"	"0.800000"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.400000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+}
+
+"inside.ravenholm_wood_creaking.quieter"
+{
+	"fadetime"	"1"
+	"playsoundscape"
+	{
+		"name"	"util_random.wood_creaks.louder"
+		"volume"	"0.720000"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.400000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+}
+
+"inside.ravenholm"
+{
+	"playlooping"
+	{
+		"volume"	"0.100000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\indoor1.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.140000"
+		"pitch"	"100"
+		"wave"	"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util_random.wood_creaks.louder"
+		"volume"	"0.850000"
+	}
+}
+
+"inside.ravenholm_wood_creaking.quieter"
+{
+	"fadetime"	"1"
+	"playsoundscape"
+	{
+		"name"	"util_random.wood_creaks.louder"
+		"volume"	"0.720000"
+	}
+}
+
+"inside.ravenholm_cave_wood_creaking"
+{
+	"fadetime"	"1"
+	"playlooping"
+	{
+		"volume"	"0.200000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playrandom"
+	{
+		"volume"	"0.12,0.21"
+		"pitch"	"90,110"
+		"time"	"17,29"
+		"rndwave"
+		{
+			"wave"	"ambient\materials\rock1.wav"
+			"wave"	"ambient\materials\rock2.wav"
+			"wave"	"ambient\materials\rock3.wav"
+			"wave"	"ambient\materials\rock4.wav"
+		}
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util_random.wood_creaks.louder"
+		"volume"	"0.720000"
+	}
+}
+
+"inside.ravenholm_cave"
+{
+	"playlooping"
+	{
+		"volume"	"0.550000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playrandom"
+	{
+		"volume"	"0.019,0.35"
+		"pitch"	"90,110"
+		"time"	"17,29"
+		"rndwave"
+		{
+			"wave"	"ambient\materials\rock1.wav"
+			"wave"	"ambient\materials\rock2.wav"
+			"wave"	"ambient\materials\rock3.wav"
+			"wave"	"ambient\materials\rock4.wav"
+		}
+	}
+}
+
+"inside.ravenholm_cave.water"
+{
+	"playlooping"
+	{
+		"volume"	"0.430000"
+		"pitch"	"100"
+		"wave"	"ambient/wind/Underground_wind_lp_01.wav"
+	}
+
+	"playrandom"
+	{
+		"volume"	"0.019,0.35"
+		"pitch"	"90,110"
+		"time"	"17,29"
+		"rndwave"
+		{
+			"wave"	"ambient\materials\rock1.wav"
+			"wave"	"ambient\materials\rock2.wav"
+			"wave"	"ambient\materials\rock3.wav"
+			"wave"	"ambient\materials\rock4.wav"
+		}
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.320000"
+		"pitch"	"100"
+		"wave"	"ambient\water\lake_water.wav"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util_random.water_drips.far"
+		"volume"	"0.200000"
+	}
+}
+
+"outside.ravenholm.warehouse_base"
+{
+	"fadetime"	"1"
+	"dsp"	"0"
+	"playsoundscape"
+	{
+		"name"	"outside_ravenholm.base_base"
+		"volume"	"0.400000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_critters"
+		"volume"	"0.250000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.random_birds.more"
+		"volume"	"0.380000"
+	}
+
+	"playsoundscape"
+	{
+		"name"	"util.wind_moans"
+		"volume"	"0.300000"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.4"
+		"name"	"util.random.metal_groans"
+	}
+
+	"playsoundscape"
+	{
+		"volume"	"0.3"
+		"name"	"utility.random.metal_creaking"
+	}
+}

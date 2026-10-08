@@ -1,0 +1,390 @@
+//------------------------------------------------------------------------------------
+//
+// Auto-generated soundscape file created with modbases soundscape tool'
+//
+//------------------------------------------------------------------------------------
+"Nothing"
+{
+	"RainVolume" "0.35"
+	"RainSoundscape" "common.rain.inside.canals"
+	"dsp"	"0"
+}
+
+
+
+
+//-------------------------------------
+//----- WEATHER SOUNDSCAPES BELOW -----
+//-------------------------------------
+//
+// These are the rain files you can use for the rain sounds:
+//
+//		ambient/weather/leak1.wav
+//		ambient/weather/leak2.wav
+//		ambient/weather/rain.wav
+//		ambient/weather/rain_amb1.wav
+//		ambient/weather/rain_amb2.wav
+//		ambient/weather/rain_ind1.wav
+//		ambient/weather/rain_ind2.wav
+//		ambient/weather/rain_metal.wav
+//		ambient/weather/rain_roof.wav
+//		ambient/weather/rain_sewer.wav
+//		ambient/weather/rain_tilt.wav
+//		ambient/weather/rain_window.wav
+//		ambient/weather/rain_wood.wav
+//
+//
+
+
+"common.rain"
+{
+	"playlooping"
+	{
+		"volume"	"0.57"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain_ind1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.2400"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.46"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain.wav"
+	}
+}
+
+"common.rain.inside"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.465"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind1.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.465"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.22"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain.wav"
+	}
+}
+
+"common.rain.inside.station"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.925"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_window.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.465"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind1.wav"
+	}
+}
+
+"common.rain.inside.apartments"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.95"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_window.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.5"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_roof.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.175"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+}
+
+"common.rain.inside.canals.start"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_metal.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.15"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_roof.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.9"
+		"pitch"	"100"
+		"wave"	"ambient/weather/leak1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_sewer.wav"
+	}
+}
+
+"common.rain.inside.canals"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.15"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_metal.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.9"
+		"pitch"	"100"
+		"wave"	"ambient/weather/leak1.wav"
+	}
+		
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.4"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_sewer.wav"
+	}
+}
+
+"common.rain.metal.shed"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.5"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_metal.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_roof.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.9"
+		"pitch"	"100"
+		"wave"	"ambient/weather/leak1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.5"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_window.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.2"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind1.wav"
+	}
+}
+
+"common.rain.inside.prison"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.1"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain_ind1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.5"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.45"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_metal.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_sewer.wav"
+	}
+}
+
+"common.rain.inside.prison.metal"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain_ind1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.55"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_metal.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_sewer.wav"
+	}
+}
+
+"common.rain.inside.outland.metal"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.865"
+		"pitch"	"100"
+		"wave"	"ambient/weather/leak1.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.95"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_metal.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.75"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.4"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind1.wav"
+	}
+}
+
+
+
+
+
+
+
+"common.snowfall"
+{
+	"playlooping"
+	{
+		"volume"	"0.375"
+		"pitch"	"100"
+		"wave"	"ambient\weather\snowfall.wav"
+	}
+}
+
+"common.thunder"
+{
+	"playrandom"
+	{
+		"position"	"random"
+		"volume"	"0.35,0.8"
+		"pitch" 	"95,105"
+		"time" 		"12,32"
+		"rndwave"
+		{
+			"wave"	"ambient/weather/thunder1.wav"
+			"wave"	"ambient/weather/thunder2.mp3"
+			"wave"	"ambient/weather/thunder3.wav"
+			"wave"	"ambient/weather/thunder4.wav"
+		}
+	}
+}

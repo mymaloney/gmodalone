@@ -1,0 +1,79 @@
+"AloneModFilter"
+{
+	"View"
+	{
+		"ViewModel:Draw"		"1"
+		"ViewModel:OverrideFov"		"0"
+		"ViewModel:FovAmount"		"1"
+		"Filter:BlackAndWhite"		"0"
+		"Filter:LenseDirt"		"0"
+		"Filter:TvView"		"0"
+		"Filter:ColoredTvView"		"0"
+		"Filter:BluredView"		"0"
+		"Filter:BlackBoxes:Enable"		"1"
+		"Filter:BlackBoxes:Width"		"0"
+		"Filter:BlackBoxes:Height"		"2"
+		"Filter:Claustraphobia:Enable"		"0"
+		"Filter:Claustraphobia:Amount"		"7"
+		"Filter:Claustraphobia:Fov"		"100"
+		"Camera:EnableEditor"		"1"
+		"Camera:ViewmodelFix"		"1"
+		"Camera:SmoothAnglesAmount"		"49"
+		"Camera:SmoothOriginAmount"		"50"
+		"Camera:MinPitch"		"181"
+		"Camera:MaxPitch"		"181"
+		"Camera:OriginOffset"		"0 0 0"
+		"Camera:AngleOffset"		"0 0 0"
+	}
+	"ConVars"
+	{
+		"Convar"
+		{
+			"Convar"		"mat_force_bloom"
+			"value"		"1"
+			"type"		"1"
+		}
+		"Convar"
+		{
+			"Convar"		"mat_bloomscale"
+			"value"		"2"
+			"type"		"1"
+		}
+		"Convar"
+		{
+			"Convar"		"fov_desired"
+			"value"		"90"
+			"type"		"1"
+		}
+		"Convar"
+		{
+			"Convar"		"amod_epic_filter"
+			"value"		"1"
+			"type"		"1"
+		}
+		"Convar"
+		{
+			"Convar"		"r_flashlightfov"
+			"value"		"65"
+			"type"		"1"
+		}
+		"Convar"
+		{
+			"Convar"		"r_flashlightlinear"
+			"value"		"50"
+			"type"		"1"
+		}
+	}
+	"Overlays"
+	{
+		"Overlay"
+		{
+			"OverlayName"		"effects/view/lense_dirt"
+			"Red"		"56"
+			"Green"		"56"
+			"Blue"		"63"
+			"Alpha"		"50"
+			"DrawType"		"1"
+		}
+	}
+}

@@ -1,0 +1,185 @@
+//do not change these are hardcoded in the client and server
+
+//EDIT 1+ YEARS LATER: you can now change this. It took quite a while to change the shitty code i created 1+ years ago BUT i managed to change it
+//so you can add your own skyboxes in here now (HOORAY :D)
+
+"SkyPanel"
+{
+	"night"
+	{
+		"hl2 - borealis 01" 	"sky_borealis01"
+		"hl2 - borealis 02" 	"sky_borealis02"
+		"hl2 - borealis 03" 	"sky_borealis03%lf"
+		"hl2 - night 01" 		"sky_day01_09%lf"
+		"hl2 - blue night"		"sky_bluenight01%lf"
+		"hl2 - dusk 01" 		"sky_day03_06b"
+		
+		//hl2 beta skyboxs
+		"hl2 beta - spire 01"			"sky_spire01"
+		"hl2 beta - c17 01"				"sky_c17_01%bk"
+		"hl2 beta - c17 02"				"sky_c17_02%bk"
+		"hl2 beta - c17 03"				"sky_c17_05_old%bk"
+		"hl2 beta - palace 01"			"sky_palace01"
+		"hl2 beta - quarry 01"			"sky_quarry01%bk"
+		"hl2 beta - Air exchange 01"	"sky_airexchange01%lf"
+		
+		//episode 1
+		"ep1 - Citadel Interior" 		"sky_ep01_citadel_int"
+		"ep1 - Fog" 					"sky_fog"
+		
+		//portal
+		"portal - Black Sky" 				"sky_black"
+		
+		//aurora set
+		"Aurora - 01"					"sky_aurora%lf"
+		
+		//barren set		
+		"Barren 01"						"Sky_Barren01%rt"
+		
+		//worlds end set
+		"Worlds End 01"					"Sky_WorldsEnd01%rt"
+		
+		//evening sky set
+		"Night Evening - 01"			"evening_sky%ft"
+		"Night Evening - 02"			"evening_sky2%bk"
+		
+		//Skybox plus set
+		"Starry Night - 01"				"night_0%rt"
+		
+		//stormy night set
+		"Stormy Night - 01"				"sky_night%ft"
+		
+		//night lake set
+		"Night Lake - 01"				"night_lake%lf"
+		
+		//purple sky
+		"Purpple Sky - 01"				"Sky_Purple01"
+		
+		//sea sunset
+		"Sea Sunset - 01"				"sea_sunset%bk"
+		
+		//prelude to a storm
+		"Prelude To A Storm - 01"		"Sky_Prelude06%rt"
+		
+		//sky 55
+		"Cloudy Blue Sunset 01"			"sky55%rt"
+		
+		//sky 78
+		"Cloudy Blue Sunset 02"			"sky78%bk"
+	}
+	"day"
+	{
+		//hl2 beta
+		"hl2 beta - spire 01"			"sky_spire01"
+		"hl2 beta - c17 01"				"sky_c17_01"
+		"hl2 beta - c17 02"				"sky_c17_02%bk"
+		"hl2 beta - c17 03"				"sky_c17_03"
+		"hl2 beta - c17 04"				"sky_c17_04"
+		"hl2 beta - c17 05"				"sky_c17_06"
+		"hl2 beta - c17 06"				"sky_c17_05_old%bk"
+		"hl2 beta - citadel 01"			"sky_citadel01"
+		"hl2 beta - citadel 02"			"sky_citadel02"
+		"hl2 beta - depot 01"			"sky_depot01"
+		"hl2 beta - palace 01"			"sky_palace01%bk"
+		"hl2 beta - quarry 01"			"sky_quarry01%bk"
+		"hl2 beta - wasteland 01"		"sky_wasteland01%bk"
+		"hl2 beta - wasteland 02"		"sky_wasteland02%bk"
+		"hl2 beta - wasteland 03"		"sky_wasteland03%bk"
+		"hl2 beta - wasteland 04"		"sky_wasteland04%bk"
+		"hl2 beta - wasteland 05"		"sky_wasteland05%bk"
+		"hl2 beta - air exchange 01"	"sky_airexchange01%lf"
+	
+		//hl2
+		"hl2 - day 01"			"sky_day01_01"
+		"hl2 - day 02"			"sky_day01_04"
+		"hl2 - day 03"			"sky_day01_05"
+		"hl2 - day 04"			"sky_day01_06"
+		"hl2 - day 05"			"sky_day02_01"
+		"hl2 - day 06"			"sky_day02_02"
+		"hl2 - day 07"			"sky_day02_03"
+		"hl2 - day 08"			"sky_day02_04"
+		"hl2 - day 09"			"sky_day02_05"
+		"hl2 - day 10"			"sky_day02_06%bk"
+		"hl2 - day 11"			"sky_day02_07%bk"
+		"hl2 - day 12"			"sky_day02_09%rt"
+		"hl2 - day 13"			"sky_day02_10"
+		"hl2 - day 14"			"sky_day03_01"
+		"hl2 - day 15"			"sky_day03_02"
+		"hl2 - day 16"			"sky_day03_03"
+		"hl2 - day 17"			"sky_day03_04%ft"
+		"hl2 - day 18"			"sky_day03_05"
+		"hl2 - dawn 01"			"sky_day01_07%ft"
+		"hl2 - dawn 02"			"sky_day01_08%ft"
+		"hl2 - dusk 01" 		"sky_day03_06"
+		"hl2 - dusk 02" 		"sky_day03_06b"
+			
+		//ep1
+		"ep1 - Citadel Interior" 	"sky_ep01_citadel_int"
+		"ep1 - Fog" 				"sky_fog"
+		
+		"ep1 - day 01"			"sky_ep01_00"
+		"ep1 - day 02"			"sky_ep01_01"
+		"ep1 - day 03"			"sky_ep01_02"
+		"ep1 - day 04"			"sky_ep01_04"
+		"ep1 - day 05"			"sky_ep01_04a"
+		
+		//ep2	
+		"ep2 - day 01"			"sky_ep02_01%ft"
+		"ep2 - day 02"			"sky_ep02_02%ft"
+		"ep2 - day 03"			"sky_ep02_03%ft"
+		"ep2 - day 04"			"sky_ep02_04%ft"
+		"ep2 - day 05"			"sky_ep02_05%ft"
+		"ep2 - day 06"			"sky_ep02_06%ft"
+		
+		//portal
+		"portal - Black Sky" 				"sky_black"
+		
+		//sky 79 set
+		"Dawn - 01"				"sky_79%rt"
+		
+		//sky 17 set
+		"Dawn - 02"				"sky17%ft"
+		
+		//sky 302 set
+		"Midday - 01"			"sky302%bk"
+		
+		//evening sky set
+		"Evening - 01"					"evening_sky%ft"
+		"Evening - 02"					"evening_sky2%bk"
+		
+		//worlds end set
+		"Worlds End 01"					"Sky_WorldsEnd01%rt"
+		
+		//Skybox plus set
+		"Day Evening - 01"				"evening_0%rt"
+		"Day Evening - 02"				"evening_1%rt"
+		"Day Evening - 03"				"evening_2%rt"
+		"Day Evening - 04"				"evening_3%rt"
+		"Cloudy Day - 01"				"daycloudy_0%rt"
+		"Cloudy Day - 02"				"daycloudy_1%rt"
+		"Cloudy Day - 03"				"daycloudy_2%bk"
+		"Cloudy Day - 04"				"daycloudy_3%bk"
+		"Cloudy Day - 05"				"daycloudy_4%rt"
+		"Cloudy Day - 06"				"daycloudy_5"
+		"Cloudy Day - 07"				"daycloudy_6"
+		"Cloudy Day - 08"				"daycloudy_7%rt"
+		"Clear Day - 01"				"dayclear_0"
+		"Clear Day - 02"				"dayclear_1%ft"
+		"Clear Day - 03"				"dayclear_2%ft"
+		"Clear Day - 04"				"dayclear_3%ft"
+		"Clear Day - 05"				"dayclear_4%rt"
+		"Clear Day - 06"				"dayclear_5%rt"
+		
+		//sea sunset
+		"Sea Sunset - 01"				"sea_sunset%bk"
+		
+		//smokey sky
+		"Smokey Sky - 01"				"smoke_sky%bk"
+		
+		//sky 55
+		"Cloudy Blue Sunset 01"			"sky55%rt"
+		
+		//sky 78
+		"Cloudy Blue Sunset 02"			"sky78%bk"
+	}
+}

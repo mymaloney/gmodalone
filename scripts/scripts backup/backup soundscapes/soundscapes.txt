@@ -1,0 +1,51 @@
+//------------------------------------------------------------------------------------
+//
+// Auto-generated soundscape file created with modbases soundscape tool'
+//
+//------------------------------------------------------------------------------------
+"Nothing"
+{
+	"dsp"	"0"
+}
+
+"common.rain"
+{
+	"playlooping"
+	{
+		"volume"	"0.725000"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.37500"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+}
+
+"common.rain.inside"
+{
+	"dsp"	"0"
+	"playlooping"
+	{
+		"volume"	"0.62500"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind1.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.52000"
+		"pitch"	"100"
+		"wave"	"ambient/weather/rain_ind2.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.7300"
+		"pitch"	"100"
+		"wave"	"ambient\weather\rain.wav"
+	}
+}

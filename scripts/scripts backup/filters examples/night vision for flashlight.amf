@@ -1,0 +1,85 @@
+"AloneModFilter"
+{
+	"View"
+	{
+		"ViewModel:Draw"		"1"
+		"ViewModel:OverrideFov"		"0"
+		"ViewModel:FovAmount"		"1"
+		"Filter:BlackAndWhite"		"0"
+		"Filter:LenseDirt"		"0"
+		"Filter:TvView"		"0"
+		"Filter:ColoredTvView"		"0"
+		"Filter:BluredView"		"0"
+		"Filter:BlackBoxes:Enable"		"0"
+		"Filter:BlackBoxes:Width"		"0"
+		"Filter:BlackBoxes:Height"		"6"
+		"Filter:Claustraphobia:Enable"		"0"
+		"Filter:Claustraphobia:Amount"		"7"
+		"Filter:Claustraphobia:Fov"		"100"
+		"Camera:EnableEditor"		"0"
+		"Camera:ViewmodelFix"		"1"
+		"Camera:SmoothAnglesAmount"		"50"
+		"Camera:SmoothOriginAmount"		"20"
+		"Camera:MinPitch"		"181"
+		"Camera:MaxPitch"		"181"
+		"Camera:OriginOffset"		"0 0 0"
+		"Camera:AngleOffset"		"0 0 0"
+	}
+	"ConVars"
+	{
+		"Convar"
+		{
+			"Convar"		"r_flashlightfov"
+			"value"		"179"
+			"type"		"1"
+		}
+	}
+	"Overlays"
+	{
+		"Overlay"
+		{
+			"OverlayName"		"effects/com_shield002a"
+			"Red"		"29"
+			"Green"		"132"
+			"Blue"		"27"
+			"Alpha"		"13"
+			"DrawType"		"2"
+		}
+		"Overlay"
+		{
+			"OverlayName"		"effects/combine_binocoverlay"
+			"Red"		"36"
+			"Green"		"186"
+			"Blue"		"50"
+			"Alpha"		"150"
+			"DrawType"		"2"
+		}
+		"Overlay"
+		{
+			"OverlayName"		"effects/exit1"
+			"Red"		"24"
+			"Green"		"113"
+			"Blue"		"66"
+			"Alpha"		"14"
+			"DrawType"		"2"
+		}
+		"Overlay"
+		{
+			"OverlayName"		"effects/view/vignette"
+			"Red"		"69"
+			"Green"		"247"
+			"Blue"		"25"
+			"Alpha"		"165"
+			"DrawType"		"2"
+		}
+		"Overlay"
+		{
+			"OverlayName"		"effects/redlaser1"
+			"Red"		"22"
+			"Green"		"75"
+			"Blue"		"11"
+			"Alpha"		"3"
+			"DrawType"		"2"
+		}
+	}
+}

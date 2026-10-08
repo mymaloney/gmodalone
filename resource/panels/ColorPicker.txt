@@ -1,0 +1,208 @@
+"ColorPicker"
+{
+	"Wide" "565"
+	"Tall" "345"
+	
+	//dividers
+	"Dividers"
+	{
+		"ColorSquareDivider"
+		{
+			"x" "10"
+			"y" "45"
+			"w" "265"
+			"h" "265"
+		}
+		"HueSquareDivider"
+		{
+			"x" "285"
+			"y" "45"
+			"w" "35"
+			"h" "265"
+		}
+		"AlphaSquareDivider"
+		{
+			"x" "330"
+			"y" "45"
+			"w" "40"
+			"h" "265"
+		}
+		"SelectedColorDivider"
+		{
+			"x" "395"
+			"y" "165"
+			"w" "145"
+			"h" "145"
+		}
+	}
+	
+	//labels
+	"Labels"
+	{
+		"ColorSquareLabel"
+		{
+			"x" "10"
+			"y" "20"
+			"w" "265"
+			"h" "20"
+			"Text" "Color"
+			"Alignment" "Center"
+		}
+		"HueSquareLabel"
+		{
+			"x" "290"
+			"y" "20"
+			"w" "25"
+			"h" "20"
+			"Text" "Hue"
+			"Alignment" "Center"
+		}
+		"AlphaSquareLabel"
+		{
+			"x" "330"
+			"y" "20"
+			"w" "40"
+			"h" "20"
+			"Text" "Alpha"
+			"Alignment" "Center"
+		}
+		
+		//rgb texts
+		"RedLabel"
+		{
+			"x" "400"
+			"y" "40"
+			"w" "50"
+			"h" "20"
+			"Text" "Red ="
+			"Alignment" "East"
+		}
+		"GreenLabel"
+		{
+			"x" "400"
+			"y" "65"
+			"w" "50"
+			"h" "20"
+			"Text" "Green ="
+			"Alignment" "East"
+		}
+		"BlueLabel"
+		{
+			"x" "400"
+			"y" "90"
+			"w" "50"
+			"h" "20"
+			"Text" "Blue ="
+			"Alignment" "East"
+		}
+		"AlphaLabel"
+		{
+			"x" "400"
+			"y" "115"
+			"w" "50"
+			"h" "20"
+			"Text" "Alpha ="
+			"Alignment" "East"
+		}
+		
+		//selected text
+		"SelectedTextLabel"
+		{
+			"x" "405"
+			"y" "145"
+			"w" "120"
+			"h" "20"
+			"Text" "Selected Color:"
+			"Alignment" "Center"
+		}
+	}
+	
+	//set the bounds of the color square
+	"ColorSquare"
+	{
+		"x" "15"
+		"y" "50"
+		"w" "255"
+		"h" "255"
+		"zpos" "20"
+	}
+	
+	//set the bounds of the color hue
+	"ColorHue"
+	{
+		"x" "290"
+		"y" "50"
+		"w" "25"
+		"h" "255"
+		"zpos" "20"
+	}
+	
+	//set the bounds of the color alpha
+	"ColorAlpha"
+	{
+		"x" "335"
+		"y" "50"
+		"w" "30"
+		"h" "255"
+		"zpos" "20"
+	}
+	
+	//color text entries
+	"RedTextEntry"
+	{
+		"x" "455"
+		"y" "40"
+		"w" "100"
+		"h" "22"
+	}
+	"GreenTextEntry"
+	{
+		"x" "455"
+		"y" "65"
+		"w" "100"
+		"h" "22"
+	}
+	"BlueTextEntry"
+	{
+		"x" "455"
+		"y" "90"
+		"w" "100"
+		"h" "22"
+	}
+	"AlphaTextEntry"
+	{
+		"x" "455"
+		"y" "115"
+		"w" "100"
+		"h" "22"
+	}
+	
+	//selected color
+	"SelectedColorRect" "400 170 135 135"
+	
+	//bottom buttons
+	"SetDefaultButton"
+	{
+		"x" "10"
+		"y" "316"
+		"w" "178"
+		"h" "22"
+		"Text" "Set To Default"
+	}
+	"CancelButton"
+	{
+		"x" "195"
+		"y" "316"
+		"w" "178"
+		"h" "22"
+		"Text" "Cancel"
+	}
+	"ApplyButton"
+	{
+		"x" "380"
+		"y" "316"
+		"w" "178"
+		"h" "22"
+		"Text" "Apply"
+	}
+}

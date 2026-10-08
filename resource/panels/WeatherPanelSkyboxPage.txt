@@ -1,0 +1,42 @@
+"WeatherPanelSkyboxPage.txt"
+{
+	"Wide" "275"
+	"Tall" "435"
+	
+	//labels
+	"Labels"
+	{
+		"AngleLabel"
+		{
+			"x" "10"
+			"y" "287"
+			"w" "240"
+			"h" "20"
+			"Text" "#Amod_WeatherPanel_WeatherPage_SkyAngleLabel"
+			"alignment" "center"
+		}
+	}
+	
+	//skybox combo box
+	"SkyboxImage"
+	{
+		"x" "10"
+		"y" "10"
+		"w" "240"
+		"h" "240"
+	}
+	"SkyboxComboBox"
+	{
+		"x" "10"
+		"y" "258"
+		"w" "240"
+		"h" "20"
+	}
+	"SkyboxAngleSlider"
+	{
+		"x" "10"
+		"y" "310"
+		"w" "240"
+		"h" "20"
+	}
+}

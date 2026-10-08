@@ -1,0 +1,3398 @@
+"resource/time_info/half-life 2.txt"
+{
+	"background01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 173"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"background02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_06"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_colorskybox"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"30000"
+				"fog_maxdensity"		"0.400000"
+				"fog_maxdensityskybox"		"0.500000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-22"
+				"rendercolor"		"248 234 205"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"background03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_02"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 160"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"4500"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.200000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"background04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_10"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"166 182 191"
+				"fog_colorskybox"		"206 216 222"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"6500"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 160 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-36"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"background05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"background06_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_02"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"224 224 201"
+				"fog_colorskybox"		"224 224 201"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9000"
+				"fog_endskybox"		"70000"
+				"fog_maxdensity"		"0.600000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"3000"
+			}
+			"Sun"
+			{
+				"angles"		"0 140 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-35"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"background07_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_06"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 173"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz.spr"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz.spr"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"237 218 143"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"3.000"
+			"BloomScale"		"2"
+			"CloudsColor"		"255 50 0 150"
+			"DefaultNightSky"		"sky_airexchange01"
+			"FilterIntensity"		"0.20"
+			"FilterName"		"scripts/colorcorrection/ep1_c17_06_1.raw"
+			"fog"
+			{
+				"fog_color"		"255 0 0"
+				"fog_colorskybox"		"255 0 0"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9976"
+				"fog_endskybox"		"10000"
+				"fog_maxdensity"		"0.08"
+				"fog_maxdensityskybox"		"0.04"
+				"fog_override"		"1"
+				"fog_start"		"-135"
+				"fog_startskybox"		"2000"
+				"r_pixelfog"		"1"
+			}
+		}
+	}
+	"d1_canals_01a_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_04"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"255 206 139"
+				"fog_colorskybox"		"255 229 165"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"7000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.125000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"2048"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"HorzSize0"		"60"
+				"HorzSize1"		"36"
+				"HorzSize2"		"24"
+				"HorzSize3"		"12"
+				"material"		"sprites/light_glow02_add_noz"
+				"Material0"		"sun/overlay"
+				"Material1"		"sun/overlay"
+				"Material2"		"sun/overlay"
+				"Material3"		"sun/overlay"
+				"NumLayers"		"3"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-30"
+				"rendercolor"		"248 234 205"
+				"size"		"12"
+				"use_angles"		"1"
+				"VertSize0"		"50"
+				"VertSize1"		"33"
+				"VertSize2"		"20"
+				"VertSize3"		"10"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_04"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_colorskybox"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.125000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-30"
+				"rendercolor"		"248 234 205"
+				"size"		"12"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_colorskybox"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.125000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-22"
+				"rendercolor"		"248 234 205"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_colorskybox"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"30000"
+				"fog_maxdensity"		"0.400000"
+				"fog_maxdensityskybox"		"0.500000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-22"
+				"rendercolor"		"248 234 205"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_06_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_colorskybox"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"30000"
+				"fog_maxdensity"		"0.400000"
+				"fog_maxdensityskybox"		"0.500000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-22"
+				"rendercolor"		"248 234 205"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_07_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_colorskybox"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"30000"
+				"fog_maxdensity"		"0.400000"
+				"fog_maxdensityskybox"		"0.500000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-22"
+				"rendercolor"		"248 234 205"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_08_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"182 183 190"
+				"fog_colorskybox"		"174 177 179"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"16000"
+				"fog_endskybox"		"65000"
+				"fog_maxdensity"		"0.400000"
+				"fog_maxdensityskybox"		"0.500000"
+				"fog_override"		"1"
+				"fog_start"		"500"
+				"fog_startskybox"		"3000"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-22"
+				"rendercolor"		"248 234 205"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_09_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_06"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"145 136 111"
+				"fog_colorskybox"		"145 136 111"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"25000"
+				"fog_endskybox"		"25000"
+				"fog_maxdensity"		"0.300000"
+				"fog_maxdensityskybox"		"0.400000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"20 125 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-10"
+				"rendercolor"		"248 233 186"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_10_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_06"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"145 136 111"
+				"fog_colorskybox"		"145 136 111"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"16000"
+				"fog_endskybox"		"25000"
+				"fog_maxdensity"		"0.500000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"20 125 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-10"
+				"rendercolor"		"248 233 186"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_11_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_06"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"145 136 111"
+				"fog_colorskybox"		"145 136 111"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"16000"
+				"fog_endskybox"		"25000"
+				"fog_maxdensity"		"0.500000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"20 125 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-10"
+				"rendercolor"		"248 233 186"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_12_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_07"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"145 136 111"
+				"fog_colorskybox"		"145 136 111"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"16000"
+				"fog_endskybox"		"25000"
+				"fog_maxdensity"		"0.500000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-10"
+				"rendercolor"		"248 233 186"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_canals_13_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_08"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"150 94 62"
+				"fog_colorskybox"		"150 94 62"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"30000"
+				"fog_endskybox"		"65000"
+				"fog_maxdensity"		"0.500000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"232 155 89"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_eli_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_08"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"150 94 62"
+				"fog_colorskybox"		"150 94 62"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"30000"
+				"fog_endskybox"		"65000"
+				"fog_maxdensity"		"0.500000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"232 155 89"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_eli_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_08"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"150 94 62"
+				"fog_colorskybox"		"150 94 62"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"30000"
+				"fog_endskybox"		"65000"
+				"fog_maxdensity"		"0.500000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 108 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"232 155 89"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 160"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"4500"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.200000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 -86 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"237 218 143"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_01a_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 160"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"4500"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.350000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 -86 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"237 218 143"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 160"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"5000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.300000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"90 -82 50"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-9"
+				"rendercolor"		"237 218 143"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_02a_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 160"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"5000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.200000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"90 -75 50"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-29"
+				"rendercolor"		"237 218 143"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 160"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"5000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.300000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"90 -82 50"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-9"
+				"rendercolor"		"237 218 143"
+				"size"		"16"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_enable"		"0"
+				"fog_enableskybox"		"0"
+				"fog_override"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_town_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"174 177 179"
+				"fog_colorskybox"		"174 177 179"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"0.300000"
+				"fog_maxdensityskybox"		"0.400000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1000"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_trainstation_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 173"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_trainstation_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 173"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz.spr"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz.spr"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"237 218 143"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"3.000"
+			"BloomScale"		"2"
+			"CloudsColor"		"255 50 0 150"
+			"DefaultNightSky"		"sky_airexchange01"
+			"FilterIntensity"		"0.20"
+			"FilterName"		"scripts/colorcorrection/ep1_c17_06_1.raw"
+			"fog"
+			{
+				"fog_color"		"255 0 0"
+				"fog_colorskybox"		"255 0 0"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9976"
+				"fog_endskybox"		"10000"
+				"fog_maxdensity"		"0.08"
+				"fog_maxdensityskybox"		"0.08"
+				"fog_override"		"1"
+				"fog_start"		"-135"
+				"fog_startskybox"		"2000"
+				"r_pixelfog"		"1"
+			}
+		}
+	}
+	"d1_trainstation_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 173"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"20000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz.spr"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz.spr"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"237 218 143"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"3.000"
+			"BloomScale"		"2"
+			"CloudsColor"		"255 50 0 150"
+			"DefaultNightSky"		"sky_airexchange01"
+			"FilterIntensity"		"0.20"
+			"FilterName"		"scripts/colorcorrection/ep1_c17_06_1.raw"
+			"fog"
+			{
+				"fog_color"		"255 0 0"
+				"fog_colorskybox"		"255 0 0"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9976"
+				"fog_endskybox"		"10000"
+				"fog_maxdensity"		"0.08"
+				"fog_maxdensityskybox"		"0.08"
+				"fog_override"		"1"
+				"fog_start"		"-135"
+				"fog_startskybox"		"2000"
+				"r_pixelfog"		"1"
+			}
+		}
+	}
+	"d1_trainstation_04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"223 216 173"
+				"fog_colorskybox"		"223 216 173"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"15000"
+				"fog_endskybox"		"25000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"2048"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz.spr"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz.spr"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"237 218 143"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_trainstation_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"106 108 115"
+				"fog_colorskybox"		"106 108 115"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"8000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"1000"
+				"fog_startskybox"		"-2300"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d1_trainstation_06_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"106 108 115"
+				"fog_colorskybox"		"106 108 115"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"8000"
+				"fog_endskybox"		"20000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.400000"
+				"fog_override"		"1"
+				"fog_start"		"1000"
+				"fog_startskybox"		"-2300"
+			}
+			"Sun"
+			{
+				"angles"		"0 165 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"237 218 143"
+				"size"		"10"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_02"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"232 240 216"
+				"fog_colorskybox"		"232 240 216"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"30000"
+				"fog_endskybox"		"30000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.400000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 235 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_03"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"189 197 204"
+				"fog_colorskybox"		"214 223 220"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"6500"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.400000"
+				"fog_override"		"1"
+				"fog_start"		"1000"
+				"fog_startskybox"		"1000"
+			}
+			"Sun"
+			{
+				"angles"		"0 269 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-40"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_03"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"221 227 223"
+				"fog_colorskybox"		"221 227 223"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"10000"
+				"fog_maxdensity"		"0.600000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"2048"
+				"fog_startskybox"		"2048"
+			}
+			"Sun"
+			{
+				"angles"		"0 269 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-40"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_04"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"189 202 201"
+				"fog_colorskybox"		"221 227 223"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"6500"
+				"fog_maxdensity"		"0.800000"
+				"fog_maxdensityskybox"		"0.800000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 232 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-48"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_07_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_10"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"166 182 191"
+				"fog_colorskybox"		"206 216 222"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"6500"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 160 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-36"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_08_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_10"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"166 182 191"
+				"fog_colorskybox"		"206 216 222"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"6500"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 160 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-36"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_09_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_06"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"166 180 189"
+				"fog_colorskybox"		"189 202 201"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"5000"
+				"fog_endskybox"		"10000"
+				"fog_maxdensity"		"0.800000"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+			"Sun"
+			{
+				"angles"		"0 262 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_10_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_07"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"150 163 167"
+				"fog_colorskybox"		"150 163 167"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"7000"
+				"fog_endskybox"		"7000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"500"
+				"fog_startskybox"		"500"
+			}
+			"Sun"
+			{
+				"angles"		"0 216 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-15"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_11_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_07"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"123 141 162"
+				"fog_colorskybox"		"181 193 193"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"7200"
+				"fog_endskybox"		"7200"
+				"fog_maxdensity"		"0.800000"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 216 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-15"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_coast_12_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"123 141 172"
+				"fog_colorskybox"		"181 193 193"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"8000"
+				"fog_endskybox"		"8000"
+				"fog_maxdensity"		"0.800000"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"72 87 106"
+				"fog_enable"		"1"
+				"fog_end"		"10000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"68 92 123"
+				"fog_colorskybox"		"72 87 106"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"5000"
+				"fog_endskybox"		"65000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"500"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_06_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_07_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d2_prison_08_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day02_09"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"155 183 213"
+				"fog_enable"		"1"
+				"fog_end"		"5000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_breen_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"255 255 255"
+				"fog_colorskybox"		"255 255 255"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"11000"
+				"fog_endskybox"		"200000"
+				"fog_maxdensity"		"0.200000"
+				"fog_maxdensityskybox"		"0.400000"
+				"fog_override"		"1"
+				"fog_start"		"512"
+				"fog_startskybox"		"-10000"
+			}
+			"Sun"
+			{
+				"angles"		"0 120 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"255 255 255"
+				"size"		"64"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"224 224 201"
+				"fog_colorskybox"		"107 117 123"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9000"
+				"fog_endskybox"		"110000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"60000"
+			}
+			"Sun"
+			{
+				"angles"		"0 150 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-25"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_01"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"224 224 201"
+				"fog_colorskybox"		"107 117 123"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9000"
+				"fog_endskybox"		"110000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"60000"
+			}
+			"Sun"
+			{
+				"angles"		"0 150 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-30"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_02"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"224 224 201"
+				"fog_colorskybox"		"224 224 201"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9000"
+				"fog_endskybox"		"70000"
+				"fog_maxdensity"		"0.600000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"3000"
+			}
+			"Sun"
+			{
+				"angles"		"0 140 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-35"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_02"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"224 224 201"
+				"fog_colorskybox"		"224 224 201"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"9000"
+				"fog_endskybox"		"70000"
+				"fog_maxdensity"		"0.100000"
+				"fog_maxdensityskybox"		"0.200000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"3000"
+			}
+			"Sun"
+			{
+				"angles"		"0 120 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-35"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_06a_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_02"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"126 131 137"
+				"fog_colorskybox"		"202 215 214"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"7500"
+				"fog_endskybox"		"35000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.200000"
+				"fog_override"		"1"
+				"fog_start"		"256"
+				"fog_startskybox"		"0"
+			}
+			"Sun"
+			{
+				"angles"		"0 120 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-40"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_06b_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_03"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"234 236 236"
+				"fog_colorskybox"		"107 117 123"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"110000"
+				"fog_maxdensity"		"1"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"60000"
+			}
+			"Sun"
+			{
+				"angles"		"0 115 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-35"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_07_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_03"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"234 236 236"
+				"fog_colorskybox"		"107 117 123"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"110000"
+				"fog_maxdensity"		"0.200000"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"3000"
+				"fog_startskybox"		"60000"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_08_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_04"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"149 158 166"
+				"fog_enable"		"1"
+				"fog_end"		"10000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"512"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_09_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_04"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"127 136 146"
+				"fog_colorskybox"		"107 117 123"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"6500"
+				"fog_endskybox"		"100000"
+				"fog_maxdensity"		"0.400000"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"2000"
+				"fog_startskybox"		"1"
+			}
+			"Sun"
+			{
+				"angles"		"0 50 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-35"
+				"rendercolor"		"237 218 143"
+				"size"		"12"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_10a_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"78 87 94"
+				"fog_colorskybox"		"93 102 115"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"100000"
+				"fog_maxdensity"		"0.800000"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"2048"
+				"fog_startskybox"		"0"
+			}
+			"Sun"
+			{
+				"angles"		"0 72 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-12"
+				"rendercolor"		"238 200 128"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_10b_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"78 87 94"
+				"fog_colorskybox"		"93 102 115"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"100000"
+				"fog_maxdensity"		"0.800000"
+				"fog_maxdensityskybox"		"0.300000"
+				"fog_override"		"1"
+				"fog_start"		"2048"
+				"fog_startskybox"		"0"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_11_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"214 207 189"
+				"fog_colorskybox"		"214 207 189"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"16285"
+				"fog_endskybox"		"56285"
+				"fog_maxdensity"		"0.300000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 72 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-12"
+				"rendercolor"		"238 200 128"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_12b_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"214 207 189"
+				"fog_colorskybox"		"214 207 189"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"16285"
+				"fog_endskybox"		"56285"
+				"fog_maxdensity"		"0.300000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 72 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-12"
+				"rendercolor"		"238 200 128"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_c17_13_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"214 207 189"
+				"fog_colorskybox"		"214 207 189"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"12285"
+				"fog_endskybox"		"16285"
+				"fog_maxdensity"		"0.100000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 72 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-12"
+				"rendercolor"		"238 200 128"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_citadel_01_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"214 207 189"
+				"fog_colorskybox"		"214 207 189"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"12285"
+				"fog_endskybox"		"16285"
+				"fog_maxdensity"		"0.100000"
+				"fog_maxdensityskybox"		"0.100000"
+				"fog_override"		"1"
+				"fog_start"		"1024"
+				"fog_startskybox"		"1024"
+			}
+			"Sun"
+			{
+				"angles"		"0 72 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-12"
+				"rendercolor"		"238 200 128"
+				"size"		"8"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_citadel_02_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"60 100 100"
+				"fog_enable"		"1"
+				"fog_end"		"7000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"500"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_citadel_03_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"60 100 100"
+				"fog_enable"		"1"
+				"fog_end"		"7000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"500"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_citadel_04_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day03_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"60 100 100"
+				"fog_enable"		"1"
+				"fog_end"		"7000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"500"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+	"d3_citadel_05_d"
+	{
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.4"
+			"BloomScale"		"1"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultDaySky"		"sky_day01_05"
+			"FilterIntensity"		"0.325"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_color"		"60 100 100"
+				"fog_enable"		"1"
+				"fog_end"		"7000"
+				"fog_maxdensity"		"1"
+				"fog_override"		"1"
+				"fog_start"		"500"
+			}
+			"Sun"
+			{
+				"angles"		"0 304 0"
+				"enabled"		"1"
+				"HDRColorScale"		".5"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-5"
+				"rendercolor"		"255 255 255"
+				"size"		"64"
+				"use_angles"		"1"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0"
+			"BloomScale"		"0"
+			"CloudsColor"		"255 255 255 255"
+			"DefaultNightSky"		"sky_borealis01"
+			"FilterIntensity"		"0.8"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+		}
+	}
+}

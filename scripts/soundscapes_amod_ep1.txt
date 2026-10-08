@@ -1,0 +1,278 @@
+"util.ep1_wind_moans"
+{
+	"playrandom"
+	{
+		"time" "23,35"
+		"volume" "0.24,0.40"
+		"pitch" "100"
+		"rndwave"
+		{
+			"wave" "ambient\wind\wind_snippet4.wav"
+			"wave" "ambient\wind\wind_snippet5.wav"
+			"wave" "ambient\wind\wind_med1.wav"
+			"wave" "ambient\wind\wind_med2.wav"
+			"wave" "ambient\wind\wind_hit1.wav"
+		}
+	}
+}
+
+"outside_ep1"
+{
+	"playlooping"
+	{
+		"wave" "ambient/creatures/crickets.wav"
+		"pitch" "100"
+		"volume" "0.03"
+	}
+
+	"playsoundscape"
+	{
+		"name" "outside_station.base"
+		"volume" "0.55"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_flies"
+		"volume" "0.3"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_critters"
+		"volume" "0.1"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.ep1_wind_moans"
+		"volume" "0.35"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.3"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.45,0.75"
+		"pitch" "90,110"
+		"time" "10,20"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+}
+
+"inside_ep1.apartments"
+{
+	//rain
+	"RainVolume" "0.3"
+	"RainSoundscape" "common.rain.inside.apartments"
+	
+	"playlooping"
+	{
+		"volume"	".25"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\indoor1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".24"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util_random.wood_creaks.louder"
+		"volume" ".75"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.33,0.46"
+		"pitch" "90,110"
+		"time" "10,20"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.24"
+	}
+}
+
+"inside_ep1.hospital"
+{
+	//rain
+	"RainVolume" "0.2"
+	"RainSoundscape" "common.rain.inside.apartments"
+	
+	"playlooping"
+	{
+		"volume"	".80"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\underground_hall_loop1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".24"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util_random.wood_creaks.louder"
+		"volume" ".25"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.27,0.42"
+		"pitch" "90,110"
+		"time" "10,20"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.34"
+	}
+}
+
+"inside.ep1_trainyard"
+{
+	//rain
+	"RainVolume" "0.35"
+	"RainSoundscape" "common.rain.metal.shed"
+	
+	"playlooping"
+	{
+		"volume"	".80"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\underground_hall_loop1.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".60"
+	}
+	
+	"playlooping"
+	{
+		"volume"	".24"
+		"pitch"		"100"
+		"wave"		"ambient\atmosphere\quiet_cellblock_amb.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util_random.wood_creaks.louder"
+		"volume" ".25"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.30,0.45"
+		"pitch" "90,110"
+		"time" "10,20"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.36"
+	}
+}
+
+"outside_ep1_trainyard"
+{
+	"playlooping"
+	{
+		"wave" "ambient/creatures/crickets.wav"
+		"pitch" "100"
+		"volume" "0.03"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".56"
+	}
+
+	"playsoundscape"
+	{
+		"name" "outside_station.base"
+		"volume" "0.55"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_flies"
+		"volume" "0.3"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_critters"
+		"volume" "0.1"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.ep1_wind_moans"
+		"volume" "0.35"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.3"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.35,0.65"
+		"pitch" "90,110"
+		"time" "10,20"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+}

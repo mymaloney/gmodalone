@@ -1,0 +1,24 @@
+"gamelist"
+{
+	"Half-Life 2"
+	{
+		"Prefix" "HL2"
+		"Default" "1"
+	}
+	"Episode 1"
+	{
+		"Prefix" "EP1"
+	}
+	"Episode 2"
+	{
+		"Prefix" "EP2"
+	}
+	"Lost Coast"
+	{
+		"Prefix" "LOST COAST"
+	}
+	"Portal"
+	{
+		"Prefix" "PORTAL"
+	}
+}

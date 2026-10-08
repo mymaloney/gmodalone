@@ -1,0 +1,29 @@
+"BackgroundPanel"
+{
+	"Title" "#AMod_BackgroundPanel_Title"
+	"Wide" "250"
+	"Tall" "229"
+
+	"BackgroundImage"
+	{
+		"XPos" "10"
+		"YPos" "30"
+		"Wide" "230"
+		"Tall" "135"
+	}
+	"ChapterSelect"
+	{
+		"XPos" "10"
+		"YPos" "174"
+		"Wide" "230"
+		"Tall" "23"
+	}
+	"LoadButton"
+	{
+		"Text" "#AMod_BackgroundPanel_LoadBackground" 
+		"XPos" "10"
+		"YPos" "201"
+		"Wide" "230"
+		"Tall" "23"
+	}
+}

@@ -1,0 +1,161 @@
+"util.distant_destrution"
+{
+	"playrandom"
+	{
+		"volume" "0.19,0.36"
+		"pitch" "90,110"
+		"time" "4,10"
+		"rndwave"
+		{
+			"wave" "ambient\explosions\exp1.wav"
+			"wave" "ambient\explosions\exp2.wav"
+			"wave" "ambient\explosions\exp3.wav"
+			"wave" "ambient\explosions\exp4.wav"
+		}
+	}
+}
+
+"outside.ep1_citadel"
+{
+	"playsoundscape"
+	{
+		"name" "outside_station.base"
+		"volume" "0.45"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.7"
+	}
+
+	"playlooping"
+	{
+		"wave" "ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch" "100"
+		"volume" "0.40"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.16,0.26"
+		"pitch" "90,110"
+		"time" "8,18"
+		"rndwave"
+		{
+			"wave" "ambient\materials\rock1.wav"
+			"wave" "ambient\materials\rock2.wav"
+			"wave" "ambient\materials\rock3.wav"
+			"wave" "ambient\materials\rock4.wav"
+			"wave" "ambient\materials\rock5.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.8,0.9"
+		"pitch" "90,110"
+		"time" "6,11"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"volume" "0.018,0.31"
+		"pitch" "90,110"
+		"time" "32,43"
+		"rndwave"
+		{
+			"wave" "ambient\levels\intro\vanfall_2_14_00.wav"
+			"wave" "weapons\debris1.wav"
+			"wave" "ambient\intro\debris02.wav"
+			"wave" "ambient\atmosphere\city_skybeam1.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_flies"
+		"volume" "0.2"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_critters"
+		"volume" "0.1"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.wind_moans"
+		"volume" "0.3"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".85"
+	}	
+}
+
+"inside.citadel_ep1"
+{
+	"playlooping"
+	{
+		"wave" "ambient\levels\citadel\citadel_drone_loop4.wav"
+		"pitch" "100"
+		"volume" "0.625"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.45"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".85"
+	}	
+	
+	"playrandom"
+	{
+		"volume" "0.4,0.6"
+		"pitch" "90,110"
+		"time" "9,17"
+		"rndwave"
+		{
+			"wave" "ambient\atmosphere\thunder1.wav"
+			"wave" "ambient\atmosphere\thunder2.wav"
+			"wave" "ambient\atmosphere\thunder3.wav"
+			"wave" "ambient\atmosphere\thunder4.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" ".7"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.08,0.19"
+		"pitch" "90,110"
+		"time" "32,43"
+		"rndwave"
+		{
+			"wave" "ambient\levels\intro\vanfall_2_14_00.wav"
+			"wave" "weapons\debris1.wav"
+			"wave" "ambient\intro\debris02.wav"
+			"wave" "ambient\atmosphere\city_skybeam1.wav"
+		}
+	}
+}

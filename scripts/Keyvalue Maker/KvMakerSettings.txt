@@ -1,0 +1,22 @@
+//Auto Generated Settings File For Waddelz Keyvalue Maker
+"KvMakerSettings"
+{
+	"Plugins:FolderName" "C:\Users\sebme\OneDrive\Documents\VS Projects\Keyvalue Maker\Debug\plugins"
+	"Plusins:NoFolderSelected" "0"
+	"Plusins:UseExeBaseDir" "0"
+	"Plusins:ShowErrors" "0"
+	
+	"Conditions:Win32" "1"
+	"Conditions:Windows" "1"
+	"Conditions:Posix" "0"
+	"Conditions:Linux" "0"
+	"Conditions:Osx" "0"
+	"Conditions:X360" "0"
+	"Conditions:SteamDeck" "0"
+	
+	"Options:UseOldKeyvalues" "0"
+	"Options:DontWarnWhenDeleting" "1"
+	"Options:ShowNameAndValueInTree" "1"
+	"Options:UseFirstSubkeyInFileAsBase" "0"
+	"Options:SaveBaseAsSubkeyForFile" "0"
+}

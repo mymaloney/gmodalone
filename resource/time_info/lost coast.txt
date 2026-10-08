@@ -1,0 +1,78 @@
+//day/night information for all of the half-life 2 maps
+"Half-Life 2"
+{
+	"d2_lostcoast_d"
+	{
+		"Night"
+		{
+			"DefaultNightSky" "sky_borealis01"
+			"clouds"
+			{
+				"r_clouds"		"1"
+				"r_clouds_scale_x"		"0.700000"
+				"r_clouds_scale_y"		"1.300000"
+				"r_clouds_scale_z"		"2.350000"
+				"r_clouds_angle_x"		"84"
+				"r_clouds_no3dskyclip"		"1"
+				"r_clouds_scrollrate_x"		"0.006000"
+				"r_clouds_scrollrate_y"		"0.006000"
+			}
+		}
+		
+		"Day"
+		{
+			"DefaultDaySky" "sky_day02_03"
+			"BloomScalarFactor" "0.1"
+			"fog"
+			{
+				"fog_override" "1"
+				"fog_enable" "1"
+				"fog_enableskybox" "1"
+				"fog_start" "2048"
+				"fog_end" "10000"
+				"fog_startskybox" "2048"
+				"fog_endskybox" "10000"
+				"fog_color" "221 227 223"
+				"fog_colorskybox" "221 227 223"
+				"fog_maxdensity" "0.6"
+				"fog_maxdensityskybox" "0.6"
+			}
+			"FogCubeTriggers"
+			{
+				"ChurchDarkArea"
+				{
+					"mins"		"1096.000000 2896.000000 2680.000000"
+					"maxs"		"1840.000000 4160.000000 3328.000000"
+					"Variables"
+					{
+						"amod_trigger_filterintensity"		"0.000000"
+					}
+				}
+			}
+			"clouds"
+			{
+				"r_clouds"		"1"
+				"r_clouds_scale_x"		"0.700000"
+				"r_clouds_scale_y"		"1.300000"
+				"r_clouds_scale_z"		"2.350000"
+				"r_clouds_angle_x"		"0"
+				"r_clouds_no3dskyclip"		"1"
+				"r_clouds_scrollrate_x"		"0.006000"
+				"r_clouds_scrollrate_y"		"0.006000"
+			}
+			"sun"
+			{
+				"use_angles" "1"
+				"size" "24"
+				"rendercolor" "255 244 213"
+				"pitch" "-40"
+				"overlaysize" "-1"
+				"overlaymaterial" "sprites/light_glow02_add_noz"
+				"overlaycolor" "0 0 0"
+				"material" "sprites/light_glow02_add_noz"
+				"HDRColorScale" ".5"
+				"angles" "0 269 0"
+			}
+		}
+	}
+}

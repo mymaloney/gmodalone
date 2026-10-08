@@ -1,0 +1,206 @@
+"inside.under_ep1_start"
+{
+	"playlooping"
+	{
+		"wave" "ambience\wind1.wav"
+		"pitch" "100"
+		"volume" "0.15"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.02"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random.metal_groans"
+		"volume" ".4"
+	}	
+	
+	"playsoundscape"
+	{
+		"name" "utility.random.metal_creaking"
+		"volume" ".2"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.02,0.08"
+		"pitch" "90,110"
+		"time" "32,43"
+		"rndwave"
+		{
+			"wave" "ambient\levels\intro\vanfall_2_14_00.wav"
+			"wave" "weapons\debris1.wav"
+			"wave" "ambient\intro\debris02.wav"
+			"wave" "ambient\atmosphere\city_skybeam1.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.18,0.23"
+		"pitch" "90,110"
+		"time" "14,28"
+		"rndwave"
+		{
+			"wave" "ambient\materials\rock1.wav"
+			"wave" "ambient\materials\rock2.wav"
+			"wave" "ambient\materials\rock3.wav"
+			"wave" "ambient\materials\rock4.wav"
+			"wave" "ambient\materials\rock5.wav"
+		}
+	}
+}
+
+"inside.under_ep1"
+{
+	"playlooping"
+	{
+		"wave" "ambient\levels\canals\tunnel_wind_loop1.wav"
+		"pitch" "100"
+		"volume" "0.3"
+	}
+	
+	"playlooping"
+	{
+		"wave" "ambient\atmosphere\drone4lp.wav"
+		"pitch" "100"
+		"volume" "0.3"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.02"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.02,0.04"
+		"pitch" "90,110"
+		"time" "32,43"
+		"rndwave"
+		{
+			"wave" "ambient\levels\intro\vanfall_2_14_00.wav"
+			"wave" "weapons\debris1.wav"
+			"wave" "ambient\intro\debris02.wav"
+			"wave" "ambient\atmosphere\city_skybeam1.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.26,0.4"
+		"pitch" "90,110"
+		"time" "14,28"
+		"rndwave"
+		{
+			"wave" "ambient\materials\rock1.wav"
+			"wave" "ambient\materials\rock2.wav"
+			"wave" "ambient\materials\rock3.wav"
+			"wave" "ambient\materials\rock4.wav"
+			"wave" "ambient\materials\rock5.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_flies"
+		"volume" "0.5"
+	}
+	
+	"playrandom"
+	{
+		"pitch" "90,105"
+		"time" "8,18"
+		"volume" "0.10,0.17"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/hole_hit1.wav"
+			"wave" "ambient/atmosphere/hole_hit2.wav"
+			"wave" "ambient/atmosphere/hole_hit3.wav"
+			"wave" "ambient/atmosphere/hole_hit4.wav"
+		}
+	}
+}
+
+"inside.under_ep1_water"
+{
+	"playlooping"
+	{
+		"wave" "ambient\levels\canals\tunnel_wind_loop1.wav"
+		"pitch" "100"
+		"volume" "0.3"
+	}
+	
+	"playlooping"
+	{
+		"volume" ".65"
+		"pitch" "100"
+		"wave" "ambient\water\lake_water.wav"
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.distant_destrution"
+		"volume" "0.02"
+	}
+
+	"playsoundscape"
+	{
+		"name" "util_random.water_drips.far"
+		"volume" "0.3"
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.02,0.04"
+		"pitch" "90,110"
+		"time" "32,43"
+		"rndwave"
+		{
+			"wave" "ambient\levels\intro\vanfall_2_14_00.wav"
+			"wave" "weapons\debris1.wav"
+			"wave" "ambient\intro\debris02.wav"
+			"wave" "ambient\atmosphere\city_skybeam1.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"volume" "0.26,0.4"
+		"pitch" "90,110"
+		"time" "14,28"
+		"rndwave"
+		{
+			"wave" "ambient\materials\rock1.wav"
+			"wave" "ambient\materials\rock2.wav"
+			"wave" "ambient\materials\rock3.wav"
+			"wave" "ambient\materials\rock4.wav"
+			"wave" "ambient\materials\rock5.wav"
+		}
+	}
+	
+	"playsoundscape"
+	{
+		"name" "util.random_flies"
+		"volume" "0.5"
+	}
+	
+	"playrandom"
+	{
+		"pitch" "90,105"
+		"time" "8,18"
+		"volume" "0.10,0.17"
+		"rndwave"
+		{
+			"wave" "ambient/atmosphere/hole_hit1.wav"
+			"wave" "ambient/atmosphere/hole_hit2.wav"
+			"wave" "ambient/atmosphere/hole_hit3.wav"
+			"wave" "ambient/atmosphere/hole_hit4.wav"
+		}
+	}
+}

@@ -1,0 +1,143 @@
+"resource/time_info/snowey coast/lost coast.txt"
+{
+	"d2_lostcoast_d"
+	{
+		"AllowDaytime"		"1"
+		"AllowFlipTimes"		"0"
+		"AllowNightTime"		"1"
+		"Day"
+		{
+			"BloomEnabled"		"1"
+			"BloomScalarFactor"		"0.100000"
+			"BloomScale"		"1"
+			"clouds"
+			{
+				"r_clouds"		"1"
+				"r_clouds_angle_x"		"0"
+				"r_clouds_no3dskyclip"		"1"
+				"r_clouds_scale_x"		"0.700000"
+				"r_clouds_scale_y"		"1.300000"
+				"r_clouds_scale_z"		"2.350000"
+				"r_clouds_scrollrate_x"		"0.006000"
+				"r_clouds_scrollrate_y"		"0.006000"
+			}
+			"DefaultDaySky"		"sky_day02_03"
+			"DefaultSkyboxAngles"		"0.000000 0.000000 0.000000"
+			"FilterIntensity"		"0.325000"
+			"FilterName"		"scripts/colorcorrection/cc_daytime.raw"
+			"fog"
+			{
+				"fog_blend"		"0"
+				"fog_blendangle"		"-1"
+				"fog_blendangleskybox"		"-1"
+				"fog_blendcolor"		"-1 -1 -1"
+				"fog_blendcolorskybox"		"-1 -1 -1"
+				"fog_blendskybox"		"0"
+				"fog_color"		"221 227 223"
+				"fog_colorskybox"		"221 227 223"
+				"fog_enable"		"1"
+				"fog_enableskybox"		"1"
+				"fog_end"		"10000"
+				"fog_endskybox"		"10000"
+				"fog_maxdensity"		"0.600000"
+				"fog_maxdensityskybox"		"0.600000"
+				"fog_override"		"1"
+				"fog_start"		"2048"
+				"fog_startskybox"		"2048"
+				"r_farz"		"-1"
+				"r_pixelfog"		"1"
+			}
+			"FogCubeTriggers"
+			{
+				"ChurchDarkArea"
+				{
+					"maxs"		"1840.000000 4160.000000 3328.000000"
+					"mins"		"1096.000000 2896.000000 2680.000000"
+					"Variables"
+					{
+						"amod_trigger_filterintensity"		"0.000000"
+					}
+				}
+			}
+			"Sun"
+			{
+				"angles"		"0 269 0"
+				"enabled"		"1"
+				"HDRColorScale"		"0.500000"
+				"material"		"sprites/light_glow02_add_noz"
+				"overlaycolor"		"0 0 0"
+				"overlaymaterial"		"sprites/light_glow02_add_noz"
+				"overlaysize"		"-1"
+				"pitch"		"-40"
+				"rendercolor"		"255 244 213"
+				"size"		"24"
+				"use_angles"		"1"
+			}
+			"weather"
+			{
+				"RainIntensity"		"0.001000"
+				"RainSplashParticles"		"1"
+				"ShowSnowOnMaps"		"0"
+				"WeatherEnabled"		"0"
+				"WeatherRunInIntervals"		"0"
+				"WeatherType"		"0"
+				"WeatherWaitTimeMax"		"30"
+				"WeatherWaitTimeMin"		"30"
+			}
+		}
+		"Night"
+		{
+			"BloomEnabled"		"0"
+			"BloomScalarFactor"		"0.000000"
+			"BloomScale"		"0"
+			"clouds"
+			{
+				"r_clouds"		"1"
+				"r_clouds_angle_x"		"84"
+				"r_clouds_no3dskyclip"		"1"
+				"r_clouds_scale_x"		"0.700000"
+				"r_clouds_scale_y"		"1.300000"
+				"r_clouds_scale_z"		"2.350000"
+				"r_clouds_scrollrate_x"		"0.006000"
+				"r_clouds_scrollrate_y"		"0.006000"
+			}
+			"DefaultNightSky"		"sky_borealis01"
+			"DefaultSkyboxAngles"		"0.000000 0.000000 0.000000"
+			"FilterIntensity"		"0.625000"
+			"FilterName"		"scripts/colorcorrection/cc_epic_filter.raw"
+			"fog"
+			{
+				"fog_blend"		"0"
+				"fog_blendangle"		"-1"
+				"fog_blendangleskybox"		"-1"
+				"fog_blendcolor"		"-1 -1 -1"
+				"fog_blendcolorskybox"		"-1 -1 -1"
+				"fog_blendskybox"		"0"
+				"fog_color"		"-1 -1 -1"
+				"fog_colorskybox"		"-1 -1 -1"
+				"fog_enable"		"-1"
+				"fog_enableskybox"		"-1"
+				"fog_end"		"-1"
+				"fog_endskybox"		"-1"
+				"fog_maxdensity"		"-1"
+				"fog_maxdensityskybox"		"-1"
+				"fog_override"		"0"
+				"fog_start"		"-1"
+				"fog_startskybox"		"-1"
+				"r_farz"		"-1"
+				"r_pixelfog"		"1"
+			}
+			"weather"
+			{
+				"RainIntensity"		"0.001000"
+				"RainSplashParticles"		"1"
+				"ShowSnowOnMaps"		"0"
+				"WeatherEnabled"		"0"
+				"WeatherRunInIntervals"		"0"
+				"WeatherType"		"0"
+				"WeatherWaitTimeMax"		"30"
+				"WeatherWaitTimeMin"		"30"
+			}
+		}
+	}
+}
