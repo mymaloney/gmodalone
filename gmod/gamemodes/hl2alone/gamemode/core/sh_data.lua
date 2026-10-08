@@ -30,6 +30,7 @@ function HL2A.ReadFile( rel )
 			end
 		end
 	end
+	return nil
 end
 
 --- Lists files matching a wildcard inside a data directory.

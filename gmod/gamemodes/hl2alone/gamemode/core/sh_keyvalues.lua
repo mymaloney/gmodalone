@@ -147,6 +147,9 @@ function KV.Get( block, key )
 	for _, kv in ipairs( block ) do
 		if kv.key:lower() == key then return kv.value end
 	end
+	-- Explicit nil: falling off the end returns *no* value, which makes
+	-- calls like tonumber( KV.Get( ... ) ) throw "value expected"
+	return nil
 end
 
 --- All values for key (case-insensitive), in file order.

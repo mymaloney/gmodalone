@@ -98,6 +98,8 @@ tools/
 | Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
 | Runtime map edits (`ep1_citadel_03_d`) | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
 | Map-fired commands (`quit`, `amod_*`, `startupmenu`) | DLLs / engine | **Ported:** `quit` blocked, the rest handled | `sv/cl_mapcommands.lua` |
+| `logic_achievement`, `env_hudhint` (missing in GMod) | engine entities | **Re-created in Lua** | `entities/entities/` |
+| Blank `item_item_crate` models | server.dll | **Fixed:** defaults to the stock crate model | `sv_mappatches.lua` |
 | Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |
 | Outro video on `ep2_outland_12a_d` (`amod_outrotest`) | server.dll + `.bik` | **Not portable:** the normal fade plays instead | n/a |
 | Portal maps (`portal_*`) | Portal entities | **Not portable:** GMod has no portal entities | n/a |
