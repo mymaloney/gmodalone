@@ -1,0 +1,147 @@
+# Porting Half-Life 2: Alone to Garry's Mod
+
+The Source mod's own features (day/night, weather, epic filter, flashlight
+flicker, song panel, view bob…) are compiled into `bin/client.dll` and
+`bin/server.dll`. GMod can't load mod DLLs, and there is no source for them,
+so the port rewrites each feature in Lua as a gamemode, `hl2alone`. It reads
+the mod's existing data files (`resource/time_info`, `resource/songs`,
+`cfg/…`, sound scripts), so you can keep editing them the same way.
+
+The original Source mod files stay where they are in this repo as the
+reference and data source. The port lives in:
+
+```
+gmod/                          GMod addon source
+  addon.json
+  gamemodes/hl2alone/
+    hl2alone.txt               gamemode info + start-menu settings
+    gamemode/
+      shared.lua init.lua cl_init.lua
+      core/                    KeyValues parser, data paths, convars, time_info, sound scripts
+      modules/                 one file per feature (sv_ / cl_ / sh_ = realm)
+tools/
+  build_addon.py               assembles the installable addon
+  audit_assets.py              scans maps + materials for porting problems
+```
+
+## Getting started
+
+1. **Mount the base games in GMod** (main menu → game controller icon):
+   Half-Life 2, Episode One, Episode Two, plus Portal / Lost Coast if you use
+   those maps. The original `gameinfo.txt` mounted these, and GMod does it
+   through its mount menu instead.
+
+2. **Build the addon** into your GMod install. `--assets` is the folder
+   holding your `materials/`, `models/`, `sound/` and `maps/`:
+
+   ```sh
+   python tools/build_addon.py \
+       --out "<Steam>/steamapps/common/GarrysMod/garrysmod/addons/hl2alone" \
+       --assets "<path to your full HL2 Alone folder>"
+   ```
+
+   While you're iterating on Lua, add `--link-lua` so the gamemode folder is
+   a symlink to this repo and edits reload live. On Windows this needs
+   Developer Mode, or an admin shell.
+
+3. **Run it.** Start GMod, pick **Half-Life 2: Alone** in the gamemode
+   selector (bottom right), and Single Player. Load a map like
+   `d1_trainstation_01_d`, or from the console: `hl2a_chapter hl2 1`.
+
+4. **Audit your assets** to see what still needs porting:
+
+   ```sh
+   python tools/audit_assets.py --assets "<path to your full HL2 Alone folder>" --out audit
+   ```
+
+   This writes `audit/audit.md`, which lists custom console commands fired by
+   the maps and materials that use shaders GMod doesn't have. Copy
+   `audit/hl2alone_entity_classes.txt` to `garrysmod/data/` and run
+   `hl2a_entcheck` in the GMod console. It lists the map entities GMod
+   can't create.
+
+## Where things go in the built addon
+
+| Built path | Source | Why |
+|---|---|---|
+| `gamemodes/hl2alone/` | `gmod/gamemodes/hl2alone/` | Lua gamemode |
+| `data_static/hl2alone/…` | `resource/time_info`, `resource/songs`, fogs, thunder, `cfg/**`, `scripts/game_sounds_*` … | Read by Lua. Kept out of `scripts/`, where they would replace stock HL2 sounds in every gamemode. Lowercased; `.cfg` gets `.txt` appended (workshop whitelist). |
+| `scripts/soundscapes_amod_*.txt` | `scripts/` | Loaded by the engine (verify; see below) |
+| `scripts/colorcorrection/` | `scripts/colorcorrection/` | Loaded by the `color_correction` entity |
+| `particles/hl2alone/` | `particles/` + assets | Added with `game.AddParticles` only in this gamemode |
+| `resource/fonts/` | `resource/font.ttf`, `gamepadui/fonts` | GMod auto-loads addon fonts |
+| `materials/ models/ sound/ maps/ …` | your asset folder | As-is, lowercased |
+
+## Feature status
+
+| Feature | Original | Status | Where |
+|---|---|---|---|
+| Day/night per map (`amod_day`) | time_info | **Ported:** skybox, env_sun, fog, filter | `sv_atmosphere.lua`, `cl_fog.lua` |
+| time_info themes (snowey coast, hl2 beta) | time_info subfolders | **Ported:** `hl2a_timeinfo_theme` | `sh_timeinfo.lua` |
+| Fog + FogCubeTriggers + city fogs | client.dll | **Ported**, with blending | `cl_fog.lua` |
+| Epic filter / colour correction | client.dll | **Ported** via `color_correction` entity; verify weight changes in-game | `sv_atmosphere.lua` |
+| Saturation, vignette | client.dll + custom shader | **Ported** (Lua screen effects) | `cl_view.lua` |
+| View bob, stand bob, jump/land punch | client.dll | **Approximated:** tune the formulas | `cl_view.lua`, `sv_player.lua` |
+| Flashlight flicker + lag | client.dll | **Ported** (ProjectedTexture) | `cl_flashlight.lua` |
+| Rain / snow / ash, intervals, thunder | func_precipitation + DLL | **Ported** (Lua particles); rain cfg radius used | `sv_weather.lua`, `cl_weather.lua` |
+| Song panel, songs across levels | client.dll VGUI | **Ported:** basic Derma panel, `ToggleSongPanel` | `cl_music.lua` |
+| Sound scripts | `scripts/game_sounds_*` | **Ported** (`sound.Add` at runtime) | `sh_sounds.lua` |
+| Localization tokens | UTF-16 `resource/*` | **Ported** (`language.Add`) | `cl_localization.lua` |
+| Chapter select | New Game panel + `cfg/<game>/chapterN.cfg` | **Partial:** `hl2a_chapter` command, no UI yet | `sv_chapters.lua` |
+| HL2 movement speeds, god mode, suit | autoexec / DLL | **Ported** (`hl2a_*speed`, `amod_enable_god`) | `sv_player.lua` |
+| Weather / effects / options / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
+| Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
+| Volumetric clouds (`r_clouds_*`), horizon fog | engine changes | **Not portable as-is.** Would need a Lua mesh/sprite system | n/a |
+| Custom water shaders (`radialfog_water`), lens dirt, blur | `shaders/fxc` | **Not portable.** Fall back to stock `Water`, redo screen effects in Lua | n/a |
+| GamepadUI main menu, bik menu backgrounds | gamepadui.dll | **Not portable.** GMod's main menu can't be replaced by a gamemode | n/a |
+| Achievements (`AMOD_NEW_LOCATIONS_*`) | server.dll | **TODO:** Lua tracking + HUD notice | n/a |
+| Citadel/core timers, new ending, outro videos | server.dll | **TODO:** check the audit for which commands maps fire | n/a |
+| GeoGuesser mini-game | client.dll | **TODO** | n/a |
+
+## Console commands
+
+| Command | Does |
+|---|---|
+| `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
+| `ToggleSongPanel` | Song panel (original bind: `x`) |
+| `hl2a_play_song <name>` | Play a song by display name |
+| `ToggleEpicFilter` | Toggle colour correction (original bind: `p`) |
+| `hl2a_timeinfo_dump` | Show the current map's time_info block |
+| `hl2a_entcheck` | Report map entity classes GMod can't create |
+
+All `amod_*` convars keep their original names and defaults; see
+`core/sh_convars.lua`. GMod doesn't run the mod's `cfg/autoexec.cfg`, so put
+any binds you want into your own GMod autoexec.
+
+## Things to verify in-game first
+
+These rely on engine behaviour I couldn't test outside GMod:
+
+- **Soundscapes:** GMod should load `scripts/soundscapes_*.txt` from addons.
+  If the amod soundscapes don't play, they need registering another way.
+  The mod's modified `scripts/soundscapes.txt` (a stock filename) isn't
+  copied, to avoid overriding HL2's soundscapes globally.
+- **`data_static` reads:** the Lua reads data via the `DATA` path
+  (`data_static/hl2alone/…`), falling back to `GAME`. Check the console at
+  startup for `[HL2A] time_info: N maps`. 0 maps means the data isn't being
+  found.
+- **Colour-correction weight changes:** the filter is re-enabled to apply a
+  new intensity. If transitions look wrong, switch to a Lua post-process.
+- **Rain materials:** `particle/rain` and `particle/snow` are stock HL2
+  materials. A purple checkerboard means they aren't mounted.
+- **Map entities:** the maps were compiled for SDK 2013. Run the audit, then
+  `hl2a_entcheck`. Anything missing needs a Lua SENT with the same
+  classname, or a map edit.
+- **Stock-path overrides:** materials/sounds in your asset folder that reuse
+  stock HL2 paths will override them in *every* gamemode while the addon is
+  installed.
+
+## Suggested next steps
+
+1. Get one map (`d1_trainstation_01_d`) loading cleanly: run the audit, fix
+   missing entities and shaders.
+2. Implement the console commands the audit finds the maps firing
+   (`amod_*`). Those are the map-driven story features.
+3. Rebuild the Weather/Options panels in Derma using the layouts in
+   `resource/panels/` as reference.
+4. Achievements and the remaining server.dll features.

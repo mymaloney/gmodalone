@@ -1,0 +1,72 @@
+--[[
+	Access to the Alone mod's data files (time_info, songs, fogs, cfgs ...).
+
+	tools/build_addon.py copies them from the original Source mod layout into
+	<addon>/data_static/hl2alone/<original relative path>. Files whose extension
+	isn't workshop-whitelisted (e.g. .cfg) get ".txt" appended.
+
+	data_static is readable through the "DATA" path; the "GAME" fallback covers
+	setups where the files sit in the addon root instead.
+]]
+
+local SEARCH = {
+	{ prefix = "hl2alone/", path = "DATA" },
+	{ prefix = "data_static/hl2alone/", path = "GAME" },
+}
+
+local function candidates( rel )
+	rel = rel:gsub( "\\", "/" ):lower()
+	local list = { rel }
+	if not rel:EndsWith( ".txt" ) then list[ 2 ] = rel .. ".txt" end
+	return list
+end
+
+function HL2A.ReadFile( rel )
+	for _, name in ipairs( candidates( rel ) ) do
+		for _, sp in ipairs( SEARCH ) do
+			local full = sp.prefix .. name
+			if file.Exists( full, sp.path ) then
+				return file.Read( full, sp.path )
+			end
+		end
+	end
+end
+
+--- Lists files matching a wildcard inside a data directory.
+-- Returns relative paths (same form ReadFile accepts).
+function HL2A.FindFiles( relWildcard )
+	relWildcard = relWildcard:gsub( "\\", "/" ):lower()
+	local dir = relWildcard:match( "^(.*/)" ) or ""
+	local seen, out = {}, {}
+
+	for _, sp in ipairs( SEARCH ) do
+		local files = file.Find( sp.prefix .. relWildcard, sp.path )
+		for _, f in ipairs( files or {} ) do
+			local rel = dir .. f:lower()
+			if not seen[ rel ] then
+				seen[ rel ] = true
+				out[ #out + 1 ] = rel
+			end
+		end
+	end
+
+	table.sort( out )
+	return out
+end
+
+function HL2A.ParseVector( str )
+	if not str then return nil end
+	local x, y, z = str:match( "^%s*(%S+)%s+(%S+)%s+(%S+)" )
+	if not z then return nil end
+	return Vector( tonumber( x ) or 0, tonumber( y ) or 0, tonumber( z ) or 0 )
+end
+
+function HL2A.ParseColor( str )
+	local v = HL2A.ParseVector( str )
+	if not v then return nil end
+	return Color( v.x, v.y, v.z )
+end
+
+function HL2A.Map()
+	return game.GetMap():lower()
+end
