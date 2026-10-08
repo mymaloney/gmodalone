@@ -134,11 +134,13 @@ local function entriesOf( block )
 	local entries
 	for _, e in ipairs( block ) do
 		if istable( e.value ) then
+			-- Entry blocks are themselves named "Var"/"Flag", so only a plain
+			-- string value counts; a nested block means we're a level too high
 			local t = KV.ToTable( e.value )
-			if t.flag then
+			if isstring( t.flag ) then
 				entries = entries or {}
 				entries[ #entries + 1 ] = { flag = t.flag, state = t.state }
-			elseif t.var then
+			elseif isstring( t.var ) then
 				entries = entries or {}
 				entries[ #entries + 1 ] = { var = t.var, value = t.value, type = t.type }
 			end
