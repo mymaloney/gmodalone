@@ -1,0 +1,12 @@
+# Large game assets live outside the repo (see PORTING.md)
+/materials/
+/models/
+/sound/
+/maps/
+/media/
+/scenes/
+/vpk/
+
+# Tool output
+/audit/
+__pycache__/
