@@ -16,8 +16,8 @@
 			}
 		}
 
-	Also loads resource/amod_city_fogs.txt (daytime city fog overrides) and
-	resource/thunder_locations.txt.
+	Also loads resource/thunder_locations.txt. Only "Night" blocks are used;
+	daytime (and resource/amod_city_fogs.txt, its fog overrides) isn't ported.
 ]]
 
 local KV = HL2A.KV
@@ -27,7 +27,6 @@ local TI = HL2A.TimeInfo
 
 function TI.Load()
 	TI.Maps = {}
-	TI.CityFogs = {}
 	TI.Thunder = {}
 	TI.TriggerCache = setmetatable( {}, { __mode = "k" } )
 
@@ -44,12 +43,6 @@ function TI.Load()
 		end
 	end
 
-	for _, root in ipairs( KV.ParseFile( "resource/amod_city_fogs.txt" ) or {} ) do
-		for _, m in ipairs( istable( root.value ) and root.value or {} ) do
-			if istable( m.value ) then TI.CityFogs[ m.key:lower() ] = KV.ToTable( m.value ) end
-		end
-	end
-
 	for _, root in ipairs( KV.ParseFile( "resource/thunder_locations.txt" ) or {} ) do
 		for _, m in ipairs( istable( root.value ) and root.value or {} ) do
 			if istable( m.value ) then
@@ -62,15 +55,15 @@ function TI.Load()
 		end
 	end
 
-	MsgN( string.format( "[HL2A] time_info: %d maps (theme '%s'), %d city fogs",
-		table.Count( TI.Maps ), theme, table.Count( TI.CityFogs ) ) )
+	MsgN( string.format( "[HL2A] time_info: %d maps (theme '%s')", table.Count( TI.Maps ), theme ) )
 end
 
---- The Day or Night block for the current map, or nil.
+--- The current map's "Night" block, or nil. ("Day" blocks are ignored:
+-- daytime isn't ported.)
 function TI.GetCurrentBlock()
 	local mapBlock = TI.Maps and TI.Maps[ HL2A.Map() ]
 	if not mapBlock then return nil end
-	return KV.Get( mapBlock, HL2A.IsDay() and "Day" or "Night" )
+	return KV.Get( mapBlock, "Night" )
 end
 
 local EMPTY = {}

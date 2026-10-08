@@ -23,11 +23,6 @@ local function buildTarget()
 	local fog = table.Copy( TI.GetSubTable( "fog" ) )
 	local overridden = tobool( fog.fog_override )
 
-	if HL2A.IsDay() and TI.CityFogs and TI.CityFogs[ HL2A.Map() ] then
-		table.Merge( fog, TI.CityFogs[ HL2A.Map() ] )
-		overridden = true
-	end
-
 	local ply = LocalPlayer()
 	local vars = IsValid( ply ) and TI.GetTriggerVars( ply:EyePos() )
 	if vars then

@@ -18,18 +18,16 @@ local function cv( name, default, help )
 end
 
 -- Time of day / atmosphere
-cv( "amod_day", 0, "1 = daytime variant of the map, 0 = night" )
-cv( "amod_day_sky", "", "Override skybox used during the day" )
-cv( "amod_night_sky", "", "Override skybox used at night" )
+-- Daytime (amod_day) isn't ported: with the maps' baked night lighting it
+-- can't look right, so it's being handled as a separate project.
+cv( "amod_night_sky", "", "Override the map's skybox" )
 cv( "amod_sun_disable", 0 )
 cv( "amod_fog_disabled", 0 )
 cv( "hl2a_timeinfo_theme", "", "Sub-folder of resource/time_info to load (e.g. \"snowey coast\", \"hl2 beta\"); empty = default" )
 
 -- Colour correction ("epic filter")
 cv( "amod_epic_filter", 1 )
-cv( "amod_epic_filter_day_filename", "scripts/colorcorrection/cc_daytime.raw" )
 cv( "amod_epic_filter_night_filename", "scripts/colorcorrection/cc_epic_filter.raw" )
-cv( "amod_epic_filter_day_intensity", 1 )
 cv( "amod_epic_filter_night_intensity", 1 )
 cv( "amod_saturation", 1, "Enable the saturation effect" )
 -- The original strength is in materials/effects/view/saturation.vmt (custom shader); tune to match
@@ -114,7 +112,3 @@ cv( "hl2a_normspeed", 165, "Normal move speed (original: hl2_normspeed)" )
 cv( "hl2a_walkspeed", 150, "+walk speed (original: hl2_walkspeed)" )
 cv( "hl2a_sprintspeed", 260, "+speed sprint speed (original: hl2_sprintspeed)" )
 cv( "hl2a_sandbox_loadout", 0, "Give the sandbox physgun/toolgun loadout on spawn (development)" )
-
-function HL2A.IsDay()
-	return HL2A.ConVars.amod_day:GetBool()
-end

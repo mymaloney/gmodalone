@@ -41,7 +41,8 @@ end
 net.Receive( "hl2a.hudhint", function()
 	local msg = net.ReadString()
 	if msg == "" then hint = nil return end
-	hint = { text = expandBinds( language.GetPhrase( ( msg:gsub( "^#", "" ) ) ) ), start = RealTime() }
+	local text = expandBinds( language.GetPhrase( ( msg:gsub( "^#", "" ) ) ) )
+	hint = { text = HL2A.FixHintText( text ) or HL2A.FixHintText( msg ) or text, start = RealTime() }
 end )
 
 hook.Add( "HUDPaint", "hl2a.hudhint", function()

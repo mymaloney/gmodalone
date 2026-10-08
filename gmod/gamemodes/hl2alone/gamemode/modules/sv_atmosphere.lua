@@ -12,10 +12,9 @@ local KV = HL2A.KV
 
 local function applySky()
 	local block = TI.GetCurrentBlock()
-	local day = HL2A.IsDay()
 
-	local sky = ( day and CV.amod_day_sky or CV.amod_night_sky ):GetString()
-	if sky == "" then sky = KV.Get( block, day and "DefaultDaySky" or "DefaultNightSky" ) or "" end
+	local sky = CV.amod_night_sky:GetString()
+	if sky == "" then sky = KV.Get( block, "DefaultNightSky" ) or "" end
 
 	-- Skybox names in time_info may carry a "%lf"-style face suffix
 	sky = sky:gsub( "%%.*$", "" )
@@ -42,15 +41,11 @@ local function wantedFilter()
 	if not CV.amod_epic_filter:GetBool() then return nil end
 
 	local block = TI.GetCurrentBlock()
-	local day = HL2A.IsDay()
 
 	local name = KV.Get( block, "FilterName" )
-	if not name or name == "" then
-		name = ( day and CV.amod_epic_filter_day_filename or CV.amod_epic_filter_night_filename ):GetString()
-	end
+	if not name or name == "" then name = CV.amod_epic_filter_night_filename:GetString() end
 
-	local weight = tonumber( KV.Get( block, "FilterIntensity" ) )
-		or ( day and CV.amod_epic_filter_day_intensity or CV.amod_epic_filter_night_intensity ):GetFloat()
+	local weight = tonumber( KV.Get( block, "FilterIntensity" ) ) or CV.amod_epic_filter_night_intensity:GetFloat()
 
 	local ply = Entity( 1 )
 	if IsValid( ply ) then
@@ -111,9 +106,8 @@ end )
 
 timer.Create( "hl2a.filter", 0.25, 0, updateFilter )
 
-for _, name in ipairs( { "amod_day", "amod_day_sky", "amod_night_sky", "amod_sun_disable", "hl2a_timeinfo_theme",
-	"amod_epic_filter", "amod_epic_filter_day_filename", "amod_epic_filter_night_filename",
-	"amod_epic_filter_day_intensity", "amod_epic_filter_night_intensity" } ) do
+for _, name in ipairs( { "amod_night_sky", "amod_sun_disable", "hl2a_timeinfo_theme",
+	"amod_epic_filter", "amod_epic_filter_night_filename", "amod_epic_filter_night_intensity" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, HL2A.ApplyAtmosphere ) end, "hl2a.atmosphere" )
 end
 

@@ -28,7 +28,6 @@ DATA_GLOBS = [
     "resource/time_info/**/*.txt",
     "resource/songs/*.txt",
     "resource/localization/*.txt",
-    "resource/amod_city_fogs.txt",
     "resource/thunder_locations.txt",
     "resource/Skyboxs.txt",
     "resource/gamelist.txt",

@@ -183,19 +183,41 @@ end
 concommand.Add( "ToggleOptionsPanel", HL2A.ToggleOptionsPanel, nil, "Toggles The Alone Mod Options Panel" )
 
 -- Mirrored view -----------------------------------------------------------------------
--- Flips the rendered frame, and the mouse/strafe input so controls still match the screen.
+-- The whole 3D view (world, viewmodel, screen effects) is rendered into a
+-- render target and drawn flipped in one step. Flipping the finished frame
+-- in RenderScreenspaceEffects instead left the viewmodel drawn un-mirrored
+-- on top after a map load. The HUD isn't part of the scene, so it stays
+-- readable. Mouse and strafe input are flipped too so controls match.
 
 local mirrorMat = CreateMaterial( "hl2a_mirror", "UnlitGeneric", { [ "$basetexture" ] = "_rt_FullFrameFB" } )
+local mirrorRT, mirrorW, mirrorH
+local inMirror = false
 
-hook.Add( "RenderScreenspaceEffects", "hl2a.mirror", function()
-	if not CV.amod_mirrored:GetBool() then return end
-	render.UpdateScreenEffectTexture()
-	mirrorMat:SetTexture( "$basetexture", render.GetScreenEffectTexture() )
+hook.Add( "RenderScene", "hl2a.mirror", function( origin, angles, fov )
+	if inMirror or not CV.amod_mirrored:GetBool() then return end
+
+	local w, h = ScrW(), ScrH()
+	if not mirrorRT or mirrorW ~= w or mirrorH ~= h then
+		mirrorRT = GetRenderTarget( "hl2a_mirror_" .. w .. "x" .. h, w, h )
+		mirrorW, mirrorH = w, h
+	end
+
+	inMirror = true
+	render.PushRenderTarget( mirrorRT )
+		render.Clear( 0, 0, 0, 255, true, true )
+		render.RenderView( { origin = origin, angles = angles, fov = fov, x = 0, y = 0, w = w, h = h,
+			drawhud = false, drawviewmodel = true, dopostprocess = true } )
+	render.PopRenderTarget()
+	inMirror = false
+
+	mirrorMat:SetTexture( "$basetexture", mirrorRT )
 	cam.Start2D()
 		surface.SetDrawColor( 255, 255, 255 )
 		surface.SetMaterial( mirrorMat )
-		surface.DrawTexturedRectUV( 0, 0, ScrW(), ScrH(), 1, 0, 0, 1 )
+		surface.DrawTexturedRectUV( 0, 0, w, h, 1, 0, 0, 1 )
 	cam.End2D()
+
+	return true
 end )
 
 hook.Add( "InputMouseApply", "hl2a.mirror", function( cmd, x, y, ang )

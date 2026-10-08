@@ -109,7 +109,7 @@ hook.Add( "InitPostEntity", "hl2a.weather", function()
 	thunder()
 end )
 
-for _, name in ipairs( { "amod_day", "hl2a_timeinfo_theme", "amod_weather_override", "hl2a_weather_enable",
+for _, name in ipairs( { "hl2a_timeinfo_theme", "amod_weather_override", "hl2a_weather_enable",
 	"amod_weather_type", "amod_weather_do_in_intervals", "amod_weather_wait_min", "amod_weather_wait_max",
 	"amod_weather_rain_density", "amod_weather_rain_splashes" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, HL2A.ApplyWeather ) end, "hl2a.weather" )

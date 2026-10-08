@@ -75,3 +75,17 @@ function HL2A.GetThemes()
 	end
 	return themes
 end
+
+-- The maps tell the player to press TAB to toggle the screen filter. That
+-- filter isn't ported and TAB opens GMod's scoreboard, so point them at F1.
+HL2A.F1_HINT = "Press F1 to open chapter select and options"
+
+--- Replacement for a map message, or nil to keep it.
+function HL2A.FixHintText( text )
+	if not isstring( text ) then return nil end
+	local t = text:lower()
+	if t:find( "filter", 1, true ) and ( t:find( "%f[%w]tab%f[%W]" ) or t:find( "amod_togglefilter", 1, true ) ) then
+		return HL2A.F1_HINT
+	end
+	return nil
+end

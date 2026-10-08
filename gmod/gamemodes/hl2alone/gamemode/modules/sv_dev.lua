@@ -41,7 +41,7 @@ concommand.Add( "hl2a_timeinfo_dump", function( ply )
 	if IsValid( ply ) and not ply:IsListenServerHost() then return end
 
 	local block = HL2A.TimeInfo.GetCurrentBlock()
-	MsgN( "[HL2A] map " .. HL2A.Map() .. ", " .. ( HL2A.IsDay() and "Day" or "Night" ) )
+	MsgN( "[HL2A] time_info for " .. HL2A.Map() )
 	if not block then MsgN( "    no time_info entry" ) return end
 	PrintTable( HL2A.KV.ToTable( block ), 1 )
 end )

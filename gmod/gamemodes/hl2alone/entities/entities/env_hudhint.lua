@@ -9,7 +9,7 @@
 ENT.Type = "point"
 
 function ENT:KeyValue( key, value )
-	if key:lower() == "message" then self.Message = value end
+	if key:lower() == "message" then self.Message = HL2A.FixHintText( value ) or value end
 end
 
 function ENT:AcceptInput( name, activator )

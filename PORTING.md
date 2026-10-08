@@ -76,9 +76,10 @@ tools/
 
 | Feature | Original | Status | Where |
 |---|---|---|---|
-| Day/night per map (`amod_day`) | time_info | **Shelved:** code works (skybox, env_sun, fog, filter), but the maps' baked night lighting makes day look wrong; hidden from the start menu | `sv_atmosphere.lua`, `cl_fog.lua` |
+| Per-map night atmosphere (skybox, env_sun, fog, filter) | time_info "Night" blocks | **Ported** | `sv_atmosphere.lua`, `cl_fog.lua` |
+| Daytime maps (`amod_day`) | time_info "Day" blocks + brightening filter | **Not ported: separate project.** The maps' baked night lighting can't be made to look like day by post-processing (the original only brightened it with `cc_daytime.raw`); doing it properly needs relit maps (VRAD) or a dynamic sun (CSM) | n/a |
 | time_info themes (snowey coast, hl2 beta) | time_info subfolders | **Ported:** `hl2a_timeinfo_theme` | `sh_timeinfo.lua` |
-| Fog + FogCubeTriggers + city fogs | client.dll | **Ported**, with blending | `cl_fog.lua` |
+| Fog + FogCubeTriggers | client.dll | **Ported**, with blending | `cl_fog.lua` |
 | Epic filter / colour correction | client.dll | **Ported** via `color_correction` entity; verify weight changes in-game | `sv_atmosphere.lua` |
 | Saturation, vignette | client.dll + custom shader | **Ported** (Lua screen effects) | `cl_view.lua` |
 | View bob, stand bob, jump/land punch | client.dll | **Approximated:** tune the formulas | `cl_view.lua`, `sv_player.lua` |

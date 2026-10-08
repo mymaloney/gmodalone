@@ -106,6 +106,15 @@ hook.Add( "AcceptInput", "hl2a.mapcommands", function( ent, input, activator, ca
 	return true
 end )
 
+-- Map texts telling the player about the TAB filter -> F1 hint
+local TEXT_CLASSES = { game_text = true, env_message = true, point_message = true }
+
+hook.Add( "EntityKeyValue", "hl2a.f1hint", function( ent, key, value )
+	if key:lower() == "message" and TEXT_CLASSES[ ent:GetClass() ] then
+		return HL2A.FixHintText( value )
+	end
+end )
+
 -- The mod's cfg/game.cfg blanked these error texts after load; same here
 hook.Add( "InitPostEntity", "hl2a.texterror", function()
 	for _, name in ipairs( { "text_error", "text_error2" } ) do
