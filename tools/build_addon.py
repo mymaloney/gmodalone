@@ -60,8 +60,20 @@ EXCLUDE = set()
 excluded_bytes = 0
 
 
+def find_list(f: Path):
+    """An --exclude path as given, or relative to the repo root or tools/."""
+    for candidate in (f, REPO / f, REPO / "tools" / f):
+        if candidate.is_file():
+            return candidate
+    return None
+
+
 def load_excludes(lists):
-    for f in lists:
+    for given in lists:
+        f = find_list(given)
+        if not f:
+            print(f"warning  --exclude list not found, skipping: {given}")
+            continue
         for line in f.read_text(encoding="utf-8").splitlines():
             line = line.strip()
             if line and not line.startswith("#"):
