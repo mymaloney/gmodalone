@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""
+r"""
 Assemble the Garry's Mod addon for Half-Life 2: Alone.
 
 Combines:

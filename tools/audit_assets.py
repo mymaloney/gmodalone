@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""
+r"""
 Audit the mod's assets for Garry's Mod porting problems.
 
   * Maps (maps/*.bsp): entity classes used, and every amod_*/custom console
