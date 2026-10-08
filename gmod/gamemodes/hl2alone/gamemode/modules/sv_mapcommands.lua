@@ -27,6 +27,17 @@ end
 
 local function ignore() end
 
+function HL2A.MapCommandChangeLevel( cmd, args )
+	local map, landmark = args:match( "^(%S+)%s*(%S*)" )
+	if not map then return end
+	if not file.Exists( "maps/" .. map .. ".bsp", "GAME" ) then
+		MsgN( "[HL2A] map-fired " .. cmd .. " to missing map '" .. map .. "'" )
+		return
+	end
+	MsgN( "[HL2A] map-fired " .. cmd .. " " .. args )
+	if landmark ~= "" then RunConsoleCommand( cmd, map, landmark ) else RunConsoleCommand( cmd, map ) end
+end
+
 -- handler( ply, args ) where ply is the command's target player (may be NULL)
 local HANDLERS = {
 	quit = function( _, _, ent )
@@ -34,6 +45,12 @@ local HANDLERS = {
 	end,
 	exit = function( ply, args, ent ) MsgN( "[HL2A] blocked 'exit' fired by " .. tostring( ent ) ) end,
 	disconnect = function( ply, args, ent ) MsgN( "[HL2A] blocked 'disconnect' fired by " .. tostring( ent ) ) end,
+
+	-- Level changes fired as commands. GMod won't run these from map
+	-- entities, so the transition silently never happened.
+	changelevel = function( _, args ) HL2A.MapCommandChangeLevel( "changelevel", args ) end,
+	changelevel2 = function( _, args ) HL2A.MapCommandChangeLevel( "changelevel", args ) end,
+	map = function( _, args ) HL2A.MapCommandChangeLevel( "map", args ) end,
 
 	amod_rain_stopsounds = function( ply ) toClient( ply, "rain_stopsounds" ) end,
 	amod_startcreditssong = function( ply ) toClient( ply, "credits_song" ) end,
