@@ -3,7 +3,8 @@
 	rain from the original mod (which can't be spawned at runtime in GMod).
 
 	Drops spawn in a radius around the player, only where a trace upward
-	reaches the sky, so interiors stay dry.
+	reaches the sky, so interiors stay dry. The ambience is in
+	cl_weathersound.lua.
 ]]
 
 local CV = HL2A.ConVars
@@ -14,23 +15,9 @@ local TYPES = {
 	[ 3 ] = { mat = "particle/snow", speed = 60, size = 1.5, len = 0, color = Color( 60, 55, 50 ), alpha = 200, rate = 0.25, sway = 25 },
 }
 
--- Looping ambience while it rains; swap for the mod's own rain sound if it has one
-local RAIN_LOOP = "ambient/weather/rumble_rain_nowind.wav"
-
 local MAX_PER_FRAME = 40
 local emitter
-local loop
-local loopMuted = false
 local accum = 0
-
-HL2A.Weather = HL2A.Weather or {}
-
---- Maps fire amod_rain_stopsounds to silence the rain ambience (e.g. underground)
-function HL2A.Weather.MuteLoop()
-	loopMuted = true
-	if loop then loop:Stop() end
-	loop = nil
-end
 
 local function skyAbove( pos )
 	local tr = util.TraceLine( { start = pos, endpos = pos + Vector( 0, 0, 16384 ), mask = MASK_SOLID_BRUSHONLY } )
@@ -75,27 +62,14 @@ local function spawnDrop( def, center, radius, splashes )
 	if def.len > 0 and splashes then p:SetCollideCallback( onCollide ) end
 end
 
-local function stopLoop()
-	if loop then loop:Stop() end
-	loop = nil
-end
-
 hook.Add( "Think", "hl2a.weather", function()
 	local kind = GetGlobal2Int( "hl2a.weather.type" )
 	local def = TYPES[ kind ]
 	local ply = LocalPlayer()
 
-	if not def or not GetGlobal2Bool( "hl2a.weather.active" ) or not IsValid( ply ) then
-		stopLoop()
-		return
-	end
+	if not def or not GetGlobal2Bool( "hl2a.weather.active" ) or not IsValid( ply ) then return end
 
 	emitter = emitter or ParticleEmitter( vector_origin, false )
-
-	if kind == 1 and not loop and not loopMuted and file.Exists( "sound/" .. RAIN_LOOP, "GAME" ) then
-		loop = CreateSound( ply, RAIN_LOOP )
-		loop:PlayEx( 0.5, 100 )
-	end
 
 	-- r_raindensity 0.001 ~= 400 drops/sec
 	local perSec = math.Clamp( GetGlobal2Float( "hl2a.weather.density" ) * 400000, 30, 1500 ) * def.rate
@@ -108,25 +82,4 @@ hook.Add( "Think", "hl2a.weather", function()
 	local n = math.min( math.floor( accum ), MAX_PER_FRAME )
 	accum = accum - math.floor( accum )
 	for _ = 1, n do spawnDrop( def, center, radius, splashes ) end
-end )
-
--- Thunder flash ---------------------------------------------------------------
-
-local flashUntil, flashStrength = 0, 0
-
-net.Receive( "hl2a.thunder", function()
-	flashStrength = math.Rand( 0.15, 0.35 )
-	flashUntil = CurTime() + 0.25
-end )
-
-hook.Add( "RenderScreenspaceEffects", "hl2a.thunder", function()
-	local left = flashUntil - CurTime()
-	if left <= 0 then return end
-	-- Two quick pulses
-	local pulse = math.abs( math.sin( left * 25 ) ) * flashStrength
-	DrawColorModify( {
-		[ "$pp_colour_addr" ] = 0, [ "$pp_colour_addg" ] = 0, [ "$pp_colour_addb" ] = 0,
-		[ "$pp_colour_brightness" ] = pulse, [ "$pp_colour_contrast" ] = 1, [ "$pp_colour_colour" ] = 1,
-		[ "$pp_colour_mulr" ] = 0, [ "$pp_colour_mulg" ] = 0, [ "$pp_colour_mulb" ] = 0,
-	} )
 end )

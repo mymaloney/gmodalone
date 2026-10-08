@@ -14,6 +14,7 @@ HL2A.OptionConVars = {
 	amod_soundscapes_disable = true, amod_music_disable = true,
 	amod_songs_transition_through_levels = true, amod_do_citadel_timer = true,
 	amod_do_core_timer = true, hl2a_achievement_notifications_disable = true,
+	amod_weather_thunder = true, amod_do_breathing = true,
 }
 
 hook.Add( "PlayerFootstep", "hl2a.nofootsteps", function()

@@ -3,8 +3,8 @@
 
 	Settings come from the map's time_info "weather" block, or from the
 	amod_weather_* convars when amod_weather_override is 1. Supports running
-	in intervals (on for a random wait, off for a random wait) and thunder at
-	the map's resource/thunder_locations.txt origins.
+	in intervals (on for a random wait, off for a random wait). Rain, snow and
+	thunder sounds are played client-side (cl_weathersound.lua).
 
 	Networked via GlobalVar2:
 		hl2a.weather.type     0 none, 1 rain, 2 snow, 3 ash
@@ -12,12 +12,11 @@
 		hl2a.weather.density  RainIntensity / amod_weather_rain_density
 		hl2a.weather.splashes
 		hl2a.weather.radius   r_RainRadius from cfg/rain/<map>.cfg (0 = no weather on this map)
+		hl2a.weather.thunder  amod_weather_thunder
 ]]
 
 local CV = HL2A.ConVars
 local TI = HL2A.TimeInfo
-
-util.AddNetworkString( "hl2a.thunder" )
 
 local DEFAULT_RADIUS = 2000
 
@@ -76,6 +75,7 @@ function HL2A.ApplyWeather()
 	SetGlobal2Float( "hl2a.weather.density", cfg.density )
 	SetGlobal2Bool( "hl2a.weather.splashes", cfg.splashes )
 	SetGlobal2Float( "hl2a.weather.radius", radius )
+	SetGlobal2Bool( "hl2a.weather.thunder", CV.amod_weather_thunder:GetBool() )
 
 	timer.Remove( "hl2a.weather.interval" )
 	if on then setActive( not cfg.intervals ) else SetGlobal2Bool( "hl2a.weather.active", false ) end
@@ -88,29 +88,10 @@ function HL2A.ApplyWeather()
 	end
 end
 
-local function thunder()
-	timer.Create( "hl2a.thunder", math.Rand( 8, 30 ), 1, thunder )
-
-	if not CV.amod_weather_thunder:GetBool() then return end
-	if not GetGlobal2Bool( "hl2a.weather.active" ) or GetGlobal2Int( "hl2a.weather.type" ) ~= 1 then return end
-
-	local spots = TI.GetThunderLocations()
-	if #spots == 0 then return end
-	local pos = spots[ math.random( #spots ) ]
-
-	EmitSound( "weather.thunder", pos, 0 )
-	net.Start( "hl2a.thunder" )
-		net.WriteVector( pos )
-	net.Broadcast()
-end
-
-hook.Add( "InitPostEntity", "hl2a.weather", function()
-	HL2A.ApplyWeather()
-	thunder()
-end )
+hook.Add( "InitPostEntity", "hl2a.weather", function() HL2A.ApplyWeather() end )
 
 for _, name in ipairs( { "hl2a_timeinfo_theme", "amod_weather_override", "hl2a_weather_enable",
 	"amod_weather_type", "amod_weather_do_in_intervals", "amod_weather_wait_min", "amod_weather_wait_max",
-	"amod_weather_rain_density", "amod_weather_rain_splashes" } ) do
+	"amod_weather_rain_density", "amod_weather_rain_splashes", "amod_weather_thunder" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, HL2A.ApplyWeather ) end, "hl2a.weather" )
 end

@@ -119,7 +119,19 @@ HL2A.MapPatches.ep1_citadel_03_d = function()
 	end
 end
 
+-- Brushes every map may carry, set up by server.dll on each load: the old
+-- cloud brush goes (the mod's clouds were drawn by the client instead),
+-- the night-only brushes are switched on and the background brush is
+-- reset to full colour (the cut daytime mode tinted it).
+local function generalBrushes()
+	for _, ent in ipairs( ents.FindByName( "brush_clouds" ) ) do remove( ent ) end
+	for _, ent in ipairs( ents.FindByName( "_brush_night" ) ) do ent:Fire( "Enable" ) end
+	for _, ent in ipairs( ents.FindByName( "_brush_bg" ) ) do ent:SetColor( color_white ) end
+end
+
 hook.Add( "InitPostEntity", "hl2a.mappatches", function()
+	generalBrushes()
+
 	local patch = HL2A.MapPatches[ HL2A.Map() ]
 	if patch then
 		MsgN( "[HL2A] applying map patch for " .. HL2A.Map() )

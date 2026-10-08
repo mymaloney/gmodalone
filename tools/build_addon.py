@@ -39,6 +39,7 @@ DATA_GLOBS = [
     "scripts/game_sounds_*.txt",
     "scripts/level_sounds_*.txt",
     "scripts/npc_sounds_*.txt",
+    "scripts/soundscapes*.txt",  # rain/snow/thunder layers (cl_weathersound.lua)
     "particles/particles_manifest.txt",
 ]
 
