@@ -19,10 +19,8 @@ Report what could make the HL2 Alone addon smaller.
 Writes <out>/size_report.md plus plain path lists. duplicates.txt and
 unused.txt can be passed to build_addon.py --exclude.
 
-Usage:
-  python tools/size_report.py --assets "C:\mods\HL2_AloneMod" ^
-      --game "C:\Program Files (x86)\Steam\steamapps\common\Half-Life 2" ^
-      --game "C:\Program Files (x86)\Steam\steamapps\common\GarrysMod" --out audit
+Usage (one line; in PowerShell use ` to continue lines, in cmd.exe ^):
+  python tools/size_report.py --assets "C:\mods\HL2_AloneMod" --game "C:\Steam\steamapps\common\Half-Life 2" --game "C:\Steam\steamapps\common\GarrysMod" --out audit
 """
 
 import argparse

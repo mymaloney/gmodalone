@@ -63,11 +63,13 @@ tools/
 
 ## Reducing the addon's size
 
-```sh
-python tools/size_report.py --assets "<your full HL2 Alone folder>" \
-    --game "<Steam>/steamapps/common/Half-Life 2" \
-    --game "<Steam>/steamapps/common/GarrysMod" --out audit
 ```
+python tools/size_report.py --assets "<your full HL2 Alone folder>" --game "<Steam>/steamapps/common/Half-Life 2" --game "<Steam>/steamapps/common/GarrysMod" --out audit
+```
+
+Give `--assets` the same folder you pass to `build_addon.py --assets`, so the
+lists match when you rebuild. To split long commands over several lines, end
+each line with `` ` `` in PowerShell or `^` in cmd.exe.
 
 Each `--game` folder's `*_dir.vpk` archives are read; include every game
 the mod mounted (HL2, the episodes, Portal, Lost Coast) and GMod itself,
@@ -90,9 +92,8 @@ which bundles HL2 content. `audit/size_report.md` lists:
 
 Apply the lists you approve when building:
 
-```sh
-python tools/build_addon.py --out ... --assets ... \
-    --exclude audit/duplicates.txt --exclude audit/unused.txt
+```
+python tools/build_addon.py --out ... --assets ... --exclude audit/duplicates.txt --exclude audit/unused.txt
 ```
 
 ## Where things go in the built addon
