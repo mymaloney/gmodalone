@@ -244,7 +244,12 @@ class Tracer:
             if rel.endswith(".vmt"):
                 self.scan_vmt(path.read_text(encoding="latin-1", errors="replace"), why)
             elif rel.endswith(".mdl"):
-                for m in mdl_materials(path.read_bytes()):
+                try:
+                    mats = mdl_materials(path.read_bytes())
+                except (struct.error, ValueError) as e:
+                    print(f"  couldn't read model {rel}: {e}")
+                    mats = []
+                for m in mats:
                     self.material(m, why)
             elif rel.endswith(".pcf"):
                 for m in re.findall(rb"[\w/\\\-.]+\.vmt", path.read_bytes()):
@@ -335,22 +340,31 @@ def data_strings(assets: Path):
 # --- Report ------------------------------------------------------------------------
 
 def wav_seconds(path: Path):
-    with path.open("rb") as f:
-        head = f.read(64)
-    if head[:4] != b"RIFF" or head[8:12] != b"WAVE":
+    """Duration of a .wav in seconds, or None if it can't be read. Walks the
+    RIFF chunks, since editors often put LIST/bext/etc. before "fmt "."""
+    try:
+        with path.open("rb") as f:
+            head = f.read(12)
+            if len(head) < 12 or head[:4] != b"RIFF" or head[8:12] != b"WAVE":
+                return None
+            while True:
+                chunk = f.read(8)
+                if len(chunk) < 8:
+                    return None
+                cid, size = chunk[:4], struct.unpack("<I", chunk[4:])[0]
+                if cid == b"fmt ":
+                    fmt = f.read(min(size, 16))
+                    if len(fmt) < 16:
+                        return None
+                    _tag, channels, rate, byte_rate, _align, bits = struct.unpack("<HHIIHH", fmt)
+                    if byte_rate:
+                        return path.stat().st_size / byte_rate  # also right for compressed (ADPCM) wavs
+                    if rate and channels and bits:
+                        return path.stat().st_size / (rate * channels * bits / 8)
+                    return None
+                f.seek(size + (size & 1), 1)  # chunks are word-aligned
+    except (OSError, struct.error):
         return None
-    i = 12
-    rate = channels = bits = None
-    data = head
-    while i + 8 <= len(data):
-        cid, size = data[i:i + 4], struct.unpack_from("<I", data, i + 4)[0]
-        if cid == b"fmt ":
-            _fmt, channels, rate, _br, _ba, bits = struct.unpack_from("<HHIIHH", data, i + 8)
-            break
-        i += 8 + size
-    if not rate or not channels or not bits:
-        return None
-    return path.stat().st_size / (rate * channels * bits / 8)
 
 
 def main():
@@ -425,11 +439,13 @@ def main():
         why = f"map {name}"
         try:
             bsp = Bsp(p)
-        except Exception as e:  # noqa: BLE001
+            info = {"compressed": bsp.compressed(), "targets": set()}
+            ents = bsp.entities()
+            map_materials = bsp.materials()
+        except Exception as e:  # noqa: BLE001 - report and carry on
             print(f"  skipped map {name}: {e}")
             continue
-        info = {"compressed": bsp.compressed(), "targets": set()}
-        for kvs in bsp.entities():
+        for kvs in ents:
             d = {k.lower(): v for k, v in kvs}
             cls = d.get("classname", "")
             if cls == "worldspawn" and d.get("skyname"):
@@ -445,18 +461,23 @@ def main():
                         info["targets"].update(m.lower() for m in re.findall(r"(?:changelevel2?|map)\s+([\w\-]+)", parts[2]))
                     continue
                 tracer.value(v, why, soundscripts)
-        for m in bsp.materials():
+        for m in map_materials:
             tracer.material(m, why)
             base = re.sub(rf"^maps/{re.escape(name)}/", "", m)
             base = re.sub(r"(_wvt_patch|_-?\d+_-?\d+_-?\d+)$", "", base)
             tracer.material(base, why)
-        for mdl in bsp.static_prop_models():
-            tracer.model(mdl, why)
-        pak = bsp.pakfile()
-        if pak:
-            for zi in pak.infolist():
+        try:
+            for mdl in bsp.static_prop_models():
+                tracer.model(mdl, why)
+        except (struct.error, ValueError, lzma.LZMAError) as e:
+            print(f"  couldn't read static props of {name}: {e}")
+        try:
+            pak = bsp.pakfile()
+            for zi in (pak.infolist() if pak else []):
                 if zi.filename.lower().endswith(".vmt"):
                     tracer.scan_vmt(pak.read(zi).decode("latin-1", "replace"), f"{why} (embedded material)")
+        except (zipfile.BadZipFile, NotImplementedError, OSError, ValueError) as e:
+            print(f"  couldn't read embedded content of {name}: {e}")
         for ext in (".nav", ".ain"):
             tracer.mark(f"maps/{name}{ext}", why)
             tracer.mark(f"maps/graphs/{name}{ext}", why)
@@ -505,8 +526,11 @@ def main():
     vtfs = []
     for rel in files:
         if rel.endswith(".vtf") and sizes[rel] > 256 * 1024 and rel not in dup_set:
-            with files[rel].open("rb") as f:
-                head = f.read(64)
+            try:
+                with files[rel].open("rb") as f:
+                    head = f.read(64)
+            except OSError:
+                continue
             if head[:4] == b"VTF\0" and len(head) >= 56:
                 fmt = struct.unpack_from("<i", head, 52)[0]
                 if fmt in UNCOMPRESSED_VTF:
