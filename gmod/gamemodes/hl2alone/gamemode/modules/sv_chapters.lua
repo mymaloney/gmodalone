@@ -43,5 +43,6 @@ concommand.Add( "hl2a_chapter", function( ply, _, args )
 		return
 	end
 
+	hook.Run( "HL2A.NewGame", prefix, n, map )
 	RunConsoleCommand( "changelevel", map )
 end, nil, "Start a chapter: hl2a_chapter <game> <chapter>" )

@@ -91,6 +91,10 @@ cv( "amod_music_disable", 0 )
 cv( "amod_songs_transition_through_levels", 1 )
 cv( "hl2a_music_volume", 1 )
 
+-- Episode One countdowns (amod_core_timer entity)
+cv( "amod_do_core_timer", 1 )
+cv( "amod_do_citadel_timer", 1 )
+
 -- Player
 cv( "amod_enable_god", 0 )
 -- Original mod set hl2_normspeed/hl2_walkspeed/hl2_sprintspeed in autoexec.cfg;

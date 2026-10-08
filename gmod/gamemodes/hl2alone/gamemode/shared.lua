@@ -51,6 +51,13 @@ local FILES = {
 	"modules/cl_weather.lua",
 	"modules/cl_music.lua",
 	"modules/sv_chapters.lua",
+	"modules/sv_mapcommands.lua",
+	"modules/cl_mapcommands.lua",
+	"modules/sv_timers.lua",
+	"modules/sv_mappatches.lua",
+	"modules/sh_achievements.lua",
+	"modules/sv_achievements.lua",
+	"modules/cl_achievements.lua",
 	"modules/sv_dev.lua",
 }
 

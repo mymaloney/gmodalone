@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""
+r"""
 Audit the mod's assets for Garry's Mod porting problems.
 
   * Maps (maps/*.bsp): entity classes used, and every amod_*/custom console
@@ -75,10 +75,40 @@ def output_parts(value: str):
     return parts if len(parts) >= 5 else None
 
 
+# Commands whose I/O chain is traced in the report
+TRACE_COMMANDS = ("quit",)
+
+
+def trace_command(ents, cmd: str):
+    """Describe which outputs fire `cmd` and what triggers those entities (one level up)."""
+    by_name = {}
+    outputs = []  # (src_class, src_name, output, target, input, param)
+    for kvs in ents:
+        d = dict(kvs)
+        cls, name = d.get("classname", "?"), d.get("targetname", "")
+        if name:
+            by_name.setdefault(name.lower(), []).append(cls)
+        for k, v in kvs:
+            parts = output_parts(v)
+            if parts:
+                outputs.append((cls, name, k, parts[0], parts[1], parts[2], parts[3]))
+
+    lines = []
+    for cls, name, out, target, inp, param, delay in outputs:
+        if inp.lower() == "command" and param.strip().lower() == cmd:
+            lines.append(f"{cls} '{name}' {out} -> {target}.Command \"{param}\" (delay {delay})")
+            if name:
+                for c2, n2, o2, t2, i2, p2, d2 in outputs:
+                    if t2.lower() == name.lower():
+                        lines.append(f"    triggered by {c2} '{n2}' {o2} -> {i2} {p2}".rstrip())
+    return lines
+
+
 def audit_maps(assets: Path):
     classes = Counter()
     class_maps = defaultdict(set)
     commands = defaultdict(set)
+    traces = {}
     errors = []
 
     for bsp in sorted((assets / "maps").glob("*.bsp")):
@@ -87,6 +117,11 @@ def audit_maps(assets: Path):
         except Exception as e:  # noqa: BLE001 - report and continue
             errors.append(f"{bsp.name}: {e}")
             continue
+
+        for cmd in TRACE_COMMANDS:
+            t = trace_command(ents, cmd)
+            if t:
+                traces[(cmd, bsp.stem)] = t
 
         for kvs in ents:
             cls = next((v for k, v in kvs if k == "classname"), None)
@@ -103,7 +138,7 @@ def audit_maps(assets: Path):
                 elif "amod" in v.lower():
                     commands[f"{k} = {v}"].add(bsp.stem)
 
-    return classes, class_maps, commands, errors
+    return classes, class_maps, commands, traces, errors
 
 
 def audit_materials(assets: Path):
@@ -134,7 +169,7 @@ def main():
 
     lines = ["# HL2 Alone asset audit", ""]
 
-    classes, class_maps, commands, errors = audit_maps(args.assets)
+    classes, class_maps, commands, traces, errors = audit_maps(args.assets)
     lines += [f"## Maps", "", f"{len(classes)} entity classes across the maps.", ""]
     if errors:
         lines += ["Unreadable maps:", *[f"- {e}" for e in errors], ""]
@@ -143,6 +178,17 @@ def main():
     for cmd in sorted(commands):
         maps = sorted(commands[cmd])
         lines.append(f"- `{cmd}` ({len(maps)} maps: {', '.join(maps[:6])}{' ...' if len(maps) > 6 else ''})")
+
+    if traces:
+        lines += ["", "### Where traced commands come from", ""]
+        shown = set()
+        for (cmd, m), t in sorted(traces.items()):
+            key = tuple(t)
+            if key in shown:
+                lines.append(f"- `{m}`: same as above")
+                continue
+            shown.add(key)
+            lines += [f"- `{m}` ({cmd}):", "  ```", *[f"  {l}" for l in t], "  ```"]
 
     lines += ["", "### Entity classes", "", "| class | count | maps |", "|---|---|---|"]
     for cls, n in classes.most_common():
