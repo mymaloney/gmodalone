@@ -39,9 +39,15 @@ local function flagBit( name )
 	return b and bit.lshift( 1, b ) or nil
 end
 
+-- Material names may be written as .vmt paths ("materials/nature/x.vmt")
+local function normalizeName( name )
+	name = name:lower():gsub( "\\", "/" )
+	return ( name:gsub( "^materials/", "" ):gsub( "%.vmt$", "" ) )
+end
+
 -- "*" / "?" wildcard -> Lua pattern
 local function globToPattern( glob )
-	local p = glob:lower():gsub( "\\", "/" ):gsub( "[%^%$%(%)%%%.%[%]%+%-]", "%%%0" )
+	local p = normalizeName( glob ):gsub( "[%^%$%(%)%%%.%[%]%+%-]", "%%%0" )
 	return "^" .. p:gsub( "%*", ".*" ):gsub( "%?", "." ) .. "$"
 end
 
@@ -123,6 +129,45 @@ local function restore()
 	saved = {}
 end
 
+-- Entries of a material block, or nil if the block holds no Var/Flag entries
+local function entriesOf( block )
+	local entries
+	for _, e in ipairs( block ) do
+		if istable( e.value ) then
+			local t = KV.ToTable( e.value )
+			if t.flag then
+				entries = entries or {}
+				entries[ #entries + 1 ] = { flag = t.flag, state = t.state }
+			elseif t.var then
+				entries = entries or {}
+				entries[ #entries + 1 ] = { var = t.var, value = t.value, type = t.type }
+			end
+		end
+	end
+	return entries
+end
+
+--- Rules ({ name, pattern, entries }) from .smf text. The DLL loads the file
+-- with KeyValues::LoadFromFile, so material blocks normally sit inside one
+-- root block; blocks without Var/Flag entries are searched one level deeper.
+function HL2A.ParseSnowRules( text )
+	local rules = {}
+	local function walk( block, depth )
+		for _, m in ipairs( block ) do
+			if istable( m.value ) then
+				local entries = entriesOf( m.value )
+				if entries then
+					rules[ #rules + 1 ] = { name = m.key, pattern = globToPattern( m.key ), entries = entries }
+				elseif depth < 3 then
+					walk( m.value, depth + 1 )
+				end
+			end
+		end
+	end
+	walk( KV.Parse( text ), 0 )
+	return rules
+end
+
 local function wanted()
 	if CV.amod_weather_override:GetBool() then return CV.amod_weather_snow_show_on_maps:GetBool() end
 	return HL2A.TimeInfo.GetSubTable( "weather" ).showsnowonmaps == "1"
@@ -139,24 +184,7 @@ function HL2A.ApplySnowMaterials()
 		return
 	end
 
-	-- Parse rules: pattern -> list of entries
-	local rules = {}
-	for _, m in ipairs( KV.Parse( text ) ) do
-		if istable( m.value ) then
-			local entries = {}
-			for _, e in ipairs( m.value ) do
-				if istable( e.value ) then
-					local t = KV.ToTable( e.value )
-					if t.flag then
-						entries[ #entries + 1 ] = { flag = t.flag, state = t.state }
-					elseif t.var then
-						entries[ #entries + 1 ] = { var = t.var, value = t.value, type = t.type }
-					end
-				end
-			end
-			rules[ #rules + 1 ] = { pattern = globToPattern( m.key ), entries = entries }
-		end
-	end
+	local rules = HL2A.ParseSnowRules( text )
 
 	local changed = 0
 	for _, name in ipairs( mapMaterials( map ) ) do
@@ -178,6 +206,29 @@ function HL2A.ApplySnowMaterials()
 end
 
 hook.Add( "InitPostEntity", "hl2a.snowmaterials", HL2A.ApplySnowMaterials )
+
+-- Shows what the .smf contains and how it matches this map's materials
+concommand.Add( "hl2a_snow_debug", function()
+	local map = HL2A.Map()
+	local text = file.Read( "maps/snow_materials/" .. map .. ".smf", "GAME" )
+	MsgN( "[HL2A] snow debug for " .. map .. ": snow wanted = " .. tostring( wanted() ) )
+	if not text then MsgN( "  no .smf found" ) return end
+	MsgN( "  .smf starts with: " .. text:sub( 1, 300 ):gsub( "%s+", " " ) )
+
+	local mats = mapMaterials( map )
+	MsgN( "  map uses " .. #mats .. " materials, e.g. " .. table.concat( mats, ", ", 1, math.min( 5, #mats ) ) )
+
+	local rules = HL2A.ParseSnowRules( text )
+	MsgN( "  " .. #rules .. " rules:" )
+	for i, r in ipairs( rules ) do
+		if i > 15 then MsgN( "  ..." ) break end
+		local hits = 0
+		for _, name in ipairs( mats ) do
+			if unpatched( name, map ):find( r.pattern ) or name:find( r.pattern ) then hits = hits + 1 end
+		end
+		MsgN( string.format( "    %-40s %d entries, matches %d", r.name, #r.entries, hits ) )
+	end
+end )
 hook.Add( "ShutDown", "hl2a.snowmaterials", restore )
 
 concommand.Add( "amod_weather_snow_reload", HL2A.ApplySnowMaterials, nil, "Reloads the .smf for the current map" )
