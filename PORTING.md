@@ -139,7 +139,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | View bob, stand bob, jump/land punch | client.dll | **Approximated:** tune the formulas | `cl_view.lua`, `sv_player.lua` |
 | Flashlight flicker + lag | client.dll | **Ported** (ProjectedTexture) | `cl_flashlight.lua` |
 | Rain / snow / ash, intervals | func_precipitation + DLL | **Ported** (Lua particles); rain cfg radius used | `sv_weather.lua`, `cl_weather.lua` |
-| Rain / snow / thunder ambience | client.dll soundscape layers (`RainSoundscape`, `RainSoundscapeKV`, `RainVolume`, Snow…/Thunder… keys) | **Ported:** the active soundscape is tracked server-side; its weather soundscape is layered on while it rains/snows. Thunder (`amod_weather_thunder`) flashes the screen | `sv_soundscapes.lua`, `cl_weathersound.lua` |
+| Rain / snow / thunder ambience | client.dll soundscape layers (`RainSoundscape`, `RainSoundscapeKV`, `RainVolume`, Snow…/Thunder… keys) | **Ported:** the active soundscape is tracked server-side; its weather soundscape is layered on while it rains/snows. Thunder (`amod_weather_thunder`): each strike gets a random distance; close = bright flash, near-instant loud clap; far = dim flash, quieter clap up to ~5 s later | `sv_soundscapes.lua`, `cl_weathersound.lua` |
 | Visible breath (`amod_do_breathing`) | server.dll timer + client.dll `amod_do_breath` | **Ported** from disassembly (fog_breath particle, `player/breathe2.wav`) | `sh_breath.lua` |
 | Per-map bloom (`BloomEnabled`/`BloomScale`/`BloomScalarFactor`) | time_info + client.dll | **Approximated:** HDR maps scale `mat_bloom_scalefactor_scalar`; LDR maps get a DrawBloom pass. `hl2a_bloom 0` turns it off | `cl_bloom.lua` |
 | Map brushes `brush_clouds`, `_brush_night`, `_brush_bg` | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
@@ -177,6 +177,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `ToggleOptionsPanel` | Options panel |
 | `amod_do_breath` | Breathe once (fog puff + sound) |
 | `hl2a_weathersound_debug` | Show the tracked soundscape and the rain/snow/thunder layers playing |
+| `hl2a_thunder_test` | One thunder strike at a random distance (flash, delay, clap) |
 | `amod_weather_snow_reload` | Re-apply the current map's `.smf` snow materials |
 | `hl2a_snow_debug` | Show the current map's `.smf` rules and how many materials each matches |
 | `ToggleSongPanel` | Song panel (original bind: `x`) |

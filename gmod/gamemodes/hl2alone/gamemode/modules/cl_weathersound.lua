@@ -9,7 +9,8 @@
 
 	Without those keys rain is "common.rain" (outdoors; soundscapes named
 	"inside" or "citadel" get none), snow is "common.snowfall" and thunder,
-	with amod_weather_thunder on, is "common.thunder".
+	with amod_weather_thunder on, is "common.thunder". Each thunder clap
+	gets a random distance that sets its flash, delay and loudness.
 
 	The current soundscape name comes from sv_soundscapes.lua. Supports the
 	rules the weather soundscapes use: playlooping, playrandom (wave/rndwave,
@@ -148,7 +149,9 @@ function Layer:Think( now, eye )
 			local vol = rand( KV.Get( r.body, "volume" ), 1 ) * r.volume
 			local pitch = rand( KV.Get( r.body, "pitch" ), 100 )
 
-			if ( KV.Get( r.body, "position" ) or "" ):lower() == "random" then
+			if self.onRandom then
+				self.onRandom( path, r.volume, pitch, eye ) -- the layer plays it itself (thunder)
+			elseif ( KV.Get( r.body, "position" ) or "" ):lower() == "random" then
 				local dir = VectorRand()
 				dir.z = math.abs( dir.z ) * 0.5
 				dir:Normalize()
@@ -156,7 +159,6 @@ function Layer:Think( now, eye )
 			else
 				LocalPlayer():EmitSound( path, 0, pitch, vol, CHAN_STATIC )
 			end
-			if self.onRandom then self.onRandom( path ) end
 		end
 	end
 	for _, c in ipairs( self.children ) do c:Think( now, eye ) end
@@ -176,10 +178,43 @@ end
 local active = {} -- kind -> { layer, key }
 local muted = false
 
-local flashUntil, flashStrength = 0, 0
-local function thunderFlash()
-	flashStrength = math.Rand( 0.15, 0.35 )
-	flashUntil = CurTime() + 0.25
+-- Thunder: each strike gets a random distance. Close strikes flash bright
+-- and clap almost at once, loud and sharp; distant ones flash dimly and
+-- rumble in a few seconds later, quieter and lower.
+local THUNDER = {
+	flash = { 0.55, 0.07 },     -- brightness, close -> far
+	flashTime = { 0.35, 0.6 },  -- seconds
+	delay = { 0.05, 5 },        -- flash-to-clap seconds (sound travelling ~340 m/s)
+	volume = { 1, 0.25 },       -- times ThunderVolume
+	pitch = { 105, 88 },
+	soundDist = { 300, 1500 },  -- where the clap comes from, for direction only
+}
+
+local flash -- { start, length, strength, flickers }
+
+local function lerpBy( d, pair ) return Lerp( d, pair[ 1 ], pair[ 2 ] ) end
+
+local function thunderStrike( path, volume, pitch, eye )
+	local d = math.random() -- 0 = overhead, 1 = far away
+
+	flash = {
+		start = CurTime(),
+		length = lerpBy( d, THUNDER.flashTime ),
+		strength = lerpBy( d, THUNDER.flash ) * math.Rand( 0.85, 1.15 ),
+		flickers = math.random( 2, d < 0.4 and 4 or 2 ),
+	}
+
+	local dir = VectorRand()
+	dir.z = math.abs( dir.z ) * 0.5
+	dir:Normalize()
+	local pos = eye + dir * lerpBy( d, THUNDER.soundDist )
+	local vol = math.min( lerpBy( d, THUNDER.volume ) * volume, 1 )
+	local pit = lerpBy( d, THUNDER.pitch ) + ( pitch - 100 ) * 0.5
+
+	timer.Simple( lerpBy( d, THUNDER.delay ) * math.Rand( 0.8, 1.2 ), function()
+		if muted then return end
+		sound.Play( path, pos, 0, pit, vol )
+	end )
 end
 
 local function setLayer( kind, scapeName )
@@ -193,7 +228,7 @@ local function setLayer( kind, scapeName )
 	if cur then cur.layer:Stop() end
 	active[ kind ] = nil
 	if rules then
-		active[ kind ] = { key = key, layer = newLayer( rules, volume, kind == "thunder" and thunderFlash or nil ) }
+		active[ kind ] = { key = key, layer = newLayer( rules, volume, kind == "thunder" and thunderStrike or nil ) }
 	end
 end
 
@@ -228,16 +263,26 @@ hook.Add( "ShutDown", "hl2a.weathersound", stopAll )
 -- Thunder flash -----------------------------------------------------------------------
 
 hook.Add( "RenderScreenspaceEffects", "hl2a.thunder", function()
-	local left = flashUntil - CurTime()
-	if left <= 0 then return end
-	-- Two quick pulses
-	local pulse = math.abs( math.sin( left * 25 ) ) * flashStrength
+	if not flash then return end
+	local t = ( CurTime() - flash.start ) / flash.length
+	if t >= 1 then flash = nil return end
+
+	-- A few flickers, fading out
+	local flicker = math.abs( math.cos( t * math.pi * flash.flickers ) )
+	local bright = flicker * ( 1 - t ) ^ 1.5 * flash.strength
 	DrawColorModify( {
-		[ "$pp_colour_addr" ] = 0, [ "$pp_colour_addg" ] = 0, [ "$pp_colour_addb" ] = 0,
-		[ "$pp_colour_brightness" ] = pulse, [ "$pp_colour_contrast" ] = 1, [ "$pp_colour_colour" ] = 1,
+		[ "$pp_colour_addr" ] = bright * 0.05, [ "$pp_colour_addg" ] = bright * 0.07, [ "$pp_colour_addb" ] = bright * 0.12,
+		[ "$pp_colour_brightness" ] = bright, [ "$pp_colour_contrast" ] = 1, [ "$pp_colour_colour" ] = 1,
 		[ "$pp_colour_mulr" ] = 0, [ "$pp_colour_mulg" ] = 0, [ "$pp_colour_mulb" ] = 0,
 	} )
 end )
+
+concommand.Add( "hl2a_thunder_test", function()
+	local ply = LocalPlayer()
+	if not IsValid( ply ) then return end
+	local waves = { "ambient/weather/thunder1.wav", "ambient/weather/thunder3.wav", "ambient/weather/thunder4.wav" }
+	thunderStrike( waves[ math.random( #waves ) ], 0.8, 100, ply:EyePos() )
+end, nil, "Play one random-distance thunder strike" )
 
 concommand.Add( "hl2a_weathersound_debug", function()
 	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted ) )
