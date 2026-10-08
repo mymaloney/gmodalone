@@ -22,6 +22,7 @@ gmod/                          GMod addon source
 tools/
   build_addon.py               assembles the installable addon
   audit_assets.py              scans maps + materials for porting problems
+  size_report.py               finds duplicate / unused / convertible assets
 ```
 
 ## Getting started
@@ -59,6 +60,40 @@ tools/
    `audit/hl2alone_entity_classes.txt` to `garrysmod/data/` and run
    `hl2a_entcheck` in the GMod console. It lists the map entities GMod
    can't create.
+
+## Reducing the addon's size
+
+```sh
+python tools/size_report.py --assets "<your full HL2 Alone folder>" \
+    --game "<Steam>/steamapps/common/Half-Life 2" \
+    --game "<Steam>/steamapps/common/GarrysMod" --out audit
+```
+
+Each `--game` folder's `*_dir.vpk` archives are read; include every game
+the mod mounted (HL2, the episodes, Portal, Lost Coast) and GMod itself,
+which bundles HL2 content. `audit/size_report.md` lists:
+
+- **Duplicates:** files byte-identical to a base game file (path, size and
+  CRC32). Players already have these. Same-path files that differ are
+  replacements and are kept.
+- **Probably unused:** assets nothing references, traced from the maps
+  (entities, material table, static props, embedded content), materials,
+  models, particles, sound scripts, soundscapes, songs, skyboxes, snow
+  `.smf` files and the mod's data. The original DLLs or the Lua can still
+  load files by name, so review this list. The report also covers unused
+  colour-correction filters in this repo.
+- **Unreachable maps:** maps that no chapter, level transition or menu
+  background leads to. Their assets count as used until you drop the maps
+  and re-run.
+- **Candidates for conversion:** `.wav` music (to `.ogg`), uncompressed
+  textures (to DXT), and uncompressed maps (`bspzip -repack -compress`).
+
+Apply the lists you approve when building:
+
+```sh
+python tools/build_addon.py --out ... --assets ... \
+    --exclude audit/duplicates.txt --exclude audit/unused.txt
+```
 
 ## Where things go in the built addon
 

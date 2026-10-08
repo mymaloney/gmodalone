@@ -54,7 +54,24 @@ ASSET_DIRS = ["materials", "models", "sound", "maps", "scenes", "media", "resour
 DATA_EXTS = {".txt", ".json", ".xml", ".csv", ".dat"}
 
 
-def copy(src: Path, dst: Path):
+# Output-relative paths to leave out (from size_report.py lists via --exclude)
+EXCLUDE = set()
+excluded_bytes = 0
+
+
+def load_excludes(lists):
+    for f in lists:
+        for line in f.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                EXCLUDE.add(line.replace("\\", "/").lower())
+
+
+def copy(src: Path, dst: Path, rel: Path = None):
+    global excluded_bytes
+    if rel is not None and rel.as_posix() in EXCLUDE:
+        excluded_bytes += src.stat().st_size
+        return
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
 
@@ -100,7 +117,7 @@ def build_data(out: Path):
     n = 0
     for pattern in ENGINE_GLOBS:
         for f in REPO.glob(pattern):
-            copy(f, out / lower_rel(f, REPO))
+            copy(f, out / lower_rel(f, REPO), lower_rel(f, REPO))
             n += 1
     print(f"copied   {n} soundscape / colour-correction files")
 
@@ -149,7 +166,11 @@ def build_assets(out: Path, assets: Path):
         n = fixed = 0
         for f in src.rglob("*"):
             if f.is_file():
-                dst = out / lower_rel(f, assets)
+                rel = lower_rel(f, assets)
+                if rel.as_posix() in EXCLUDE:
+                    copy(f, out / rel, rel)  # counts it as excluded
+                    continue
+                dst = out / rel
                 if f.suffix.lower() == ".vmt" and fix_vmt_shader(f, dst):
                     fixed += 1
                 else:
@@ -162,14 +183,21 @@ def build_assets(out: Path, assets: Path):
         copy(f, out / "particles" / "hl2alone" / f.name.lower())
 
 
+def human_mb(n):
+    return f"{n / 1048576:.1f} MB"
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", required=True, type=Path, help="addon output folder, e.g. garrysmod/addons/hl2alone")
     ap.add_argument("--assets", type=Path, help="folder with the mod's materials/models/sound/maps")
     ap.add_argument("--link-lua", action="store_true", help="symlink the gamemode instead of copying it")
     ap.add_argument("--clean", action="store_true", help="delete the output folder first")
+    ap.add_argument("--exclude", action="append", type=Path, default=[],
+                    help="file listing paths to leave out, one per line (e.g. size_report.py's duplicates.txt); repeatable")
     args = ap.parse_args()
 
+    load_excludes(args.exclude)
     out = args.out.resolve()
     if out == REPO or REPO in out.parents:
         sys.exit("--out must be outside the repository")
@@ -184,6 +212,8 @@ def main():
     else:
         print("note     no --assets given; materials/models/sound/maps were not copied")
 
+    if EXCLUDE:
+        print(f"excluded {human_mb(excluded_bytes)} listed in {len(args.exclude)} --exclude file(s)")
     print(f"done     {out}")
 
 
