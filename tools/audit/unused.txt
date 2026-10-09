@@ -1,0 +1,125 @@
+# not referenced by maps or mod data - review before using with --exclude
+maps/commentary todo.txt
+maps/d1_canals_01_d_commentary.txt
+maps/d1_canals_01a_d_commentary.txt
+maps/d1_canals_02_d_commentary.txt
+maps/d1_canals_03_d_commentary.txt
+maps/d1_canals_07_d_commentary.txt
+maps/d1_trainstation_01_d_commentary.txt
+maps/d1_trainstation_02_d_commentary.txt
+maps/d1_trainstation_04_d_commentary.txt
+maps/d1_trainstation_05_d_commentary.txt
+maps/d1_trainstation_06_d_commentary.txt
+materials/engine/mirror_screen.vmt
+materials/ground/snow01_mask.vtf
+materials/ground/snow01_normal.vtf
+materials/lightning/lightbolt02.vmt
+materials/lightning/lightbolt02.vtf
+materials/lightning/lightbolt03.vmt
+materials/lightning/lightbolt03.vtf
+materials/lostcoast/nature/water_ati_cheap001.vmt
+materials/nature/backup/cloud001d.vmt
+materials/nature/backup/cloud001d_brighter.vmt
+materials/nature/backup/cloud001d_brightest.vmt
+materials/nature/clouds/cloud001.vtf
+materials/nature/clouds/cloud002.vtf
+materials/nature/clouds/cloud003.vtf
+materials/nature/clouds/cloud004.vtf
+materials/nature/clouds/cloud005.vtf
+materials/nature/clouds/cloud006.vtf
+materials/nature/clouds_sphere.vmt
+materials/nature/horizon_fog.vmt
+materials/nature/stars01.vmt
+materials/nature/stars01.vtf
+materials/nature/water_highlight.vmt
+materials/nature/water_refract_only.vmt
+materials/nature/water_refract_only_nofresnel.vmt
+materials/nature/water_warp01.vmt
+materials/nature/watercheap_opaque.vmt
+materials/nature/watercheap_opaque_nofresnel.vmt
+materials/skybox/upscaled/sky_borealis01bk.vtf
+materials/skybox/upscaled/sky_borealis01ft.vtf
+materials/skybox/upscaled/sky_borealis01lf.vtf
+materials/skybox/upscaled/sky_borealis01rt.vtf
+materials/skybox/upscaled/sky_borealis01up.vtf
+materials/skybox/upscaled/sky_borealis02bk.vmt
+materials/skybox/upscaled/sky_borealis02bk.vtf
+materials/skybox/upscaled/sky_borealis02dn.vmt
+materials/skybox/upscaled/sky_borealis02dn.vtf
+materials/skybox/upscaled/sky_borealis02ft.vmt
+materials/skybox/upscaled/sky_borealis02ft.vtf
+materials/skybox/upscaled/sky_borealis02lf.vmt
+materials/skybox/upscaled/sky_borealis02lf.vtf
+materials/skybox/upscaled/sky_borealis02rt.vmt
+materials/skybox/upscaled/sky_borealis02rt.vtf
+materials/skybox/upscaled/sky_borealis02up.vmt
+materials/skybox/upscaled/sky_borealis02up.vtf
+media/startupvids.txt
+models/propper/untitled/readme.txt
+models/weapons/v_stunstick.sw.vtx
+sound/ambient/atmosphere/tone_alley_looped.wav
+sound/ambient/song_2.wav
+sound/ambient/tones/amb_abstract_air_lp_05.wav
+sound/ambient/weather/rain_amb1.wav
+sound/ambient/weather/rain_amb2.wav
+sound/music/absence_old.wav
+sound/music/under.wav
+sound/player/breathe2.wav
+sound/player/footsteps/old/metal1.wav
+sound/player/footsteps/old/metal2.wav
+sound/player/footsteps/old/metal3.wav
+sound/player/footsteps/old/metal4.wav
+sound/playonce/ambient/metal/amb_metal_scrape_wronk_06.wav
+sound/playonce/ambient/synth/amb_grain_click_10.wav
+scripts/colorcorrection/cc_snow.raw
+scripts/colorcorrection/entropy zero/arbeit_2.raw
+scripts/colorcorrection/entropy zero/arbeit_3.raw
+scripts/colorcorrection/entropy zero/arbeit_4.raw
+scripts/colorcorrection/entropy zero/ash_ruins.raw
+scripts/colorcorrection/entropy zero/at05_coldsignal_nvg.raw
+scripts/colorcorrection/entropy zero/az01coldness.raw
+scripts/colorcorrection/entropy zero/cold1.raw
+scripts/colorcorrection/entropy zero/cold2.raw
+scripts/colorcorrection/entropy zero/credits.raw
+scripts/colorcorrection/entropy zero/credits2.raw
+scripts/colorcorrection/entropy zero/ez2.raw
+scripts/colorcorrection/entropy zero/ez2_advisor1.raw
+scripts/colorcorrection/entropy zero/ez2_advisor_mindbend1.raw
+scripts/colorcorrection/entropy zero/ez2_advisor_mindbend2.raw
+scripts/colorcorrection/entropy zero/ez2_aliencave_finale.raw
+scripts/colorcorrection/entropy zero/ez2_aliencaves1.raw
+scripts/colorcorrection/entropy zero/ez2_arena2.raw
+scripts/colorcorrection/entropy zero/ez2_ashlands.raw
+scripts/colorcorrection/entropy zero/ez2_ashlands_half.raw
+scripts/colorcorrection/entropy zero/ez2_borealis_washover1.raw
+scripts/colorcorrection/entropy zero/ez2_c4_2b.raw
+scripts/colorcorrection/entropy zero/ez2_c4_3_basement.raw
+scripts/colorcorrection/entropy zero/ez2_c5_3_external.raw
+scripts/colorcorrection/entropy zero/ez2_c5_3_internal.raw
+scripts/colorcorrection/entropy zero/ez2_core_red.raw
+scripts/colorcorrection/entropy zero/ez2_core_red_half.raw
+scripts/colorcorrection/entropy zero/ez2_desert_1.raw
+scripts/colorcorrection/entropy zero/ez2_finale.raw
+scripts/colorcorrection/entropy zero/ez2_finale_outside.raw
+scripts/colorcorrection/entropy zero/ez2_in1.raw
+scripts/colorcorrection/entropy zero/ez2_institute.raw
+scripts/colorcorrection/entropy zero/ez2_morning_1.raw
+scripts/colorcorrection/entropy zero/ez2_morning_2.raw
+scripts/colorcorrection/entropy zero/ez2_nvg.raw
+scripts/colorcorrection/entropy zero/ez2_nvg_bread.raw
+scripts/colorcorrection/entropy zero/ez2_nvg_bread2.raw
+scripts/colorcorrection/entropy zero/ez2_nvg_cw.raw
+scripts/colorcorrection/entropy zero/ez2_out1.raw
+scripts/colorcorrection/entropy zero/ez2_out3.raw
+scripts/colorcorrection/entropy zero/ez2_overworld_simple.raw
+scripts/colorcorrection/entropy zero/ez2_post_cmb_fifty.raw
+scripts/colorcorrection/entropy zero/ez2_post_cmb_full.raw
+scripts/colorcorrection/entropy zero/ez2_ship_field.raw
+scripts/colorcorrection/entropy zero/ez2_suspension.raw
+scripts/colorcorrection/entropy zero/ez2_temporal_tube.raw
+scripts/colorcorrection/entropy zero/ez2_temporalwall.raw
+scripts/colorcorrection/entropy zero/ez2_yellosun.raw
+scripts/colorcorrection/entropy zero/gren.raw
+scripts/colorcorrection/entropy zero/hostmemory1.raw
+scripts/colorcorrection/entropy zero/spooky.raw
+scripts/colorcorrection/entropy zero/xenade_cascade.raw

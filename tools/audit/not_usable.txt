@@ -1,0 +1,3 @@
+# GMod can't play these
+media/amod_outrovideo.bik
+media/amod_outrovideo2.bik
