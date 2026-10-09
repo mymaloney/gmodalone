@@ -168,6 +168,7 @@ local function drawBlackBoxes()
 end
 
 hook.Add( "RenderScreenspaceEffects", "hl2a.effects", function()
+	if not HL2A.PostProcessOn() then return end -- F2 (cl_screenfilter.lua)
 	if CV.hl2a_noir:GetBool() then
 		DrawColorModify( {
 			[ "$pp_colour_addr" ] = 0, [ "$pp_colour_addg" ] = 0, [ "$pp_colour_addb" ] = 0,

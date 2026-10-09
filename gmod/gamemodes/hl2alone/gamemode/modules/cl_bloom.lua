@@ -40,7 +40,7 @@ local function apply()
 end
 
 hook.Add( "RenderScreenspaceEffects", "hl2a.bloom", function()
-	if not bloom or render.GetHDREnabled() then return end
+	if not bloom or render.GetHDREnabled() or not HL2A.PostProcessOn() then return end
 	local amount = math.Clamp( bloom.scale * bloom.factor * 0.2, 0, 2 )
 	if amount <= 0 then return end
 	DrawBloom( 0.65, amount, 9, 9, 1, 1, 1, 1, 1 )

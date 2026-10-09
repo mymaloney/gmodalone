@@ -65,6 +65,7 @@ local gradL, gradR = Material( "vgui/gradient-l" ), Material( "vgui/gradient-r" 
 local gradU, gradD = Material( "vgui/gradient-u" ), Material( "vgui/gradient-d" )
 
 hook.Add( "RenderScreenspaceEffects", "hl2a.view", function()
+	if not HL2A.PostProcessOn() then return end
 	local sat = CV.amod_saturation:GetBool() and CV.hl2a_saturation_amount:GetFloat() or 1
 	if sat ~= 1 then
 		DrawColorModify( {
@@ -77,7 +78,7 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.view", function()
 end )
 
 hook.Add( "HUDPaintBackground", "hl2a.vignette", function()
-	if not CV.amod_vignette:GetBool() then return end
+	if not CV.amod_vignette:GetBool() or not HL2A.PostProcessOn() then return end
 
 	local w, h = ScrW(), ScrH()
 	local bw = w / math.max( CV.amod_new_vignette_width_divisor:GetFloat(), 1 )

@@ -1,6 +1,6 @@
 --[[
-	The "Faded" look (the original's TAB screen filter). F2 cycles the
-	looks: Default (the map's colour grade), Default + Faded, Faded, Off.
+	The Faded curve (the original's TAB screen filter), the post-processing
+	switch (F2) and the look presets used by the Look tab.
 
 	Recovered from client.dll: the options panel built two aliases that
 	switched the display gamma ramp,
@@ -89,6 +89,7 @@ local function drawCurve( a )
 end
 
 hook.Add( "RenderScreenspaceEffects", "hl2a.screenfilter", function()
+	if not HL2A.PostProcessOn() then return end
 	local k, tv = HL2A.ScreenFilterCurve()
 	drawCurve( quadCoefficient( k ) )
 
@@ -102,42 +103,62 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.screenfilter", function()
 	end
 end )
 
--- Looks (F2) -------------------------------------------------------------------------
--- The map's colour grade (the original's "epic filter", sv_atmosphere.lua)
--- and this faded TV curve (the original's TAB "screen filter") are combined
--- into looks. Bit 1 = faded, bit 2 = colour grade. F2 cycles them in LOOK_ORDER,
--- starting from Default.
+-- Post-processing switch (F2) and look presets ----------------------------------------------
 
-HL2A.LOOKS = { [ 0 ] = "Off", [ 1 ] = "Faded", [ 2 ] = "Default", [ 3 ] = "Default + Faded" }
-HL2A.LOOK_ORDER = { 2, 3, 1, 0 }
-
---- Current look: 0 off, 1 faded, 2 default, 3 default + faded
-function HL2A.Look()
-	return ( enabled() and 1 or 0 ) + ( GetGlobal2Bool( "hl2a.epicfilter", true ) and 2 or 0 )
-end
-
---- The convar values for a look, as { { name, value } }
-function HL2A.LookConVars( look )
-	return {
-		{ "hl2a_screenfilter", bit.band( look, 1 ) ~= 0 and "1" or "0" },
-		{ "amod_epic_filter", bit.band( look, 2 ) ~= 0 and "1" or "0" },
-	}
+--- Post-processing master switch (published by the server, sv_atmosphere.lua)
+function HL2A.PostProcessOn()
+	return GetGlobal2Bool( "hl2a.postprocess", true )
 end
 
 local notice
 
-function HL2A.SetLook( look )
-	look = look % 4
-	HL2A.SetConVars( HL2A.LookConVars( look ) )
-	notice = { text = "Look: " .. HL2A.LOOKS[ look ], start = RealTime() }
+function HL2A.SetPostProcess( on )
+	HL2A.SetConVars( { { "hl2a_postprocess", on and "1" or "0" } } )
+	notice = { text = "Post-processing " .. ( on and "on" or "off" ), start = RealTime() }
 end
 
-function HL2A.NextLook()
-	local cur = HL2A.Look()
-	for i, l in ipairs( HL2A.LOOK_ORDER ) do
-		if l == cur then return HL2A.SetLook( HL2A.LOOK_ORDER[ i % #HL2A.LOOK_ORDER + 1 ] ) end
+function HL2A.TogglePostProcess() HL2A.SetPostProcess( not HL2A.PostProcessOn() ) end
+
+-- What the Look tab's presets set. Colour grade = the map's colour
+-- correction (the original's "epic filter"); Faded = the old-TV curve above
+-- (the original's TAB screen filter).
+HL2A.LOOK_SETTINGS = {
+	"amod_epic_filter", "hl2a_screenfilter", "amod_saturation", "amod_vignette", "hl2a_bloom", "hl2a_noir", "amod_view_square",
+}
+HL2A.LOOK_PRESETS = {
+	{ "Default", { amod_epic_filter = 1, hl2a_screenfilter = 0, amod_saturation = 1, amod_vignette = 0, hl2a_bloom = 1, hl2a_noir = 0, amod_view_square = 0 } },
+	{ "Faded", { amod_epic_filter = 1, hl2a_screenfilter = 1, amod_saturation = 1, amod_vignette = 0, hl2a_bloom = 1, hl2a_noir = 0, amod_view_square = 0 } },
+	{ "Cinematic", { amod_epic_filter = 1, hl2a_screenfilter = 0, amod_saturation = 1, amod_vignette = 1, hl2a_bloom = 1, hl2a_noir = 0, amod_view_square = 1 } },
+	{ "Noir", { amod_epic_filter = 0, hl2a_screenfilter = 0, amod_saturation = 0, amod_vignette = 1, hl2a_bloom = 0, hl2a_noir = 1, amod_view_square = 0 } },
+	{ "Plain", { amod_epic_filter = 0, hl2a_screenfilter = 0, amod_saturation = 0, amod_vignette = 0, hl2a_bloom = 0, hl2a_noir = 0, amod_view_square = 0 } },
+}
+
+local function currentValue( name )
+	if name == "amod_epic_filter" then return GetGlobal2Bool( "hl2a.epicfilter", true ) and 1 or 0 end
+	return CV[ name ]:GetBool() and 1 or 0
+end
+
+--- Name of the preset matching the current settings, or nil (custom)
+function HL2A.CurrentLookPreset()
+	for _, p in ipairs( HL2A.LOOK_PRESETS ) do
+		local match = true
+		for name, v in pairs( p[ 2 ] ) do
+			if currentValue( name ) ~= v then match = false break end
+		end
+		if match then return p[ 1 ] end
 	end
-	HL2A.SetLook( 2 )
+end
+
+function HL2A.ApplyLookPreset( name )
+	for _, p in ipairs( HL2A.LOOK_PRESETS ) do
+		if p[ 1 ]:lower() == name:lower() then
+			local list = {}
+			for k, v in pairs( p[ 2 ] ) do list[ #list + 1 ] = { k, tostring( v ) } end
+			HL2A.SetConVars( list )
+			return true
+		end
+	end
+	return false
 end
 
 surface.CreateFont( "HL2A.LookNotice", { font = "Verdana", size = 22, weight = 600 } )
@@ -156,14 +177,14 @@ end )
 local function set( on ) RunConsoleCommand( "hl2a_screenfilter", on and "1" or "0" ) end
 
 -- Amod_ToggleFilter is the original's bind name, kept so old binds work
-concommand.Add( "Amod_ToggleFilter", HL2A.NextLook, nil, "Next look: default, default + faded, faded, off (F2)" )
-concommand.Add( "hl2a_next_look", HL2A.NextLook, nil, "Next look (F2)" )
-concommand.Add( "hl2a_look", function( _, _, args )
-	local want = ( args[ 1 ] or "" ):lower()
-	for i = 0, 3 do
-		if want == tostring( i ) or want == HL2A.LOOKS[ i ]:lower():gsub( "[^%a]", "" ) then return HL2A.SetLook( i ) end
+concommand.Add( "Amod_ToggleFilter", HL2A.TogglePostProcess, nil, "Post-processing on/off (F2)" )
+concommand.Add( "hl2a_toggle_postprocess", HL2A.TogglePostProcess, nil, "Post-processing on/off (F2)" )
+concommand.Add( "hl2a_look_preset", function( _, _, _, argStr )
+	if not HL2A.ApplyLookPreset( argStr:Trim() ) then
+		local names = {}
+		for _, p in ipairs( HL2A.LOOK_PRESETS ) do names[ #names + 1 ] = p[ 1 ] end
+		MsgN( "hl2a_look_preset: " .. table.concat( names, " | " ) )
 	end
-	MsgN( "hl2a_look: off | faded | default | defaultfaded (or 0-3)" )
-end, nil, "Set the look: off, faded, default, defaultfaded" )
+end, nil, "Apply a look preset: Default, Faded, Cinematic, Noir, Plain" )
 concommand.Add( "tf1", function() set( true ) end, nil, "Faded on (original command)" )
 concommand.Add( "tf2", function() set( false ) end, nil, "Faded off (original command)" )

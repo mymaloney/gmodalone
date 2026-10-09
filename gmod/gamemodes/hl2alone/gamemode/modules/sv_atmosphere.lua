@@ -38,7 +38,7 @@ end
 local cc, ccFile, ccWeight
 
 local function wantedFilter()
-	if not CV.amod_epic_filter:GetBool() then return nil end
+	if not CV.amod_epic_filter:GetBool() or not CV.hl2a_postprocess:GetBool() then return nil end
 
 	local block = TI.GetCurrentBlock()
 
@@ -91,6 +91,7 @@ end
 
 function HL2A.ApplyAtmosphere()
 	SetGlobal2Bool( "hl2a.epicfilter", CV.amod_epic_filter:GetBool() )
+	SetGlobal2Bool( "hl2a.postprocess", CV.hl2a_postprocess:GetBool() )
 	applySky()
 	applySun()
 	ccWeight = nil
@@ -108,7 +109,7 @@ end )
 timer.Create( "hl2a.filter", 0.25, 0, updateFilter )
 
 for _, name in ipairs( { "amod_night_sky", "amod_sun_disable", "hl2a_timeinfo_theme",
-	"amod_epic_filter", "amod_epic_filter_night_filename", "amod_epic_filter_night_intensity" } ) do
+	"amod_epic_filter", "hl2a_postprocess", "amod_epic_filter_night_filename", "amod_epic_filter_night_intensity" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, HL2A.ApplyAtmosphere ) end, "hl2a.atmosphere" )
 end
 

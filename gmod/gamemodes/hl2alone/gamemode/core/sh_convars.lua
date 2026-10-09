@@ -87,6 +87,10 @@ cv( "amod_lighting_debug", 0 )
 cv( "hl2a_effects_autoload", 0, "Load the autoload presets on every map instead of keeping the current effects" )
 cv( "amod_effects_panel_autoload_files", "", "Presets/folders to autoload, separated by ;" )
 
+-- Post-processing master switch (F2): off hides the colour grade, the Faded
+-- curve, saturation, vignette, bloom and the panel's screen effects
+cv( "hl2a_postprocess", 1, "Post-processing on/off (F2)" )
+
 -- Screen filter (cl_screenfilter.lua; original TAB key, here F2)
 cv( "hl2a_screenfilter", 0, "Screen filter on (Amod_ToggleFilter / F2)" )
 cv( "amod_filter_brightness_on", 12, "Screen filter on: brightness, 0-12" )

@@ -1,9 +1,10 @@
 --[[
 	Post-Processing & Effects panel (ToggleEffectsPanel / toggleeffectspanel,
 	or the buttons on the Options panel and chapter select): the original's
-	Effects panel, plus a Look tab combining the map colour grade and the
-	faded TV curve (the original's "epic filter" and "screen filter") with
-	saturation, vignette and bloom. Rebuilt in Derma from the original's pages, with its
+	Effects panel, plus a Look tab: presets (Default, Faded, Cinematic,
+	Noir, Plain) over the map colour grade, the faded TV curve (the
+	original's "epic filter" and TAB "screen filter"), saturation, vignette,
+	bloom, black and white and black bars. F2 switches all post-processing. Rebuilt in Derma from the original's pages, with its
 	slider ranges and localization; changes apply immediately. The effects
 	themselves are in cl_effects.lua.
 ]]
@@ -115,48 +116,62 @@ local function warn( text ) Derma_Message( text, "Error", "Ok" ) surface.PlaySou
 local function cvBool( name ) return function() return CV[ name ]:GetBool() end end
 local function setBool( name ) return function( v ) RunConsoleCommand( name, v and "1" or "0" ) end end
 
--- Look -------------------------------------------------------------------------------------
--- The map's colour grade and the faded TV curve (cl_screenfilter.lua) as
--- looks, plus the general post-processing that used to be on the Options panel.
+-- Look ---------------------------------------------------------------------------------
+-- Presets and the effects they switch; F2 turns all of it (and the screen
+-- effects on the other tabs) on and off. See cl_screenfilter.lua.
 
 HL2A.LOOK_CONVARS = {
-	"hl2a_screenfilter", "amod_epic_filter", "amod_filter_brightness_on", "amod_filter_brightness_on_exp",
-	"amod_filter_brightness_off", "amod_saturation", "amod_vignette", "hl2a_bloom",
+	"hl2a_postprocess", "hl2a_screenfilter", "amod_epic_filter", "amod_filter_brightness_on", "amod_filter_brightness_on_exp",
+	"amod_filter_brightness_off", "amod_saturation", "amod_vignette", "hl2a_bloom", "hl2a_noir", "amod_view_square",
 }
 
-local function lookPage( sheet )
+local function lookPage( sheet, rebuild )
 	local pg = vgui.Create( "DPanel", sheet )
 	pg:SetPaintBackground( false )
 
-	label( pg, "Look (F2 cycles through these):", 8, 6, 300 )
+	check( pg, "Post-processing on (F2)", "Turns everything on this tab, and the screen effects on the other tabs, on or off.",
+		8, 6, function() return HL2A.PostProcessOn() end, function( v ) HL2A.SetPostProcess( v ) end )
+
+	label( pg, "Preset:", 8, 30, 60 )
 	local box = pg:Add( "DComboBox" )
-	box:SetPos( 8, 26 )
-	box:SetSize( 290, 22 )
+	box:SetPos( 60, 30 )
+	box:SetSize( 238, 22 )
 	box:SetSortItems( false )
-	local cur = HL2A.Look()
-	for _, l in ipairs( HL2A.LOOK_ORDER ) do box:AddChoice( HL2A.LOOKS[ l ], l, l == cur ) end
-	box.OnSelect = function( _, _, _, l ) HL2A.SetLook( l ) end
+	local cur = HL2A.CurrentLookPreset()
+	for _, p in ipairs( HL2A.LOOK_PRESETS ) do box:AddChoice( p[ 1 ], p[ 1 ], p[ 1 ] == cur ) end
+	if not cur then box:SetValue( "Custom" ) end
+	box.OnSelect = function( _, _, name )
+		HL2A.ApplyLookPreset( name )
+		timer.Simple( 0.3, rebuild ) -- show the preset's settings below
+	end
 
-	local about = label( pg, "Default: the map's own colour grade.\nFaded: an old-TV curve with greyer shadows (the original's TAB screen filter).", 8, 52, 300 )
-	about:SetWrap( true )
-	about:SetTall( 48 )
+	local effects = {
+		{ "Colour grade (the map's own)", "The colour correction each map sets.", "amod_epic_filter",
+			function() return GetGlobal2Bool( "hl2a.epicfilter", true ) end },
+		{ "Faded (old-TV curve)", "Greyer shadows and softer contrast.", "hl2a_screenfilter" },
+		{ phrase( "#AMod_OptionsPanel_View_EnableSaturation" ), phrase( "#AMod_OptionsPanel_View_EnableSaturation_ToolTip" ), "amod_saturation" },
+		{ phrase( "#AMod_OptionsPanel_View_EnableVignette" ), phrase( "#AMod_OptionsPanel_View_EnableVignette_ToolTip" ), "amod_vignette" },
+		{ "Bloom (on maps that use it)", "Per-map bloom from the map's settings.", "hl2a_bloom" },
+		{ "Black and white", nil, "hl2a_noir" },
+		{ "Cinematic black bars", nil, "amod_view_square" },
+	}
+	for i, e in ipairs( effects ) do
+		check( pg, e[ 1 ], e[ 2 ], 8, 60 + ( i - 1 ) * 20, e[ 4 ] or cvBool( e[ 3 ] ), function( v )
+			HL2A.SetConVars( { { e[ 3 ], v and "1" or "0" } } )
+			timer.Simple( 0.3, function() if IsValid( box ) then box:SetValue( HL2A.CurrentLookPreset() or "Custom" ) end end )
+		end )
+	end
 
+	local x = 320
+	label( pg, "Faded settings:", x, 6, 290 )
 	local function cvSlider( text, tip, y, name, min, max )
-		slider( pg, text, tip, 8, y, 290, min, max,
+		slider( pg, text, tip, x, y, 290, min, max,
 			function() return CV[ name ]:GetFloat() end,
 			function( v ) RunConsoleCommand( name, tostring( v ) ) end )
 	end
-	cvSlider( "Faded: brightness", "How bright the Faded look is.", 108, "amod_filter_brightness_on", 0, 12 )
-	cvSlider( "Faded: brightness curve", "Higher lifts the midtones of the Faded look.", 148, "amod_filter_brightness_on_exp", 0, 12 )
-	cvSlider( "Brightness without Faded", "Overall brightness while the Faded look is off.", 188, "amod_filter_brightness_off", 0, 10 )
-
-	local x = 320
-	label( pg, "Post-processing:", x, 6, 290 )
-	check( pg, phrase( "#AMod_OptionsPanel_View_EnableSaturation" ), phrase( "#AMod_OptionsPanel_View_EnableSaturation_ToolTip" ),
-		x, 28, cvBool( "amod_saturation" ), setBool( "amod_saturation" ) )
-	check( pg, phrase( "#AMod_OptionsPanel_View_EnableVignette" ), phrase( "#AMod_OptionsPanel_View_EnableVignette_ToolTip" ),
-		x, 48, cvBool( "amod_vignette" ), setBool( "amod_vignette" ) )
-	check( pg, "Bloom on maps that use it", "Per-map bloom from the map's settings.", x, 68, cvBool( "hl2a_bloom" ), setBool( "hl2a_bloom" ) )
+	cvSlider( "Brightness", "How bright the Faded curve is.", 28, "amod_filter_brightness_on", 0, 12 )
+	cvSlider( "Brightness curve", "Higher lifts the midtones of the Faded curve.", 68, "amod_filter_brightness_on_exp", 0, 12 )
+	cvSlider( "Brightness without Faded", "Overall brightness while Faded is off.", 108, "amod_filter_brightness_off", 0, 10 )
 
 	return pg
 end
@@ -582,7 +597,7 @@ local function build()
 
 	local sheet = frame:Add( "DPropertySheet" )
 	sheet:Dock( FILL )
-	sheet:AddSheet( "Look", lookPage( sheet ) )
+	sheet:AddSheet( "Look", lookPage( sheet, function() if IsValid( frame ) then frame:Close() panel = nil timer.Simple( 0.05, HL2A.ToggleEffectsPanel ) end end ) )
 	local pages = {
 		viewPage( sheet ), convarPage( sheet ), overlayPage( sheet ), lightingPage( sheet ), autoloadPage( sheet ),
 	}
