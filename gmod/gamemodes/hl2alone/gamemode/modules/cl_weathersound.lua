@@ -362,6 +362,9 @@ local function setLayer( kind, scapeName )
 	local cur = active[ kind ]
 	local rules, volume
 	if scapeName then rules, volume = W.LayerFor( kind, scapeName ) end
+	-- Rain and snow beds play as full-volume 2D loops, louder than the engine
+	-- mixed them; hl2a_weathersound_volume scales them (thunder keeps its own)
+	if rules and kind ~= "thunder" then volume = volume * math.Clamp( CV.hl2a_weathersound_volume:GetFloat(), 0, 1 ) end
 
 	local key = rules and ( tostring( rules ) .. "|" .. volume ) or nil
 	if cur and cur.key == key then return end
