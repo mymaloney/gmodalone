@@ -80,6 +80,8 @@ local FILES = {
 	"modules/cl_soundscapeeditor.lua",
 	"modules/cl_backgroundpanel.lua",
 	"modules/sv_graphs.lua",
+	"modules/sv_video.lua",
+	"modules/cl_video.lua",
 	"modules/cl_credits.lua",
 	"modules/sv_dev.lua",
 }

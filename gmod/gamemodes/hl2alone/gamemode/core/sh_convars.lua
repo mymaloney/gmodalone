@@ -19,7 +19,7 @@ local CLIENT_ONLY = {
 	"amod_fog_disabled", "amod_saturation", "hl2a_saturation_amount", "amod_vignette", "amod_new_vignette_",
 	"amod_viewbob_", "amod_standbob_", "amod_flashlight", "hl2a_flashlight_", "amod_music_disable",
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
-	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "r_clouds_", "r_stars_", "r_horizonfog_",
+	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "amod_new_ending", "r_clouds_", "r_stars_", "r_horizonfog_",
 	"amod_filter_brightness_", "hl2a_screenfilter",
 	"amod_view_", "amod_camera_", "amod_blur_amount", "amod_lensdirt_", "amod_lighting_debug", "amod_effects_",
 	"hl2a_effects_", "hl2a_noir", "hl2a_hide_viewmodel", "hl2a_viewmodel_fov", "hl2a_claustrophobia_fov", "hl2a_pitch_",
@@ -168,6 +168,7 @@ cv( "amod_songs_transition_through_levels", 1 )
 cv( "hl2a_music_volume", 1 )
 
 -- Options panel extras
+cv( "amod_new_ending", 0, "Episode 2 outro video: 0 = Ending 1, 1 = Ending 2" )
 -- Clouds / stars / horizon fog (cl_sky.lua): the player's side of the
 -- per-map time_info settings. Original names; the mod's config had the
 -- enables on.

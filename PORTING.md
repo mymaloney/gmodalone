@@ -168,11 +168,10 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `logic_achievement`, `env_hudhint` (missing in GMod) | engine entities | **Re-created in Lua** | `entities/entities/` |
 | Blank `item_item_crate` models | server.dll | **Fixed:** defaults to the stock crate model | `sv_mappatches.lua` |
 | Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |
-| Outro video on `ep2_outland_12a_d` (`amod_outrotest`) | server.dll + `.bik` | **Not portable:** the normal fade plays instead | n/a |
 | Portal maps (`portal_*`) | Portal entities | **Not portable:** GMod has no portal entities | n/a |
 | Geo-Guesser mini-game | client.dll (`CGG_*`) | **Dropped:** nonessential to the campaign | n/a |
 | Credits button / panel | client.dll (`CAModCreditsPanel`) | **Ported** (Options panel button, `OpenCreditsPanel`), with a button to play the credits music | `cl_credits.lua` |
-| Ending selector (`amod_new_ending`) | client.dll | **Not ported:** it only chose which of two outro videos (`Amod_OutroVideo` / `Amod_OutroVideo2`, Bink) played at the end of Episode 2 before `logic_ending_credits`; GMod can't play them | n/a |
+| Ending selector (`amod_new_ending`) and Episode 2 outro video | client.dll + server.dll (`f_portal` → outro → `logic_ending_credits`) | **Ported:** the Bink videos convert to WebM (`build_addon.py --videos`, ffmpeg) and play full screen in GMod's browser; Options panel picks Ending 1/2. Without converted videos the map's own fade plays | `cl_video.lua`, `sv_video.lua`, `html/hl2alone/video.html` |
 | Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
 | Sandbox hints, spawn/context menus, noclip | (GMod Sandbox) | **Off by default** for the campaign; `hl2a_sandbox_tools 1` (Options panel) brings them back | `sh_sandbox.lua` |
 
@@ -191,6 +190,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `hl2a_timeinfo_reload` | Re-read time_info and saved map properties |
 | `hl2a_build_graphs start [cubemaps] [nav] \| stop \| status` | Rebuild node graphs (and missing cubemaps, navmeshes) for every map |
 | `hl2a_check_cubemaps` | List maps with unbuilt cubemaps |
+| `amod_playvideo <name>` | Play one of the mod's videos (after `--videos`) |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
 | `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
 | `Amod_ToggleFilter` / `hl2a_toggle_postprocess` (F2) | Post-processing on/off (`hl2a_postprocess`) |
@@ -263,6 +263,14 @@ Cubemaps are built for the HDR mode you play in (`mat_hdr_level`).
 Navmeshes only matter for nextbots and Lua NPCs; HL2's NPCs use the node
 graphs. They're typically a few hundred KB per map, so check the size the
 build reports before shipping them.
+
+## Finding why a map hangs
+
+`python tools/map_logic.py "<mod folder>/maps/<map>.bsp"` prints what the
+map's logic_auto entities set off, a few steps down the I/O chain, plus
+every fade, scene, view control and command entity. A black screen that
+never lifts is usually a fade waiting on a scene (or other entity) that
+doesn't finish in GMod.
 
 ## Things to verify in-game first
 

@@ -56,6 +56,11 @@ local HANDLERS = {
 	amod_startcreditssong = function( ply ) toClient( ply, "credits_song" ) end,
 	startupmenu = function( ply, args ) toClient( ply, "startupmenu", args ) end,
 
+	-- Videos (converted to WebM by build_addon.py --videos; cl_video.lua)
+	playvideo = function( _, args ) if args ~= "" then HL2A.SendVideo( args:match( "^(%S+)" ) ) end end,
+	amod_playvideo = function( _, args ) if args ~= "" then HL2A.SendVideo( args:match( "^(%S+)" ) ) end end,
+	amod_outrotest = function() HL2A.SendVideo( "amod_outrovideo" ) end,
+
 	-- Menu-background / commentary helpers with no GMod equivalent
 	amod_random_background = ignore,
 	commentary_testfirstrun = ignore,

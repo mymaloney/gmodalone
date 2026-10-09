@@ -107,6 +107,11 @@ def build_lua(out: Path, link: bool):
         shutil.rmtree(gm_dst)
     gm_dst.parent.mkdir(parents=True, exist_ok=True)
 
+    # Pages for GMod's browser (the video player); videos/ is filled by --videos
+    for f in (src / "html").rglob("*"):
+        if f.is_file():
+            copy(f, out / f.relative_to(src))
+
     if link:
         gm_dst.symlink_to(src / "gamemodes" / "hl2alone", target_is_directory=True)
         print(f"linked   {gm_dst} -> repo")
@@ -276,6 +281,39 @@ def copy_graphs(out: Path, gmod: Path, navmesh: bool, cubemaps: bool = False):
         print("note     no rebuilt graphs found: run 'hl2a_build_graphs start' in GMod first")
 
 
+VIDEO_CACHE = REPO / ".cache" / "videos"
+
+
+def convert_videos(out: Path, assets: Path):
+    """media/*.bik -> html/hl2alone/videos/<name>.webm (VP9 + Opus) for cl_video.lua.
+    Conversions are cached in .cache/videos."""
+    media = assets / "media"
+    biks = sorted(media.glob("*.bik")) if media.is_dir() else []
+    if not biks:
+        print("note     --videos: no .bik files in the asset folder's media/")
+        return
+    dst_dir = out / "html" / "hl2alone" / "videos"
+    total = 0
+    for bik in biks:
+        cached = VIDEO_CACHE / (bik.stem.lower() + ".webm")
+        if not cached.exists() or cached.stat().st_mtime < bik.stat().st_mtime:
+            cached.parent.mkdir(parents=True, exist_ok=True)
+            print(f"convert  {bik.name} -> .webm (this takes a while)")
+            r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(bik),
+                                "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "33", "-row-mt", "1",
+                                "-deadline", "good", "-cpu-used", "4",
+                                "-c:a", "libopus", "-b:a", "128k", str(cached)],
+                               capture_output=True, text=True)
+            if r.returncode != 0:
+                cached.unlink(missing_ok=True)
+                print(f"warning  couldn't convert {bik.name}: {r.stderr.strip()[:300]}")
+                continue
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(cached, dst_dir / cached.name)
+        total += cached.stat().st_size
+    print(f"copied   videos -> html/hl2alone/videos/ ({human_mb(total)})")
+
+
 def human_mb(n):
     return f"{n / 1048576:.1f} MB"
 
@@ -292,6 +330,8 @@ def main():
                     help=f"don't apply {DEFAULT_EXCLUDE.relative_to(REPO).as_posix()} (the reviewed cleanup list)")
     ap.add_argument("--keep-background-maps", action="store_true",
                     help="also copy maps/backgrounds/ (menu-background maps; ~400 MB)")
+    ap.add_argument("--videos", action="store_true",
+                    help="convert the mod's Bink videos (media/*.bik) to WebM with ffmpeg, for in-game playback")
     ap.add_argument("--gmod-dir", type=Path,
                     help="your garrysmod folder: copy the node graphs rebuilt in-game (hl2a_build_graphs) into the addon")
     ap.add_argument("--navmesh", action="store_true",
@@ -302,8 +342,8 @@ def main():
                     help="convert sound/music/*.wav to .ogg with ffmpeg (~650 MB smaller)")
     args = ap.parse_args()
 
-    if args.music_ogg and not shutil.which("ffmpeg"):
-        sys.exit("--music-ogg needs ffmpeg on PATH (e.g. 'winget install ffmpeg', then open a new terminal)")
+    if (args.music_ogg or args.videos) and not shutil.which("ffmpeg"):
+        sys.exit("--music-ogg and --videos need ffmpeg on PATH (e.g. 'winget install ffmpeg', then open a new terminal)")
     if not args.no_default_exclude and DEFAULT_EXCLUDE.exists():
         args.exclude.insert(0, DEFAULT_EXCLUDE)
     load_excludes(args.exclude)
@@ -318,10 +358,12 @@ def main():
     build_data(out)
     if args.assets:
         build_assets(out, args.assets.resolve(), args.keep_background_maps, args.music_ogg)
-    if args.gmod_dir:
-        copy_graphs(out, args.gmod_dir.resolve(), args.navmesh, args.cubemaps)
+        if args.videos:
+            convert_videos(out, args.assets.resolve())
     else:
         print("note     no --assets given; materials/models/sound/maps were not copied")
+    if args.gmod_dir:
+        copy_graphs(out, args.gmod_dir.resolve(), args.navmesh, args.cubemaps)
 
     if excluded_bytes:
         print(f"excluded {human_mb(excluded_bytes)} (cleanup list, --exclude files"

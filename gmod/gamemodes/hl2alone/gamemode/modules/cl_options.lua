@@ -3,8 +3,8 @@
 	resource/panels/OptionsPanel.txt and using its localization strings.
 	Changes are staged and sent to the server on "Apply Settings".
 
-	Left out on purpose: Daytime (shelved) and the ending selector (it chose
-	between two outro videos GMod can't play). The original's filter section, saturation and vignette now
+	Left out on purpose: Daytime (shelved). The ending selector picks the
+	Episode 2 outro video (cl_video.lua). The original's filter section, saturation and vignette now
 	live on the Post-Processing & Effects panel's Look tab.
 
 	Also implements the mirrored view (amod_mirrored).
@@ -64,6 +64,7 @@ local LAYOUT = {
 	{ "button", 5, 298, 225, 22, "Map Properties...", function() HL2A.ToggleMapProperties() end },
 	{ "button", 5, 324, 225, 22, "Soundscape Editor...", function() HL2A.ToggleSoundscapeEditor() end },
 	{ "button", 5, 350, 225, 22, "Background Panel...", function() HL2A.ToggleBackgroundPanel() end },
+	{ "combo", 5, 378, 225, "amod_new_ending", { { "#Amod_OptionsPanel_Ending1", 0 }, { "#Amod_OptionsPanel_Ending2", 1 } } },
 	{ "divider", 235, 0, 2, 405 },
 
 	{ "label", 285, 10, 150, 20, "#AMod_OptionsPanel_FlashlightTitle" },
