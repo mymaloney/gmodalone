@@ -54,6 +54,7 @@ local FILES = {
 	"modules/sv_effects.lua",
 	"modules/cl_flashlight.lua",
 	"modules/sv_weather.lua",
+	"modules/sh_stormfox.lua",
 	"modules/cl_weather.lua",
 	"modules/sv_soundscapes.lua",
 	"modules/cl_weathersound.lua",

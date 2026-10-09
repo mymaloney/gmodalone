@@ -92,8 +92,11 @@ end
 function HL2A.ApplyAtmosphere()
 	SetGlobal2Bool( "hl2a.epicfilter", CV.amod_epic_filter:GetBool() )
 	SetGlobal2Bool( "hl2a.postprocess", CV.hl2a_postprocess:GetBool() )
-	applySky()
-	applySun()
+	-- StormFox 2 draws its own sky and sun (sh_stormfox.lua)
+	if not ( HL2A.StormFoxActive and HL2A.StormFoxActive() ) then
+		applySky()
+		applySun()
+	end
 	ccWeight = nil
 	updateFilter()
 end

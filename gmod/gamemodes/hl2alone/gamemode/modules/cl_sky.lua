@@ -214,6 +214,7 @@ local function drawMesh( m, mat, pos, ang, scale, color )
 end
 
 hook.Add( "PostDraw2DSkyBox", "hl2a.sky", function()
+	if HL2A.StormFoxActive() then return end -- StormFox 2 draws the sky
 	if not clouds then return end
 	local showStars = starMat and shown( stars.r_stars, CV.r_stars_enable:GetBool(), 0, CV.r_stars_force:GetBool() )
 	local showHorizon = shown( horizon.r_horizonfog, CV.r_horizonfog_enable:GetBool(), horizon.r_horizonfog_force, false )

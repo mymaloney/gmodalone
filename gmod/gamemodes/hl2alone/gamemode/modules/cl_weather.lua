@@ -63,6 +63,7 @@ local function spawnDrop( def, center, radius, splashes )
 end
 
 hook.Add( "Think", "hl2a.weather", function()
+	if HL2A.StormFoxActive() then return end -- StormFox 2 draws the weather
 	local kind = GetGlobal2Int( "hl2a.weather.type" )
 	local def = TYPES[ kind ]
 	local ply = LocalPlayer()

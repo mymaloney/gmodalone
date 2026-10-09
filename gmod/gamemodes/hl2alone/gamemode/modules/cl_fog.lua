@@ -86,6 +86,7 @@ local function setup( start, finish, density, color )
 end
 
 hook.Add( "SetupWorldFog", "hl2a.fog", function()
+	if HL2A.StormFoxActive() and GetGlobal2Bool( "hl2a.stormfox.fog", false ) then return end
 	if not current then return end
 	if current.none then render.FogMode( MATERIAL_FOG_NONE ) return true end
 	setup( current.start, current.finish, current.density, current.color )
@@ -93,6 +94,7 @@ hook.Add( "SetupWorldFog", "hl2a.fog", function()
 end )
 
 hook.Add( "SetupSkyboxFog", "hl2a.fog", function( scale )
+	if HL2A.StormFoxActive() and GetGlobal2Bool( "hl2a.stormfox.fog", false ) then return end
 	if not current then return end
 	if current.none or not current.skyEnabled then render.FogMode( MATERIAL_FOG_NONE ) return true end
 	setup( current.skyStart * scale, current.skyFinish * scale, current.skyDensity, current.skyColor )

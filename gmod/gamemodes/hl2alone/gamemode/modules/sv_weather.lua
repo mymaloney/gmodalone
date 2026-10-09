@@ -115,7 +115,8 @@ function HL2A.ApplyWeather()
 	-- The maps' own brush rain would play alongside (e.g. rain under the
 	-- snowey coast theme's snow), so remove it while our weather is on.
 	-- It comes back on the next map load.
-	if on then
+	if on or ( HL2A.StormFoxActive and HL2A.StormFoxActive() ) then -- StormFox draws its own
+		mapPrecipType() -- remember the map's type first
 		for _, ent in ipairs( ents.FindByClass( "func_precipitation" ) ) do SafeRemoveEntity( ent ) end
 	end
 end

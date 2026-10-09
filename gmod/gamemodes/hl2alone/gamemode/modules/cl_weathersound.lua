@@ -485,7 +485,7 @@ hook.Add( "Think", "hl2a.weathersound", function()
 		kind = GetGlobal2Int( "hl2a.weather.maptype" )
 		on = kind ~= 0
 	end
-	on = on and not muted
+	on = on and not muted and not HL2A.StormFoxActive() -- StormFox 2 plays its own rain
 	local scape = ply:GetNW2String( "hl2a.soundscape" )
 	if scape ~= lastScape then
 		if CV.hl2a_soundscape_debug:GetBool() then
