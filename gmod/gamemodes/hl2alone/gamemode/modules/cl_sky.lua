@@ -75,8 +75,23 @@ local function textureOf( path )
 	return path
 end
 
+-- Blend mode of one of the mod's sky materials (nature/clouds_sphere,
+-- nature/stars01): additive only if its .vmt says so, else translucent.
+-- Cloud textures are typically white with the clouds in the alpha channel,
+-- so drawing them additively just tints the whole sky.
+local function vmtFlags( path )
+	local text = file.Read( "materials/" .. path .. ".vmt", "GAME" )
+	local root = text and HL2A.KV.Parse( text )
+	local body = root and root[ 1 ] and istable( root[ 1 ].value ) and HL2A.KV.ToTable( root[ 1 ].value ) or {}
+	return {
+		shader = root and root[ 1 ] and root[ 1 ].key or "?",
+		additive = tobool( body[ "$additive" ] ),
+	}
+end
+
 local function skyMaterial( name, tex, additive )
-	local m = CreateMaterial( "hl2a_sky_" .. name, "UnlitGeneric", {
+	-- Blend flags only take effect at creation, so each mode gets its own material
+	local m = CreateMaterial( "hl2a_sky_" .. name .. ( additive and "_add" or "_blend" ), "UnlitGeneric", {
 		[ "$basetexture" ] = "vgui/white", [ "$nocull" ] = 1, [ "$vertexcolor" ] = 1, [ "$vertexalpha" ] = 1,
 		[ "$additive" ] = additive and 1 or 0, [ "$translucent" ] = additive and 0 or 1, [ "$nofog" ] = 1,
 	} )
@@ -161,14 +176,16 @@ function S.Rebuild()
 	local R = clouds.r_clouds_scale_multiplyer
 	local msx, msy = math.max( clouds.r_clouds_material_scale_x, 1 ), math.max( clouds.r_clouds_material_scale_y, 1 )
 	cloudMesh = buildSphere( function( p ) return p.x * R / msx, p.y * R / msy end )
-	cloudMat = skyMaterial( "clouds", textureOf( clouds.r_clouds_material ), true )
+	S.CloudFlags = vmtFlags( "nature/clouds_sphere" )
+	cloudMat = skyMaterial( "clouds", textureOf( clouds.r_clouds_material ), S.CloudFlags.additive )
 
 	-- Stars: r_stars_size repeats around the sphere
 	local n = math.max( stars.r_stars_size, 1 )
 	starMesh = buildSphere( function( p )
 		return ( math.atan2( p.y, p.x ) / ( math.pi * 2 ) + 0.5 ) * n, math.acos( math.Clamp( p.z, -1, 1 ) ) / math.pi * n / 2
 	end )
-	starMat = skyMaterial( "stars", textureOf( "nature/stars01" ), true )
+	S.StarFlags = vmtFlags( "nature/stars01" )
+	starMat = skyMaterial( "stars", textureOf( "nature/stars01" ), S.StarFlags.additive )
 
 	horizonMesh = buildHorizon( horizon )
 	horizonMat = skyMaterial( "horizon", "vgui/white", false )
@@ -248,6 +265,11 @@ cvars.AddChangeCallback( "hl2a_timeinfo_theme", function() timer.Simple( 0.1, S.
 
 concommand.Add( "hl2a_sky_reload", S.Rebuild, nil, "Rebuild the clouds, stars and horizon fog from time_info" )
 concommand.Add( "hl2a_sky_dump", function()
+	local tex = cloudMat and cloudMat:GetTexture( "$basetexture" )
+	MsgN( "cloud texture: " .. ( tex and tex:GetName() or "?" ) .. ( tex and tex:IsError() and " (MISSING)" or "" ) )
+	for name, f in pairs( { clouds_sphere = S.CloudFlags, stars01 = S.StarFlags } ) do
+		MsgN( string.format( "nature/%s: shader %s, %s", name, f.shader, f.additive and "additive" or "translucent" ) )
+	end
 	for _, block in ipairs( { "clouds", "stars", "horizon" } ) do
 		MsgN( block .. ":" )
 		local set = S.Settings( block )
