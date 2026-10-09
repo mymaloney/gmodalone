@@ -49,6 +49,7 @@ local FILES = {
 	"modules/cl_screenfilter.lua",
 	"modules/cl_effects.lua",
 	"modules/cl_effectspanel.lua",
+	"modules/cl_weatherpanel.lua",
 	"modules/sv_effects.lua",
 	"modules/cl_flashlight.lua",
 	"modules/sv_weather.lua",
