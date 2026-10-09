@@ -46,6 +46,7 @@ local FILES = {
 	"modules/sv_atmosphere.lua",
 	"modules/cl_fog.lua",
 	"modules/cl_view.lua",
+	"modules/cl_screenfilter.lua",
 	"modules/cl_flashlight.lua",
 	"modules/sv_weather.lua",
 	"modules/cl_weather.lua",

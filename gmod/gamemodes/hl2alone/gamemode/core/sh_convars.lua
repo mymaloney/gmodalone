@@ -20,6 +20,7 @@ local CLIENT_ONLY = {
 	"amod_viewbob_", "amod_standbob_", "amod_flashlight", "hl2a_flashlight_", "amod_music_disable",
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
 	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom",
+	"amod_filter_brightness_", "hl2a_screenfilter",
 }
 
 HL2A.ConVars = HL2A.ConVars or {}
@@ -51,6 +52,11 @@ cv( "hl2a_timeinfo_theme", "", "Sub-folder of resource/time_info to load (e.g. \
 
 -- Colour correction ("epic filter")
 cv( "amod_epic_filter", 1 )
+-- Screen filter (cl_screenfilter.lua; original TAB key, here F2)
+cv( "hl2a_screenfilter", 0, "Screen filter on (Amod_ToggleFilter / F2)" )
+cv( "amod_filter_brightness_on", 12, "Screen filter on: brightness, 0-12" )
+cv( "amod_filter_brightness_on_exp", 12, "Screen filter on: brightness exponent, 0-12" )
+cv( "amod_filter_brightness_off", 4, "Screen filter off: brightness, 0-10" )
 cv( "amod_epic_filter_night_filename", "scripts/colorcorrection/cc_epic_filter.raw" )
 cv( "amod_epic_filter_night_intensity", 1 )
 cv( "amod_saturation", 1, "Enable the saturation effect" )

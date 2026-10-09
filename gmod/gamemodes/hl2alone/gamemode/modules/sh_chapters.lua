@@ -76,9 +76,9 @@ function HL2A.GetThemes()
 	return themes
 end
 
--- The maps tell the player to press TAB to toggle the screen filter. That
--- filter isn't ported and TAB opens GMod's scoreboard, so point them at F1.
-HL2A.F1_HINT = "Press F1 to open chapter select and options"
+-- The maps tell the player to press TAB to toggle the screen filter. TAB
+-- opens GMod's scoreboard, so the filter moved to F2 (cl_screenfilter.lua).
+HL2A.F1_HINT = "Press F2 to toggle the screen filter, F1 for chapter select and options"
 
 --- Replacement for a map message, or nil to keep it.
 function HL2A.FixHintText( text )

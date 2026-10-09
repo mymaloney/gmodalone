@@ -63,3 +63,8 @@ end )
 function GM:ShowHelp( ply )
 	ply:ConCommand( "togglenewgamepanel" )
 end
+
+-- F2 toggles the screen filter (TAB in the original; TAB is GMod's scoreboard)
+function GM:ShowTeam( ply )
+	ply:ConCommand( "Amod_ToggleFilter" )
+end

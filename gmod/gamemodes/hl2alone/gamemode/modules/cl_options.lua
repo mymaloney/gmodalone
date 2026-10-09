@@ -3,9 +3,9 @@
 	resource/panels/OptionsPanel.txt and using its localization strings.
 	Changes are staged and sent to the server on "Apply Settings".
 
-	Left out on purpose: the TAB screen-filter brightness sliders (that
-	filter isn't ported), Daytime (shelved), and the Effects / Credits /
-	Ending controls.
+	Left out on purpose: Daytime (shelved) and the Effects / Credits /
+	Ending controls. The filter sliders drive cl_screenfilter.lua and
+	apply live while the panel is open.
 
 	Also implements the mirrored view (amod_mirrored).
 ]]
@@ -30,7 +30,13 @@ local LAYOUT = {
 	{ "label", 130, 200, 110, 30, "#AMod_OptionsPanel_View_EnableCameraRoll_Text" },
 	{ "divider", 0, 234, 236, 2 },
 	{ "label", 75, 240, 160, 20, "#AMod_OptionsPanel_FilterTitle" },
-	{ "check", 15, 262, 225, "amod_epic_filter", "#AMod_OptionsPanel_Filter_EnableEpicFilter", "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip" },
+	{ "slider", 5, 263, 110, "amod_filter_brightness_on", 0, 12, "#AMod_OptionsPanel_Filter_FilterOnBrightness_ToolTip" },
+	{ "label", 120, 263, 116, 20, "#AMod_OptionsPanel_Filter_FilterOnBrightnessLabel" },
+	{ "slider", 5, 290, 110, "amod_filter_brightness_on_exp", 0, 12, "#AMod_OptionsPanel_Filter_FilterOnExponent_ToolTip" },
+	{ "label", 120, 290, 116, 20, "#AMod_OptionsPanel_Filter_FilterOnExponentLabel" },
+	{ "slider", 5, 320, 110, "amod_filter_brightness_off", 0, 10, "#AMod_OptionsPanel_Filter_FilterOffBrightness_Tooltip" },
+	{ "label", 120, 320, 116, 20, "#AMod_OptionsPanel_Filter_FilterOffBrightnessLabel" },
+	{ "check", 15, 346, 225, "amod_epic_filter", "#AMod_OptionsPanel_Filter_EnableEpicFilter", "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip" },
 	{ "divider", 235, 0, 2, 405 },
 
 	{ "label", 285, 10, 150, 20, "#AMod_OptionsPanel_FlashlightTitle" },
@@ -88,6 +94,8 @@ local function buildPanel()
 	frame:SetSize( S( W ), S( H ) + 24 )
 	frame:Center()
 	frame:SetDeleteOnClose( true )
+	HL2A.OptionsPending = pending
+	frame.OnRemove = function() if HL2A.OptionsPending == pending then HL2A.OptionsPending = nil end end
 
 	local body = frame:Add( "DPanel" )
 	body:SetPos( 0, 24 )
@@ -129,6 +137,7 @@ local function buildPanel()
 			-- No built-in label: the original put its text in a separate label
 			sl.Label:SetVisible( false )
 			sl.PerformLayout = function( self ) self.Label:SetWide( 0 ) end
+			if c[ 8 ] then sl:SetTooltip( ( phrase( c[ 8 ] ):gsub( "\\n", "\n" ) ) ) end
 			sl.OnValueChanged = function( _, v ) pending[ name ] = tostring( math.Round( v ) ) end
 
 		elseif kind == "combo" then
