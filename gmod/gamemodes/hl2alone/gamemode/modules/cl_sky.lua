@@ -264,7 +264,7 @@ hook.Add( "PostDraw2DSkyBox", "hl2a.sky", function()
 	cam.End3D()
 end )
 
-hook.Add( "InitPostEntity", "hl2a.sky", S.Rebuild )
+hook.Add( "InitPostEntity", "hl2a.sky", function() S.Rebuild() end )
 hook.Add( "HL2A_TimeInfoChanged", "hl2a.sky", S.Rebuild )
 cvars.AddChangeCallback( "hl2a_timeinfo_theme", function() timer.Simple( 0.1, S.Rebuild ) end, "hl2a.sky" )
 

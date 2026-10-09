@@ -143,3 +143,17 @@ hook.Add( "InitPostEntity", "hl2a.soundscapes.track", function()
 	MsgN( "[HL2A] soundscapes: tracking " .. #scapes .. " on this map" )
 	timer.Create( "hl2a.soundscapes", INTERVAL, 0, update )
 end )
+
+concommand.Add( "hl2a_soundscapes_list", function( ply )
+	if IsValid( ply ) and not ply:IsListenServerHost() then return end
+	local eye = IsValid( ply ) and ply:EyePos() or vector_origin
+	MsgN( "[HL2A] " .. #scapes .. " soundscapes tracked on this map (current: '"
+		.. ( IsValid( ply ) and ply:GetNW2String( "hl2a.soundscape" ) or "" ) .. "'):" )
+	for _, sc in ipairs( scapes ) do
+		if IsValid( sc.ent ) then
+			MsgN( string.format( "  %-40s radius %5d  %s%s  %5d units away%s", sc.name, sc.radius,
+				disabled[ sc.ent ] and "disabled" or "enabled", sc.triggerable and " (trigger)" or "",
+				sc.ent:GetPos():Distance( eye ), IsValid( ply ) and audible( ply, sc, eye ) and "  AUDIBLE" or "" ) )
+		end
+	end
+end, nil, "List the map's soundscapes, which are enabled, and which you can hear" )

@@ -126,7 +126,9 @@ local function loadCarry()
 	return carry
 end
 
-hook.Add( "InitPostEntity", "hl2a.transitions", loadCarry )
+-- Wrapped: a hook that returns anything (loadCarry returns false on a fresh
+-- game) stops every other InitPostEntity hook from running
+hook.Add( "InitPostEntity", "hl2a.transitions", function() loadCarry() end )
 
 -- A new game from the chapter menu never carries anything
 hook.Add( "HL2A.NewGame", "hl2a.transitions", function()

@@ -22,7 +22,7 @@ if SERVER then
 		end
 	end
 
-	hook.Add( "InitPostEntity", "hl2a.breath", breathe )
+	hook.Add( "InitPostEntity", "hl2a.breath", function() breathe() end )
 	return
 end
 

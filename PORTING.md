@@ -209,6 +209,8 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | `hl2a_look_preset <Default\|Faded\|Cinematic\|Noir\|Plain>` | Apply a look preset; `tf1` / `tf2` switch Faded alone |
 | `amod_do_breath` | Breathe once (fog puff + sound) |
 | `hl2a_weathersound_debug` | Show the tracked soundscape and the rain/snow/thunder layers playing |
+| `hl2a_soundscape_debug 1` | Print every soundscape change and the rain bed and level it picks |
+| `hl2a_soundscapes_list` | The map's soundscapes: radius, enabled, distance, which you can hear |
 | `hl2a_thunder_test` | One thunder strike at a random distance (flash, delay, clap) |
 | `amod_weather_snow_reload` | Re-apply the current map's `.smf` snow materials |
 | `hl2a_snow_debug` | Show the current map's `.smf` rules and how many materials each matches |

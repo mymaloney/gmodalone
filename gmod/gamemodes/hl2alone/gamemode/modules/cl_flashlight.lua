@@ -28,7 +28,7 @@ local function applyDepthRes()
 	if q.res and cvar and cvar:GetInt() ~= q.res then RunConsoleCommand( "r_flashlightdepthres", tostring( q.res ) ) end
 end
 cvars.AddChangeCallback( "hl2a_flashlight_shadows", function() timer.Simple( 0, applyDepthRes ) end, "hl2a.flashlight" )
-hook.Add( "InitPostEntity", "hl2a.flashlight", applyDepthRes )
+hook.Add( "InitPostEntity", "hl2a.flashlight", function() applyDepthRes() end )
 
 local light
 local lagAng

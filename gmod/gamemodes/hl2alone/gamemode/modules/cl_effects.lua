@@ -312,7 +312,7 @@ local function applyViewmodelFov()
 end
 cvars.AddChangeCallback( "hl2a_viewmodel_fov_override", function() timer.Simple( 0, applyViewmodelFov ) end, "hl2a.effects" )
 cvars.AddChangeCallback( "hl2a_viewmodel_fov", function() timer.Simple( 0, applyViewmodelFov ) end, "hl2a.effects" )
-hook.Add( "InitPostEntity", "hl2a.effects.vmfov", applyViewmodelFov )
+hook.Add( "InitPostEntity", "hl2a.effects.vmfov", function() applyViewmodelFov() end )
 hook.Add( "ShutDown", "hl2a.effects.vmfov", function()
 	if savedVMFov then RunConsoleCommand( "viewmodel_fov", savedVMFov ) end
 end )

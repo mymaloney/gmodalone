@@ -237,6 +237,6 @@ concommand.Add( "hl2a_snow_debug", function()
 		MsgN( string.format( "    %-40s %d entries, matches %d", r.name, #r.entries, hits ) )
 	end
 end )
-hook.Add( "ShutDown", "hl2a.snowmaterials", restore )
+hook.Add( "ShutDown", "hl2a.snowmaterials", function() restore() end )
 
 concommand.Add( "amod_weather_snow_reload", HL2A.ApplySnowMaterials, nil, "Reloads the .smf for the current map" )

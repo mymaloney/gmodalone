@@ -20,7 +20,7 @@ end )
 
 if SERVER then
 	local function publish() SetGlobal2Bool( "hl2a.sandbox", HL2A.ConVars.hl2a_sandbox_tools:GetBool() ) end
-	hook.Add( "InitPostEntity", "hl2a.sandbox", publish )
+	hook.Add( "InitPostEntity", "hl2a.sandbox", function() publish() end )
 	hook.Add( "HL2A_PublishSettings", "hl2a.sandbox", publish ) -- sv_settings.lua, after a map change
 	cvars.AddChangeCallback( "hl2a_sandbox_tools", function() timer.Simple( 0, publish ) end, "hl2a.sandbox" )
 

@@ -457,6 +457,8 @@ local function stopAll()
 	for kind in pairs( KINDS ) do setLayer( kind, nil ) end
 end
 
+local lastScape -- for hl2a_soundscape_debug
+
 local function stopEverything()
 	stopAll()
 	setBase( nil )
@@ -481,6 +483,15 @@ hook.Add( "Think", "hl2a.weathersound", function()
 	end
 	on = on and not muted
 	local scape = ply:GetNW2String( "hl2a.soundscape" )
+	if scape ~= lastScape then
+		if CV.hl2a_soundscape_debug:GetBool() then
+			local rules, volume = W.LayerFor( "rain", scape )
+			local which = "none"
+			for name, d in pairs( defs or {} ) do if d == rules then which = name end end
+			MsgN( string.format( "[HL2A] soundscape: '%s' -> '%s'  (rain bed %s at %.2f)", lastScape or "", scape, which, volume or 0 ) )
+		end
+		lastScape = scape
+	end
 	setBase( scape ~= "" and scape or nil )
 
 	setLayer( "rain", on and kind == 1 and scape or nil )
@@ -492,7 +503,7 @@ hook.Add( "Think", "hl2a.weathersound", function()
 	if base then base.layer:Think( now, eye ) end
 end )
 
-hook.Add( "ShutDown", "hl2a.weathersound", stopEverything )
+hook.Add( "ShutDown", "hl2a.weathersound", function() stopEverything() end )
 
 -- Thunder flash -----------------------------------------------------------------------
 
