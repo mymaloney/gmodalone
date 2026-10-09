@@ -19,7 +19,7 @@ local CLIENT_ONLY = {
 	"amod_fog_disabled", "amod_saturation", "hl2a_saturation_amount", "amod_vignette", "amod_new_vignette_",
 	"amod_viewbob_", "amod_standbob_", "amod_flashlight", "hl2a_flashlight_", "amod_music_disable",
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
-	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "r_clouds_", "r_stars_", "r_horizonfog_",
+	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "r_clouds_", "r_stars_", "r_horizonfog_", "gg_",
 	"amod_filter_brightness_", "hl2a_screenfilter",
 	"amod_view_", "amod_camera_", "amod_blur_amount", "amod_lighting_debug", "amod_effects_",
 	"hl2a_effects_", "hl2a_noir", "hl2a_hide_viewmodel", "hl2a_viewmodel_fov", "hl2a_claustrophobia_fov", "hl2a_pitch_",
@@ -194,5 +194,12 @@ cv( "amod_enable_god", 0 )
 cv( "hl2a_normspeed", 165, "Normal move speed (original: hl2_normspeed)" )
 cv( "hl2a_walkspeed", 150, "+walk speed (original: hl2_walkspeed)" )
 cv( "hl2a_sprintspeed", 260, "+speed sprint speed (original: hl2_sprintspeed)" )
+-- Geo-Guesser (cl_geoguesser.lua), names and defaults from client.dll
+cv( "gg_pin_maxpoints", 1000, "Points for a pin within gg_pin_maxpoints_falloff of the spot" )
+cv( "gg_pin_maxpoints_falloff", 10, "Distance (map pixels) that still scores full points" )
+cv( "gg_pin_maxdistance", 150, "Distance (map pixels) beyond which a pin scores nothing" )
+cv( "gg_minimap_pin_size", 20 )
+cv( "gg_minimap_scroll_multiplyer", 5, "Minimap zoom speed" )
+
 cv( "hl2a_sandbox_tools", 0, "Sandbox hints, spawn menu (Q), context menu (C) and noclip" )
 cv( "hl2a_sandbox_loadout", 0, "Give the sandbox physgun/toolgun loadout on spawn (development)" )

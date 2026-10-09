@@ -76,6 +76,7 @@ local FILES = {
 	"modules/cl_options.lua",
 	"modules/sh_sandbox.lua",
 	"modules/cl_credits.lua",
+	"modules/cl_geoguesser.lua",
 	"modules/sv_dev.lua",
 }
 
