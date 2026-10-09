@@ -164,7 +164,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
 | Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
 | Runtime map edits (`ep1_citadel_03_d`) | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
-| Map-fired commands (`quit`, `amod_*`, `startupmenu`, `fadein`/`fadeout`) | DLLs / engine | **Ported:** `quit` blocked, the rest handled (`fadein`/`fadeout` as server-side screen fades, which GMod won't run from a map; without it the EP1 intro stayed black) | `sv/cl_mapcommands.lua` |
+| Map-fired commands (`quit`, `amod_*`, `startupmenu`, `fadein`/`fadeout`) | DLLs / engine | **Ported:** the anti-piracy check is disabled (its "download this on moddb" texts are removed at load, its `quit` ignored), the rest handled (`fadein`/`fadeout` as server-side screen fades, which GMod won't run from a map; without it the EP1 intro stayed black) | `sv/cl_mapcommands.lua` |
 | `logic_achievement`, `env_hudhint` (missing in GMod) | engine entities | **Re-created in Lua** | `entities/entities/` |
 | Blank `item_item_crate` models | server.dll | **Fixed:** defaults to the stock crate model | `sv_mappatches.lua` |
 | Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |

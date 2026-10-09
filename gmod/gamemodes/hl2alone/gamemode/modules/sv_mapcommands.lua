@@ -52,7 +52,7 @@ end
 -- handler( ply, args ) where ply is the command's target player (may be NULL)
 local HANDLERS = {
 	quit = function( _, _, ent )
-		MsgN( "[HL2A] blocked 'quit' fired by map entity " .. tostring( ent ) )
+		MsgN( "[HL2A] ignored 'quit' fired by map entity " .. tostring( ent ) .. " (the mod's anti-piracy check)" )
 	end,
 	exit = function( ply, args, ent ) MsgN( "[HL2A] blocked 'exit' fired by " .. tostring( ent ) ) end,
 	disconnect = function( ply, args, ent ) MsgN( "[HL2A] blocked 'disconnect' fired by " .. tostring( ent ) ) end,
@@ -143,11 +143,45 @@ hook.Add( "EntityKeyValue", "hl2a.f1hint", function( ent, key, value )
 	end
 end )
 
--- The mod's cfg/game.cfg blanked these error texts after load; same here
-hook.Add( "InitPostEntity", "hl2a.texterror", function()
-	for _, name in ipairs( { "text_error", "text_error2" } ) do
-		for _, ent in ipairs( ents.FindByName( name ) ) do
-			ent:SetKeyValue( "message", " " )
+-- Anti-piracy messages. Many maps have a logic_auto that, on every map
+-- spawn, shows game_texts ("play this by downloading this on moddb...",
+-- "dont play it on whatever your playing it on") and then fires "quit"
+-- (blocked above). The original's DLLs and cfg/game.cfg suppressed it; here
+-- the texts are removed before they can show. Found by name (text_error,
+-- text_error2) and, for any other naming, as the game_texts shown by a
+-- logic_auto that also fires "quit".
+local ANTI_PIRACY_TEXTS = { text_error = true, text_error2 = true }
+local autoOutputs = {} -- [ logic_auto ] = { { target, input, param } }
+
+hook.Add( "EntityKeyValue", "hl2a.antipiracy", function( ent, key, value )
+	if ent:GetClass() ~= "logic_auto" or not key:StartWith( "On" ) then return end
+	local sep = value:find( "\x1b", 1, true ) and "\x1b" or ","
+	local parts = string.Explode( sep, value )
+	if #parts < 3 then return end
+	autoOutputs[ ent ] = autoOutputs[ ent ] or {}
+	table.insert( autoOutputs[ ent ], { parts[ 1 ]:lower(), parts[ 2 ]:lower(), parts[ 3 ]:lower():Trim() } )
+end )
+
+hook.Add( "InitPostEntity", "hl2a.antipiracy", function()
+	local names = table.Copy( ANTI_PIRACY_TEXTS )
+	for _, outputs in pairs( autoOutputs ) do
+		local quits = false
+		for _, o in ipairs( outputs ) do
+			if o[ 2 ] == "command" and o[ 3 ] == "quit" then quits = true break end
+		end
+		if quits then
+			for _, o in ipairs( outputs ) do
+				if o[ 2 ] == "display" then names[ o[ 1 ] ] = true end
+			end
 		end
 	end
+	autoOutputs = {}
+
+	local removed = 0
+	for name in pairs( names ) do
+		for _, ent in ipairs( ents.FindByName( name ) ) do
+			if ent:GetClass() == "game_text" then ent:Remove() removed = removed + 1 end
+		end
+	end
+	if removed > 0 then MsgN( "[HL2A] removed " .. removed .. " anti-piracy message(s)" ) end
 end )
