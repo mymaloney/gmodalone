@@ -287,6 +287,17 @@ folder; it finds and fixes every copy, including `<map>_l_0.lmp` overrides:
     python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod" --dry-run --deep   (list)
     python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod"                     (fix)
 
+Workshop addons (including your own upload, if you're subscribed to it) are
+mounted from `.gma` packages; add the Workshop folder to the scan and the tool
+reports any map inside one that still has the check (unsubscribe, or re-upload
+a fixed build):
+
+    python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod" "<Steam library>/steamapps/workshop/content/4000" --dry-run
+
+In game, `hl2a_whichmap` lists every copy of the current map GMod can see
+(garrysmod/, legacy addons, each mounted Workshop addon, mounted games) and
+which of them has the check; it also runs by itself when a map with the check loads.
+
 ## Finding why a map hangs
 
 `python tools/map_logic.py "<mod folder>/maps/<map>.bsp"` prints what the

@@ -43,7 +43,10 @@ NATIVE_CMD_PREFIXES = (
 
 
 def read_entity_lump(path: Path) -> str:
-    data = path.read_bytes()
+    return entity_lump_from_bytes(path.read_bytes())
+
+
+def entity_lump_from_bytes(data: bytes) -> str:
     if data[:4] != b"VBSP":
         raise ValueError("not a VBSP file")
     ofs, length, _ver, _cc = struct.unpack_from("<iiii", data, 8)

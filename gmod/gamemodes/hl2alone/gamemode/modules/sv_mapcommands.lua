@@ -139,6 +139,51 @@ local TEXT_CLASSES = { game_text = true, env_message = true, point_message = tru
 local PIRACY_TEXT = { "moddb%.com/mods/half%-life%-2%-alone", "whatever your playing it on" }
 local piracyWarned = false
 
+-- Every place the current map exists, and whether the copy GMod loads
+-- ("GAME") still carries the check. Run automatically when it turns up.
+local function mapContainsPiracy( path, searchPath )
+	local f = file.Open( path, "rb", searchPath )
+	if not f then return nil end
+	f:Seek( 8 )
+	local ofs, len = f:ReadLong(), f:ReadLong()
+	f:Seek( ofs )
+	local lump = f:Read( len ) or ""
+	f:Close()
+	if lump:sub( 1, 4 ) == "LZMA" then return "compressed: can't tell" end
+	lump = lump:lower()
+	return lump:find( "moddb.com/mods/half-life-2-alone", 1, true ) ~= nil or lump:find( "whatever your playing it on", 1, true ) ~= nil
+end
+
+function HL2A.WhichMap()
+	local map = game.GetMap()
+	local path = "maps/" .. map .. ".bsp"
+	MsgN( "[HL2A] where " .. path .. " exists (GMod loads the first that wins: garrysmod/, then addons, then games):" )
+	local function report( label, searchPath, file_ )
+		file_ = file_ or path
+		if not file.Exists( file_, searchPath ) then return end
+		local has = mapContainsPiracy( file_, searchPath )
+		MsgN( string.format( "  %-40s %8.1f MB  anti-piracy: %s", label, file.Size( file_, searchPath ) / 1048576,
+			has == true and "YES" or has == false and "no" or tostring( has ) ) )
+	end
+	report( "loaded copy (GAME)", "GAME" )
+	report( "garrysmod/ (MOD)", "MOD" )
+	for _, dir in ipairs( select( 2, file.Find( "addons/*", "MOD" ) ) or {} ) do
+		report( "legacy addon addons/" .. dir, "MOD", "addons/" .. dir .. "/" .. path )
+	end
+	for _, a in ipairs( engine.GetAddons() ) do
+		if a.mounted then report( "Workshop: " .. a.title .. " (" .. tostring( a.wsid ) .. ")", a.title ) end
+	end
+	for _, g in ipairs( engine.GetGames() ) do
+		if g.mounted then report( "game: " .. g.title, g.folder ) end
+	end
+	if file.Exists( "maps/" .. map .. "_l_0.lmp", "GAME" ) then MsgN( "  NOTE: maps/" .. map .. "_l_0.lmp overrides this map's entities" ) end
+end
+
+concommand.Add( "hl2a_whichmap", function( ply )
+	if IsValid( ply ) and not ply:IsListenServerHost() then return end
+	HL2A.WhichMap()
+end, nil, "List every copy of the current map GMod can see, and which still has the anti-piracy check" )
+
 local function isPiracyText( value )
 	value = value:lower()
 	for _, p in ipairs( PIRACY_TEXT ) do
@@ -156,6 +201,7 @@ hook.Add( "EntityKeyValue", "hl2a.f1hint", function( ent, key, value )
 				piracyWarned = true
 				MsgN( "[HL2A] WARNING: this copy of " .. game.GetMap() .. " still has the mod's anti-piracy check. Run"
 					.. " tools/strip_antipiracy.py on your garrysmod folder (see PORTING.md)." )
+				timer.Simple( 0, HL2A.WhichMap )
 			end
 			return " "
 		end

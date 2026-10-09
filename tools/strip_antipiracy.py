@@ -28,6 +28,13 @@ saves unpatched maps there), point it at your whole garrysmod folder:
   python tools/strip_antipiracy.py path/to/one_map.bsp
 --deep also searches the rest of each map file (e.g. its packed files)
 and reports any other place the text appears.
+
+Workshop addons are mounted from .gma packages, which a folder scan can't
+see into; .gma files found under the given paths are opened and each map
+inside is checked (reported only: unsubscribe or re-upload that addon).
+Subscribed Workshop addons live in <Steam library>/steamapps/workshop/
+content/4000/, so pass that folder too:
+  python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod" "C:/Program Files (x86)/Steam/steamapps/workshop/content/4000" --dry-run
 """
 
 import argparse
@@ -37,7 +44,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from audit_assets import read_entity_lump  # noqa: E402
+from audit_assets import read_entity_lump, entity_lump_from_bytes  # noqa: E402
 
 PIRACY_TEXT = re.compile(r"moddb\.com/mods/half-life-2-alone|whatever your playing it on", re.I)
 TEXT_CLASSES = {"game_text", "env_message", "point_message", "env_hudhint", "game_text_tf"}
@@ -161,6 +168,63 @@ def deep_hits(path: Path):
     return [m.start() for m in PHRASE.finditer(path.read_bytes())]
 
 
+def gma_maps(path: Path):
+    """(name, bytes) of each map in a .gma package."""
+    data = path.read_bytes()
+    if data[:4] != b"GMAD":
+        return
+    pos = 4
+    version = data[pos]
+    pos += 1 + 8 + 8  # version, steamid, timestamp
+
+    def cstr():
+        nonlocal pos
+        end = data.index(b"\0", pos)
+        out = data[pos:end].decode("utf-8", "replace")
+        pos = end + 1
+        return out
+
+    if version > 1:
+        while cstr():
+            pass
+    cstr(), cstr(), cstr()  # name, description, author
+    pos += 4  # addon version
+    entries = []
+    while True:
+        num = struct.unpack_from("<I", data, pos)[0]
+        pos += 4
+        if num == 0:
+            break
+        name = cstr()
+        size = struct.unpack_from("<q", data, pos)[0]
+        pos += 8 + 4  # size, crc
+        entries.append((name, size))
+    for name, size in entries:
+        if name.lower().endswith(".bsp") or name.lower().endswith("_l_0.lmp"):
+            yield name, data[pos:pos + size]
+        pos += size
+
+
+def check_gma(path: Path, shown):
+    """Reports maps in a .gma that still have the check; returns how many."""
+    hits = 0
+    try:
+        for name, blob in gma_maps(path):
+            if name.lower().endswith(".lmp"):
+                ofs, lump_id, _v, length, _r = LMP_HEADER.unpack_from(blob)
+                text = blob[ofs:ofs + length].split(b"\0", 1)[0].decode("latin-1") if lump_id == 0 else ""
+            else:
+                text = entity_lump_from_bytes(blob)
+            _new, ents, outputs = strip_text(text)
+            if ents or outputs or PHRASE.search(blob):
+                hits += 1
+                print(f"in .gma  {shown} -> {name}: {ents} entities, {outputs} outputs (can't patch a .gma:"
+                      " unsubscribe from / re-upload this addon)")
+    except Exception as e:  # noqa: BLE001
+        print(f"warning  {shown}: {e}")
+    return hits
+
+
 def patch_tree(root: Path, dry_run: bool = False, quiet: bool = False, deep: bool = False):
     """Patches every .bsp and entity .lmp under root; returns (files changed, files scanned)."""
     if root.is_dir():
@@ -168,6 +232,10 @@ def patch_tree(root: Path, dry_run: bool = False, quiet: bool = False, deep: boo
     else:
         files = [root]
     changed = 0
+    gmas = sorted(root.rglob("*.gma")) if root.is_dir() else ([root] if root.suffix.lower() == ".gma" else [])
+    for g in gmas:
+        changed += check_gma(g, g.relative_to(root) if root.is_dir() else g)
+    files = [f for f in files if f.suffix.lower() != ".gma"]
     for f in files:
         try:
             fn = patch_lmp if f.suffix.lower() == ".lmp" else patch_bsp
@@ -185,7 +253,7 @@ def patch_tree(root: Path, dry_run: bool = False, quiet: bool = False, deep: boo
             if left:
                 print(f"{'text in ' if dry_run else 'still in'} {shown} at byte {', '.join(map(str, left[:5]))}"
                       + ("" if dry_run else " (outside the entity data: tell the port's author)"))
-    return changed, len(files)
+    return changed, len(files) + len(gmas)
 
 
 def main():
