@@ -8,8 +8,8 @@
 	            0.0002 + (i - 1) / 99 * 0.0058, snow-covered maps (snow only),
 	            intervals with wait min 10-600 / max 30-1200 s (swapped if
 	            min > max).
-	Atmosphere  clouds / horizon fog / stars (not ported yet, shown disabled),
-	            disable sun, thunder, breath.
+	Atmosphere  clouds (with colour override), horizon fog, stars
+	            (cl_sky.lua), disable sun, thunder, breath.
 	Skybox      the night skies from resource/Skyboxs.txt with a preview.
 	            The original's sky angle slider needed its engine changes, so
 	            it's left out.
@@ -171,24 +171,49 @@ local function build()
 	local ap = vgui.Create( "DPanel", sheet )
 	ap:SetPaintBackground( false )
 	local AP = "AtmospherePage_"
-	local SOON = "\n\n(Not ported yet: clouds, stars and horizon fog are next.)"
 
 	heading( ap, P( AP .. "CloudsLabel" ), 2 )
-	check( ap, P( AP .. "EnableClouds" ), P( AP .. "ToolTip_EnableClouds" ) .. SOON, 10, 25, nil, false )
-	check( ap, P( AP .. "OverrideCloudsColor" ), P( AP .. "ToolTip_OverrideCloudsColor" ) .. SOON, 10, 45, nil, false )
+	check( ap, P( AP .. "EnableClouds" ), P( AP .. "ToolTip_EnableClouds" ), 10, 25, "r_clouds_enable" )
+	check( ap, P( AP .. "OverrideCloudsColor" ), P( AP .. "ToolTip_OverrideCloudsColor" ), 10, 45, "r_clouds_color_override" )
+
+	local function cloudColor()
+		return Color( tonumber( value( "r_clouds_red_override" ) ) or 255, tonumber( value( "r_clouds_green_override" ) ) or 255,
+			tonumber( value( "r_clouds_blue_override" ) ) or 255 )
+	end
 	local color = ap:Add( "DButton" )
 	color:SetPos( 10, 65 )
 	color:SetSize( 200, 20 )
 	color:SetText( P( AP .. "SetCloudsColor" ) )
-	color:SetTooltip( P( AP .. "ToolTip_SetCloudsColor" ) .. SOON )
-	color:SetEnabled( false )
+	color:SetTooltip( P( AP .. "ToolTip_SetCloudsColor" ) )
+	local swatch = ap:Add( "DPanel" )
+	swatch:SetPos( 216, 65 )
+	swatch:SetSize( 34, 20 )
+	swatch.Paint = function( _, w, h )
+		surface.SetDrawColor( cloudColor() ) surface.DrawRect( 0, 0, w, h )
+		surface.SetDrawColor( 0, 0, 0 ) surface.DrawOutlinedRect( 0, 0, w, h )
+	end
+	color.DoClick = function()
+		local pick = vgui.Create( "DFrame" )
+		pick:SetTitle( P( AP .. "SetCloudsColor" ) )
+		pick:SetSize( 280, 260 )
+		pick:Center()
+		pick:MakePopup()
+		local mixer = pick:Add( "DColorMixer" )
+		mixer:Dock( FILL )
+		mixer:SetAlphaBar( false )
+		mixer:SetPalette( false )
+		mixer:SetColor( cloudColor() )
+		mixer.ValueChanged = function( _, c )
+			set( "r_clouds_red_override", c.r ) set( "r_clouds_green_override", c.g ) set( "r_clouds_blue_override", c.b )
+		end
+	end
 
 	heading( ap, P( AP .. "HorizonLabel" ), 90 )
-	check( ap, P( AP .. "EnableHorizon" ), P( AP .. "ToolTip_EnableHorizon" ) .. SOON, 10, 110, nil, false )
+	check( ap, P( AP .. "EnableHorizon" ), P( AP .. "ToolTip_EnableHorizon" ), 10, 110, "r_horizonfog_enable" )
 
 	heading( ap, P( AP .. "StarsLabel" ), 130 )
-	check( ap, P( AP .. "EnableStars" ), P( AP .. "ToolTip_EnableStars" ) .. SOON, 10, 150, nil, false )
-	check( ap, P( AP .. "ForceStars" ), P( AP .. "ToolTip_ForceStars" ) .. SOON, 10, 170, nil, false )
+	check( ap, P( AP .. "EnableStars" ), P( AP .. "ToolTip_EnableStars" ), 10, 150, "r_stars_enable" )
+	check( ap, P( AP .. "ForceStars" ), P( AP .. "ToolTip_ForceStars" ), 10, 170, "r_stars_force" )
 
 	heading( ap, P( AP .. "SunLabel" ), 190 )
 	check( ap, P( AP .. "DisableSun" ), P( AP .. "ToolTip_DisableSun" ), 10, 210, "amod_sun_disable" )

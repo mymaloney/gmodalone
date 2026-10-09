@@ -153,11 +153,11 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Mirrored view, hide HUD, footsteps off, strafe roll, soundscapes off | DLL / engine cvars | **Ported** | `cl_options.lua`, `cl_view.lua`, `sh/sv_options.lua` |
 | TAB screen filter (`Amod_ToggleFilter`, `tf1`/`tf2`) + its three brightness sliders | client.dll aliases switching `mat_monitorgamma` / TV gamma | **Ported** from disassembly as a screen-space gamma curve (exact formulas in the file). On **F2**, since TAB is the scoreboard; doesn't affect the HUD | `cl_screenfilter.lua`, `cl_options.lua` |
 | Effects panel: view effects (B&W, lens dirt, TV overlays, blur, black boxes, claustrophobia, viewmodel), camera editor (smoothing, offsets, pitch limits), conditional console variables / screen overlays / lights, `.amf` presets, autoload | client.dll (`CEffectsPanel*`, view render code) | **Ported** from disassembly (convars, slider ranges and conversions, draw order, preset format). Lens dirt and blur used custom shaders: lens dirt is redrawn additively from its texture, blur uses GMod's screen blur. Lights parented by *targetname* won't find entities (names aren't networked to the client) | `cl_effects.lua`, `cl_effectspanel.lua`, `sv_effects.lua` |
-| Weather panel (weather override/type/intensity/intervals, sun, thunder, breath, night skybox) | VGUI `.res` + client.dll | **Ported** (`toggleweatherpanel`, or the chapter select's Weather button); rain intensity formula and slider ranges from the DLL. Cloud/star/horizon options shown disabled until those are ported; the sky angle slider needed engine changes | `cl_weatherpanel.lua` |
+| Weather panel (weather override/type/intensity/intervals, sun, thunder, breath, night skybox) | VGUI `.res` + client.dll | **Ported** (`toggleweatherpanel`, or the chapter select's Weather button); rain intensity formula and slider ranges from the DLL. The sky angle slider needed engine changes | `cl_weatherpanel.lua` |
 | Lightning bolts with thunder | `materials/lightning/*` | **Added:** closer strikes may show a bolt in the clap's direction (the mod's lightning images if present, else a generated bolt); `hl2a_lightning_bolts 0` turns them off | `cl_weathersound.lua` |
 | Background panel | VGUI `.res` + DLL | **TODO** (low priority) | n/a |
 | Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
-| Volumetric clouds (`r_clouds_*`), horizon fog | engine changes | **Not portable as-is.** Would need a Lua mesh/sprite system | n/a |
+| Clouds, stars, horizon fog (`r_clouds*`, `r_stars*`, `r_horizonfog*`) | engine changes in client.dll + time_info `clouds`/`stars`/`horizon` blocks | **Ported** as Lua meshes drawn after the 2D skybox, using the DLL's defaults and per-map settings. Geometry/UV details are approximations; tune in-game (`hl2a_sky_dump`, `hl2a_sky_reload`) | `cl_sky.lua` |
 | GamepadUI main menu, bik menu backgrounds | gamepadui.dll | **Not portable.** GMod's main menu can't be replaced by a gamemode | n/a |
 | Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
 | Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
@@ -178,6 +178,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleOptionsPanel` | Options panel |
 | `ToggleEffectsPanel` | Effects panel (also a button on the Options panel and chapter select) |
+| `hl2a_sky_dump`, `hl2a_sky_reload` | Show / re-apply the current map's cloud, star and horizon-fog settings |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
 | `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
 | `Amod_ToggleFilter` (F2), `tf1` / `tf2` | Toggle / switch on / switch off the screen filter |

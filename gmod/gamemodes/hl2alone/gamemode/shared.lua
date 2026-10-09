@@ -58,6 +58,7 @@ local FILES = {
 	"modules/cl_weathersound.lua",
 	"modules/sh_breath.lua",
 	"modules/cl_bloom.lua",
+	"modules/cl_sky.lua",
 	"modules/cl_snowmaterials.lua",
 	"modules/cl_music.lua",
 	"modules/sh_chapters.lua",
