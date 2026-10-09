@@ -92,8 +92,8 @@ end
 function HL2A.ApplyAtmosphere()
 	SetGlobal2Bool( "hl2a.epicfilter", CV.amod_epic_filter:GetBool() )
 	SetGlobal2Bool( "hl2a.postprocess", CV.hl2a_postprocess:GetBool() )
-	-- StormFox 2 draws its own sky and sun (sh_stormfox.lua)
-	if not ( HL2A.StormFoxActive and HL2A.StormFoxActive() ) then
+	-- StormFox 2 draws its own sky and sun when hl2a_stormfox_sky is on (sh_stormfox.lua)
+	if not ( HL2A.StormFoxSky and HL2A.StormFoxSky() ) then
 		applySky()
 		applySun()
 	end
@@ -116,7 +116,8 @@ end )
 timer.Create( "hl2a.filter", 0.25, 0, updateFilter )
 
 for _, name in ipairs( { "amod_night_sky", "amod_sun_disable", "hl2a_timeinfo_theme",
-	"amod_epic_filter", "hl2a_postprocess", "amod_epic_filter_night_filename", "amod_epic_filter_night_intensity" } ) do
+	"amod_epic_filter", "hl2a_postprocess", "amod_epic_filter_night_filename", "amod_epic_filter_night_intensity",
+	"hl2a_stormfox", "hl2a_stormfox_sky" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, HL2A.ApplyAtmosphere ) end, "hl2a.atmosphere" )
 end
 

@@ -2,7 +2,8 @@
 	StormFox 2 compatibility (https://github.com/Nak2/StormFox2).
 
 	hl2a_stormfox 1 (default): when StormFox 2 is installed it takes over the
-	weather, sky and time. Each map's own settings (time_info / the Weather
+	weather and time (and the sky with hl2a_stormfox_sky 1; by default the
+	maps keep their own night sky, clouds and stars). Each map's own settings (time_info / the Weather
 	panel: rain or snow, intensity, intervals, thunder) are fed to it, at
 	night, with time stopped. The port's own rain/snow particles and
 	ambience, thunder, clouds, stars, horizon fog, skybox and sun step aside;
@@ -23,10 +24,17 @@ function HL2A.StormFoxInstalled()
 	return istable( StormFox2 ) and istable( StormFox2.Setting ) and isfunction( StormFox2.Setting.Set )
 end
 
---- StormFox is handling weather and sky (clients: as published by the server)
+--- StormFox is handling the weather (clients: as published by the server)
 function HL2A.StormFoxActive()
 	if CLIENT then return GetGlobal2Bool( "hl2a.stormfox", false ) end
 	return HL2A.StormFoxInstalled() and CV.hl2a_stormfox:GetBool()
+end
+
+--- StormFox is drawing the sky too (hl2a_stormfox_sky)
+function HL2A.StormFoxSky()
+	if not HL2A.StormFoxActive() then return false end
+	if CLIENT then return GetGlobal2Bool( "hl2a.stormfox.sky", false ) end
+	return CV.hl2a_stormfox_sky:GetBool()
 end
 
 -- Session-only StormFox settings ------------------------------------------------------------
@@ -111,6 +119,7 @@ local function takeOver()
 	if not HL2A.StormFoxInstalled() then return end
 	SetGlobal2Bool( "hl2a.stormfox", HL2A.StormFoxActive() )
 	SetGlobal2Bool( "hl2a.stormfox.fog", CV.hl2a_stormfox_fog:GetBool() )
+	SetGlobal2Bool( "hl2a.stormfox.sky", CV.hl2a_stormfox_sky:GetBool() )
 
 	if not HL2A.StormFoxActive() then
 		setSF( "enable", false ) -- the port keeps its own weather: StormFox stays out
@@ -132,6 +141,8 @@ local function takeOver()
 			"maplight_lightstyle", "allow_weather_lightchange" } ) do setSF( name, false ) end
 	end
 	setSF( "enable_svfog", CV.hl2a_stormfox_fog:GetBool() )
+	-- Its sky, sun and moon, or the maps' own night sky (the default)
+	setSF( "enable_skybox", CV.hl2a_stormfox_sky:GetBool() )
 
 	if StormFox2.Time and StormFox2.Time.Set then StormFox2.Time.Set( nightTime() ) end
 	sync( true )
@@ -141,7 +152,7 @@ hook.Add( "InitPostEntity", "hl2a.stormfox", function() timer.Simple( 1, takeOve
 hook.Add( "HL2A_PublishSettings", "hl2a.stormfox", function() takeOver() end )
 timer.Create( "hl2a.stormfox.sync", 2, 0, function() sync( false ) end )
 
-for _, name in ipairs( { "hl2a_stormfox", "hl2a_stormfox_fog", "hl2a_stormfox_time", "hl2a_stormfox_time_flow",
+for _, name in ipairs( { "hl2a_stormfox", "hl2a_stormfox_fog", "hl2a_stormfox_sky", "hl2a_stormfox_time", "hl2a_stormfox_time_flow",
 	"hl2a_stormfox_maplight", "amod_weather_thunder" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, takeOver ) end, "hl2a.stormfox" )
 end
