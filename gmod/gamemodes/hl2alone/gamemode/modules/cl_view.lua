@@ -109,5 +109,6 @@ end )
 hook.Add( "HUDShouldDraw", "hl2a.hidehud", function( name )
 	if name == "CHudGMod" or name == "CHudChat" then return end
 	if CV.hl2a_hidehud:GetBool() then return false end
+	if GetGlobal2Bool( "hl2a.capture", false ) then return false end
 	if IsValid( LocalPlayer() ) and LocalPlayer():GetNW2Bool( "hl2a.hidehud" ) then return false end
 end )

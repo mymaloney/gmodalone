@@ -15,7 +15,8 @@
 	Presets     the original .amf KeyValues ("AloneModFilter"), stored in
 	            data/hl2alone/effects/<name>.txt.
 
-	Custom-shader materials (lens dirt, blur) fall back to stock rendering.
+	Lens dirt and blur recreate the mod's own shaders exactly (see drawBlur);
+	other custom-shader materials fall back to stock rendering.
 ]]
 
 local CV = HL2A.ConVars
@@ -131,24 +132,108 @@ local function drawScreenMaterial( mat, color, alpha )
 	end
 end
 
-local blurMat = Material( "pp/blurscreen" )
+-- The mod's own screen shaders, recreated from their decompiled pixel
+-- shaders (shaders/fxc/*_ps20b.vcs; settings from game_shader_dx9.dll):
+--   blur:      5 horizontal taps at 0, +-0.001a, +-0.002a (UV), weights
+--              0.4, 0.2, 0.1, then lerp( a, blurred, screen )   a = amod_blur_amount
+--   lens dirt: screen + saturate( alpha ) * dirt * screen * intensity
+--              (amod_lensdirt_intensity 1, amod_lensdirt_alpha 0.775)
+-- Drawn with blend states into a scratch render target.
+
+local fxRT, fxMat, screenMat
+local function scratch()
+	if fxRT then return end
+	fxRT = GetRenderTargetEx( "hl2a_fx_scratch", ScrW(), ScrH(), RT_SIZE_FULL_FRAME_BUFFER,
+		MATERIAL_RT_DEPTH_NONE, 0, 0, IMAGE_FORMAT_RGB888 )
+	fxMat = CreateMaterial( "hl2a_fx_scratch", "UnlitGeneric", {
+		[ "$basetexture" ] = fxRT:GetName(), [ "$ignorez" ] = 1, [ "$vertexcolor" ] = 1, [ "$vertexalpha" ] = 1, [ "$translucent" ] = 1,
+	} )
+	screenMat = CreateMaterial( "hl2a_fx_screen", "UnlitGeneric", {
+		[ "$basetexture" ] = "_rt_FullFrameFB", [ "$ignorez" ] = 1, [ "$vertexcolor" ] = 1,
+	} )
+end
+
+local BLUR_TAPS = { { 0, 0.4 }, { -0.001, 0.2 }, { 0.001, 0.2 }, { -0.002, 0.1 }, { 0.002, 0.1 } }
 
 local function drawBlur( amount )
 	if amount <= 0 then return end
-	-- The original's BLURRY_REFRACT shader isn't available; GMod's screen blur instead
-	for i = 1, 3 do
-		blurMat:SetFloat( "$blur", amount * i )
-		blurMat:Recompute()
-		render.UpdateScreenEffectTexture()
-		render.SetMaterial( blurMat )
-		render.DrawScreenQuad()
-	end
+	scratch()
+	render.UpdateScreenEffectTexture()
+	local w, h = ScrW(), ScrH()
+
+	render.PushRenderTarget( fxRT )
+		render.Clear( 0, 0, 0, 255 )
+		cam.Start2D()
+			render.OverrideBlend( true, BLEND_ONE, BLEND_ONE, BLENDFUNC_ADD )
+			surface.SetMaterial( screenMat )
+			for _, tap in ipairs( BLUR_TAPS ) do
+				local du = tap[ 1 ] * amount
+				local c = 255 * tap[ 2 ]
+				surface.SetDrawColor( c, c, c, 255 )
+				surface.DrawTexturedRectUV( 0, 0, w, h, du, 0, 1 + du, 1 )
+			end
+			render.OverrideBlend( false )
+		cam.End2D()
+	render.PopRenderTarget()
+
+	-- lerp( amount, blurred, screen )
+	cam.Start2D()
+		surface.SetMaterial( fxMat )
+		surface.SetDrawColor( 255, 255, 255, 255 * math.Clamp( amount, 0, 1 ) )
+		surface.DrawTexturedRect( 0, 0, w, h )
+	cam.End2D()
 end
+
+local dirtMats = {}
+
+-- The dirt texture named in effects/view/lense_dirt.vmt (or an overlay's material)
+local function dirtMaterial( path )
+	if dirtMats[ path ] ~= nil then return dirtMats[ path ] or nil end
+	local _, keys = readVMT( path )
+	local tex
+	for k, v in pairs( keys or {} ) do
+		if isstring( v ) and k:find( "texture", 1, true ) and not v:lower():StartWith( "_rt_" ) then tex = v break end
+	end
+	tex = tex or path
+	local m = file.Exists( "materials/" .. tex .. ".vtf", "GAME" )
+		and CreateMaterial( "hl2a_fx_dirt_" .. tex:gsub( "[^%w]", "_" ), "UnlitGeneric", { [ "$basetexture" ] = tex, [ "$ignorez" ] = 1 } )
+	dirtMats[ path ] = m or false
+	return m or nil
+end
+
+--- strength = intensity * alpha; tint multiplies the dirt (overlays page colour)
+local function drawLensDirt( path, strength, tint )
+	local dirt = dirtMaterial( path )
+	if not dirt or strength <= 0 then return end
+	scratch()
+	render.UpdateScreenEffectTexture()
+
+	-- scratch = dirt * screen
+	render.PushRenderTarget( fxRT )
+		render.OverrideBlend( true, BLEND_ONE, BLEND_ZERO, BLENDFUNC_ADD )
+		render.DrawTextureToScreen( render.GetScreenEffectTexture() )
+		render.OverrideBlend( true, BLEND_DST_COLOR, BLEND_ZERO, BLENDFUNC_ADD )
+		render.SetMaterial( dirt )
+		render.DrawScreenQuad()
+		render.OverrideBlend( false )
+	render.PopRenderTarget()
+
+	-- screen += scratch * strength
+	tint = tint or Vector( 1, 1, 1 )
+	cam.Start2D()
+		render.OverrideBlend( true, BLEND_ONE, BLEND_ONE, BLENDFUNC_ADD )
+		surface.SetMaterial( fxMat )
+		surface.SetDrawColor( math.min( 255 * strength * tint.x, 255 ), math.min( 255 * strength * tint.y, 255 ), math.min( 255 * strength * tint.z, 255 ), 255 )
+		surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
+		render.OverrideBlend( false )
+	cam.End2D()
+end
+
+local LENS_DIRT = "effects/view/lense_dirt"
 
 -- View page: screen effects ----------------------------------------------------------------
 
 local VIEW_OVERLAYS = {
-	{ "amod_view_lense_dirt", "effects/view/lense_dirt" },
 	{ "amod_view_binoculars", "effects/combine_binocoverlay" },
 	{ "amod_view_bodycam", "effects/view/bodycam" },
 }
@@ -177,6 +262,9 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.effects", function()
 		} )
 	end
 
+	if CV.amod_view_lense_dirt:GetBool() then
+		drawLensDirt( LENS_DIRT, CV.amod_lensdirt_intensity:GetFloat() * math.Clamp( CV.amod_lensdirt_alpha:GetFloat(), 0, 1 ) )
+	end
 	for _, o in ipairs( VIEW_OVERLAYS ) do
 		if CV[ o[ 1 ] ]:GetBool() then drawScreenMaterial( E.ScreenMaterial( o[ 2 ] ) ) end
 	end
@@ -193,7 +281,12 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.effects", function()
 	-- Overlays page, in list order
 	for _, o in ipairs( E.State.overlays ) do
 		if E.Active( o.type ) then
-			drawScreenMaterial( E.ScreenMaterial( o.name ), Vector( o.r / 255, o.g / 255, o.b / 255 ), o.a / 255 )
+			if o.name == LENS_DIRT then
+				-- The lens dirt shader: the overlay's alpha is its alpha, the colour tints the dirt
+				drawLensDirt( LENS_DIRT, CV.amod_lensdirt_intensity:GetFloat() * o.a / 255, Vector( o.r, o.g, o.b ) / 255 )
+			else
+				drawScreenMaterial( E.ScreenMaterial( o.name ), Vector( o.r / 255, o.g / 255, o.b / 255 ), o.a / 255 )
+			end
 		end
 	end
 end )

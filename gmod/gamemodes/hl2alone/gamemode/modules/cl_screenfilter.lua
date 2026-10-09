@@ -107,6 +107,8 @@ end )
 
 --- Post-processing master switch (published by the server, sv_atmosphere.lua)
 function HL2A.PostProcessOn()
+	-- Off while cubemaps are captured (sv_graphs.lua) so they don't get baked in
+	if GetGlobal2Bool( "hl2a.capture", false ) then return false end
 	return GetGlobal2Bool( "hl2a.postprocess", true )
 end
 

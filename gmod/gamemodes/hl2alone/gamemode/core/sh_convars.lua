@@ -21,7 +21,7 @@ local CLIENT_ONLY = {
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
 	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "r_clouds_", "r_stars_", "r_horizonfog_",
 	"amod_filter_brightness_", "hl2a_screenfilter",
-	"amod_view_", "amod_camera_", "amod_blur_amount", "amod_lighting_debug", "amod_effects_",
+	"amod_view_", "amod_camera_", "amod_blur_amount", "amod_lensdirt_", "amod_lighting_debug", "amod_effects_",
 	"hl2a_effects_", "hl2a_noir", "hl2a_hide_viewmodel", "hl2a_viewmodel_fov", "hl2a_claustrophobia_fov", "hl2a_pitch_",
 }
 
@@ -64,6 +64,9 @@ cv( "amod_view_bodycam", 0, "Old TV / bodycam overlay" )
 cv( "amod_view_binoculars", 0, "Blue tinted TV overlay" )
 cv( "amod_view_blur", 0 )
 cv( "amod_blur_amount", 1 )
+-- Lens dirt shader settings (defaults from the mod's game_shader_dx9.dll)
+cv( "amod_lensdirt_intensity", 1 )
+cv( "amod_lensdirt_alpha", 0.775 )
 cv( "amod_view_square", 0, "Cinematic black boxes" )
 cv( "amod_view_square_width", 0.375 )
 cv( "amod_view_square_height", 0.2 )
@@ -100,7 +103,7 @@ cv( "amod_epic_filter_night_filename", "scripts/colorcorrection/cc_epic_filter.r
 cv( "amod_epic_filter_night_intensity", 1 )
 cv( "amod_saturation", 1, "Enable the saturation effect" )
 -- The original strength is in materials/effects/view/saturation.vmt (custom shader); tune to match
-cv( "hl2a_saturation_amount", 1.2, "Colour saturation when amod_saturation is on (1 = unchanged)" )
+cv( "hl2a_saturation_amount", 1.4, "Colour saturation when amod_saturation is on (1 = unchanged; the mod's shader default was 1.4)" )
 
 -- Vignette
 cv( "amod_vignette", 0 )
@@ -142,6 +145,7 @@ cv( "amod_flashlightflicker_wait_time_max", 120 )
 cv( "hl2a_flashlight_far", 1250, "Original: r_flashlightfar" )
 cv( "hl2a_flashlight_fov", 60, "Original: r_flashlightfov" )
 cv( "hl2a_flashlight_brightness", 1 )
+cv( "hl2a_flashlight_shadows", 2, "Flashlight shadow quality: 0 off, 1 low, 2 medium, 3 high, 4 ultra (resolution changes need a restart)" )
 
 -- Weather. amod_weather_override 0 = use the map's time_info "weather" block.
 cv( "amod_weather_override", 0 )

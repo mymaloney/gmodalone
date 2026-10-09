@@ -2,9 +2,33 @@
 	Flashlight rendered as a ProjectedTexture so it can flicker
 	(amod_flashlightflicker_*) and lag behind the view (amod_flashlightlag).
 	The on/off state is set by GM:PlayerSwitchFlashlight in sv_player.lua.
+	Shadow quality: hl2a_flashlight_shadows (Options panel).
 ]]
 
 local CV = HL2A.ConVars
+
+-- Shadow quality (hl2a_flashlight_shadows): { shadow map resolution, softness }.
+-- The resolution is the engine's r_flashlightdepthres, which GMod only
+-- picks up after a restart; the softness applies straight away.
+HL2A.FLASHLIGHT_SHADOWS = {
+	[ 0 ] = { name = "Off" },
+	[ 1 ] = { name = "Low", res = 512, filter = 0.3 },
+	[ 2 ] = { name = "Medium", res = 1024, filter = 0.5 },
+	[ 3 ] = { name = "High", res = 2048, filter = 0.8 },
+	[ 4 ] = { name = "Ultra", res = 4096, filter = 1.2 },
+}
+
+local function shadowSettings()
+	return HL2A.FLASHLIGHT_SHADOWS[ math.Clamp( CV.hl2a_flashlight_shadows:GetInt(), 0, 4 ) ]
+end
+
+local function applyDepthRes()
+	local q = shadowSettings()
+	local cvar = GetConVar( "r_flashlightdepthres" )
+	if q.res and cvar and cvar:GetInt() ~= q.res then RunConsoleCommand( "r_flashlightdepthres", tostring( q.res ) ) end
+end
+cvars.AddChangeCallback( "hl2a_flashlight_shadows", function() timer.Simple( 0, applyDepthRes ) end, "hl2a.flashlight" )
+hook.Add( "InitPostEntity", "hl2a.flashlight", applyDepthRes )
 
 local light
 local lagAng
@@ -53,9 +77,12 @@ hook.Add( "Think", "hl2a.flashlight", function()
 	if not IsValid( light ) then
 		light = ProjectedTexture()
 		light:SetTexture( "effects/flashlight001" )
-		light:SetEnableShadows( true )
 		light:SetNearZ( 4 )
 	end
+
+	local q = shadowSettings()
+	light:SetEnableShadows( q.res ~= nil )
+	if q.filter then light:SetShadowFilter( q.filter ) end
 
 	local eyeAng = ply:EyeAngles()
 	if CV.amod_flashlightlag:GetBool() then

@@ -135,9 +135,9 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | time_info themes (snowey coast, hl2 beta) | time_info subfolders | **Ported:** `hl2a_timeinfo_theme` | `sh_timeinfo.lua` |
 | Fog + FogCubeTriggers | client.dll | **Ported**, with blending | `cl_fog.lua` |
 | Epic filter / colour correction | client.dll | **Ported** via `color_correction` entity; verify weight changes in-game | `sv_atmosphere.lua` |
-| Saturation, vignette | client.dll + custom shader | **Ported** (Lua screen effects) | `cl_view.lua` |
+| Saturation, vignette | client.dll + custom shader | **Ported** (Lua screen effects; saturation is the mod's shader formula, default 1.4 from its DLL) | `cl_view.lua` |
 | View bob, stand bob, jump/land punch | client.dll | **Approximated:** tune the formulas | `cl_view.lua`, `sv_player.lua` |
-| Flashlight flicker + lag | client.dll | **Ported** (ProjectedTexture) | `cl_flashlight.lua` |
+| Flashlight flicker + lag | client.dll | **Ported** (ProjectedTexture), plus shadow quality Off–Ultra (`hl2a_flashlight_shadows`: shadow map resolution via `r_flashlightdepthres`, applied after a restart, and softness) | `cl_flashlight.lua` |
 | Rain / snow / ash, intervals | func_precipitation + DLL | **Ported** (Lua particles); rain cfg radius used | `sv_weather.lua`, `cl_weather.lua` |
 | Rain / snow / thunder ambience | client.dll soundscape layers (`RainSoundscape`, `RainSoundscapeKV`, `RainVolume`, Snow…/Thunder… keys) | **Ported:** the active soundscape is tracked server-side; its weather soundscape is layered on while it rains/snows (the port's weather, or the map's own `func_precipitation`). Thunder (`amod_weather_thunder`): each strike gets a random distance; close = bright flash, near-instant loud clap; far = dim flash, quieter clap up to ~5 s later | `sv_soundscapes.lua`, `cl_weathersound.lua` |
 | Visible breath (`amod_do_breathing`) | server.dll timer + client.dll `amod_do_breath` | **Ported** from disassembly (fog_breath particle, `player/breathe2.wav`) | `sh_breath.lua` |
@@ -152,11 +152,11 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Options panel | VGUI `.res` + DLL | **Ported** (`ToggleOptionsPanel`, Options button on chapter select); Daytime, Effects/Credits/Ending left out.  | `sh/sv/cl_options.lua` |
 | Mirrored view, hide HUD, footsteps off, strafe roll, soundscapes off | DLL / engine cvars | **Ported** | `cl_options.lua`, `cl_view.lua`, `sh/sv_options.lua` |
 | Post-processing: map colour grade (original "epic filter"), Faded TV curve (original TAB "screen filter"), saturation, vignette, bloom | client.dll gamma aliases + colour correction | **Ported**: the TAB filter's gamma curve recovered from disassembly and drawn as a screen effect. The Post-Processing & Effects panel's Look tab has presets (Default, Faded, Cinematic, Noir, Plain) over these; **F2** turns all post-processing on/off | `cl_screenfilter.lua`, `sv_atmosphere.lua`, `cl_effectspanel.lua` |
-| Effects panel: view effects (B&W, lens dirt, TV overlays, blur, black boxes, claustrophobia, viewmodel), camera editor (smoothing, offsets, pitch limits), conditional console variables / screen overlays / lights, `.amf` presets, autoload | client.dll (`CEffectsPanel*`, view render code) | **Ported** from disassembly (convars, slider ranges and conversions, draw order, preset format). Lens dirt and blur used custom shaders: lens dirt is redrawn additively from its texture, blur uses GMod's screen blur. Lights parented by *targetname* won't find entities (names aren't networked to the client) | `cl_effects.lua`, `cl_effectspanel.lua`, `sv_effects.lua` |
+| Effects panel: view effects (B&W, lens dirt, TV overlays, blur, black boxes, claustrophobia, viewmodel), camera editor (smoothing, offsets, pitch limits), conditional console variables / screen overlays / lights, `.amf` presets, autoload | client.dll (`CEffectsPanel*`, view render code) | **Ported** from disassembly (convars, slider ranges and conversions, draw order, preset format). Lens dirt and blur recreate the mod's custom shaders exactly, from their decompiled pixel shaders (`shaders/fxc/*_ps20b.vcs`). Lights parented by *targetname* won't find entities (names aren't networked to the client) | `cl_effects.lua`, `cl_effectspanel.lua`, `sv_effects.lua` |
 | Weather panel (weather override/type/intensity/intervals, sun, thunder, breath, night skybox) | VGUI `.res` + client.dll | **Ported** (`toggleweatherpanel`, or the chapter select's Weather button); rain intensity formula and slider ranges from the DLL. The sky angle slider needed engine changes | `cl_weatherpanel.lua` |
 | Lightning bolts with thunder | `materials/lightning/*` | **Added:** closer strikes may show a bolt in the clap's direction (the mod's lightning images if present, else a generated bolt); `hl2a_lightning_bolts 0` turns them off | `cl_weathersound.lua` |
 | Background panel | VGUI `.res` + DLL | **Ported:** pick and load a menu-background map with its preview (needs `--keep-background-maps`) | `cl_backgroundpanel.lua` |
-| Out-of-date node graphs ("Node graph out of date. Rebuilding...") | mod `.ain` files | **Tool:** `hl2a_build_graphs start [nav]` walks every map so GMod rebuilds and saves the graphs (and optionally navmeshes); `build_addon.py --gmod-dir <garrysmod> [--navmesh]` ships them in place of the stale ones | `sv_graphs.lua`, `tools/build_addon.py` |
+| Out-of-date node graphs, unbuilt cubemaps | mod `.ain` files, BSP cubemap lumps | **Tool:** `hl2a_build_graphs start [cubemaps] [nav]` walks every map so GMod rebuilds and saves the graphs (and missing cubemaps, navmeshes); `build_addon.py --gmod-dir <garrysmod> [--cubemaps] [--navmesh]` ships them | `sv_graphs.lua`, `tools/build_addon.py` |
 | Map Properties editor | client.dll (`CMapPropertiesPanel*`) | **Ported:** fog, sky & colour grade, sun, weather, clouds, stars, horizon and fog-trigger pages for the current map's Night block, previewed live; Save keeps it in `data/hl2alone/map_properties/<theme>/<map>.txt` (loaded over the shipped time_info); "Copy as time_info" for putting it back into the mod. Day pages and theme export dialogs left out with daytime | `cl_mapproperties.lua`, `sh_mapproperties.lua` |
 | Soundscape editor (Soundscape Maker) | client.dll (`CSoundscapeEditor*`) | **Core ported:** browse/search all soundscapes, edit as KeyValues, preview, save to `data/hl2alone/soundscapes/`, jump to the current soundscape. The original's position editor, manifest editor and preloaded-soundscape dialogs are left out | `cl_soundscapeeditor.lua` |
 | Clouds, stars, horizon fog (`r_clouds*`, `r_stars*`, `r_horizonfog*`) | engine changes in client.dll + time_info `clouds`/`stars`/`horizon` blocks | **Ported** as Lua meshes drawn after the 2D skybox, using the DLL's defaults and per-map settings. Geometry/UV details are approximations; tune in-game (`hl2a_sky_dump`, `hl2a_sky_reload`) | `cl_sky.lua` |
@@ -189,7 +189,8 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `ToggleSoundscapeEditor` / `soundscape_editor` | Soundscape editor (also on the Options panel) |
 | `ToggleBackgroundPanel` | Background panel (also on the Options panel) |
 | `hl2a_timeinfo_reload` | Re-read time_info and saved map properties |
-| `hl2a_build_graphs start [nav] \| stop \| status` | Rebuild node graphs (and navmeshes) for every map |
+| `hl2a_build_graphs start [cubemaps] [nav] \| stop \| status` | Rebuild node graphs (and missing cubemaps, navmeshes) for every map |
+| `hl2a_check_cubemaps` | List maps with unbuilt cubemaps |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
 | `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
 | `Amod_ToggleFilter` / `hl2a_toggle_postprocess` (F2) | Post-processing on/off (`hl2a_postprocess`) |
@@ -238,19 +239,26 @@ The 95 maps that fire `quit` do it from map logic; neither DLL refers to
 it. The audit report's "Where traced commands come from" section shows the
 exact chain. The port blocks it regardless.
 
-## Node graphs and navmeshes
+## Node graphs, cubemaps and navmeshes
 
 The mod's `.ain` node graphs are out of date for GMod, so each map flashes
 "Node graph out of date. Rebuilding..." on its first load. To ship fresh
 ones:
 
-1. In GMod (single player, the addon installed), run
-   `hl2a_build_graphs start` (or `start nav` to also generate navmeshes).
-   It loads every map in turn and leaves each rebuilt graph in
-   `garrysmod/maps/graphs/`. `hl2a_build_graphs stop` cancels; it resumes
-   where it left off if you start it again.
-2. Rebuild the addon with `--gmod-dir C:/GarrysMod/garrysmod` (plus
-   `--navmesh` for the navmeshes). The tool prints how much they add.
+1. Optional: `python tools/cubemap_report.py "<mod folder>"` (or
+   `hl2a_check_cubemaps` in-game) lists maps whose cubemaps were never
+   built, so they show default reflections.
+2. In GMod (single player, the addon installed), run
+   `hl2a_build_graphs start cubemaps` (add `nav` to also generate
+   navmeshes). It loads every map in turn, leaves each rebuilt graph in
+   `garrysmod/maps/graphs/`, and for maps missing cubemaps runs
+   `buildcubemaps` (post-processing, weather and the HUD switched off
+   meanwhile), which saves `garrysmod/maps/<map>.bsp`.
+   `hl2a_build_graphs stop` cancels; starting again resumes.
+3. Rebuild the addon with `--gmod-dir C:/GarrysMod/garrysmod --cubemaps`
+   (plus `--navmesh`). The tool prints how much they add.
+
+Cubemaps are built for the HDR mode you play in (`mat_hdr_level`).
 
 Navmeshes only matter for nextbots and Lua NPCs; HL2's NPCs use the node
 graphs. They're typically a few hundred KB per map, so check the size the

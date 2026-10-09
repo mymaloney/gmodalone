@@ -68,6 +68,7 @@ hook.Add( "Think", "hl2a.weather", function()
 	local ply = LocalPlayer()
 
 	if not def or not GetGlobal2Bool( "hl2a.weather.active" ) or not IsValid( ply ) then return end
+	if GetGlobal2Bool( "hl2a.capture", false ) then return end -- cubemap capture (sv_graphs.lua)
 
 	emitter = emitter or ParticleEmitter( vector_origin, false )
 
