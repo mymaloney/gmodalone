@@ -25,6 +25,8 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO / "tools"))
+from strip_antipiracy import patch_tree  # noqa: E402
 
 # Mod data read by Lua through data_static/hl2alone/<path>
 DATA_GLOBS = [
@@ -419,6 +421,9 @@ def main():
     if args.gmod_dir:
         copy_graphs(out, args.gmod_dir.resolve(), args.navmesh, args.cubemaps)
 
+    if (out / "maps").is_dir():
+        changed, total = patch_tree(out / "maps", quiet=True)
+        print(f"patched  anti-piracy check removed from {changed} of {total} maps")
     enforce_whitelist(out)
     if excluded_bytes:
         print(f"excluded {human_mb(excluded_bytes)} (cleanup list, --exclude files"

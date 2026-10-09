@@ -126,7 +126,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `data_static/hl2alone/videos/*.dat` | assets' `media/*.bik`, with `--videos` | WebM renamed to `.dat` (no video files allowed); `cl_video.lua` streams it into GMod's browser |
 | `particles/hl2alone/` | `particles/` + assets | Added with `game.AddParticles` only in this gamemode |
 | `resource/fonts/` | `resource/font.ttf`, `gamepadui/fonts` | GMod auto-loads addon fonts |
-| `materials/ models/ sound/ maps/ …` | your asset folder | As-is, lowercased |
+| `materials/ models/ sound/ maps/ …` | your asset folder | As-is, lowercased; maps have the anti-piracy check stripped from their entities (`tools/strip_antipiracy.py`; your asset folder isn't touched) |
 
 The build ends by removing anything the Workshop's upload whitelist (gmad's
 `AddonWhiteList.h`, which gmpublisher also uses) would refuse, and lists what it
@@ -171,7 +171,7 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
 | Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
 | Runtime map edits (`ep1_citadel_03_d`) | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
-| Map-fired commands (`quit`, `amod_*`, `startupmenu`, `fadein`/`fadeout`) | DLLs / engine | **Ported:** the anti-piracy check is disabled (its "download this on moddb" texts are blanked and their Display input swallowed, its `quit` ignored), the rest handled (`fadein`/`fadeout` as server-side screen fades, which GMod won't run from a map; without it the EP1 intro stayed black) | `sv/cl_mapcommands.lua` |
+| Map-fired commands (`quit`, `amod_*`, `startupmenu`, `fadein`/`fadeout`) | DLLs / engine | **Ported:** the anti-piracy check is removed from the maps themselves at build time (`tools/strip_antipiracy.py`, run by `build_addon.py`: its texts and the outputs that show them or fire `quit` are deleted from each map's entity lump; a stray `quit` is still ignored), the rest handled (`fadein`/`fadeout` as server-side screen fades, which GMod won't run from a map; without it the EP1 intro stayed black) | `sv/cl_mapcommands.lua` |
 | `logic_achievement`, `env_hudhint` (missing in GMod) | engine entities | **Re-created in Lua** | `entities/entities/` |
 | Blank `item_item_crate` models | server.dll | **Fixed:** defaults to the stock crate model | `sv_mappatches.lua` |
 | Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |
