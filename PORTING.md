@@ -170,7 +170,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |
 | Outro video on `ep2_outland_12a_d` (`amod_outrotest`) | server.dll + `.bik` | **Not portable:** the normal fade plays instead | n/a |
 | Portal maps (`portal_*`) | Portal entities | **Not portable:** GMod has no portal entities | n/a |
-| Geo-Guesser mini-game | client.dll (`CGG_*`) + `resource/geo_guesser/` | **Ported:** main menu, map/position settings, rounds, four difficulties, zoomable minimap, scoring formula and convars from the DLL, high scores per difficulty (`data/hl2alone/geoguesser.json`). `gg_toggle`, `gg_reset_open`, `gg_debug`, or the chapter select's Geo-Guesser button | `cl_geoguesser.lua` |
+| Geo-Guesser mini-game | client.dll (`CGG_*`) | **Dropped:** nonessential to the campaign | n/a |
 | Credits button / panel | client.dll (`CAModCreditsPanel`) | **Ported** (Options panel button, `OpenCreditsPanel`), with a button to play the credits music | `cl_credits.lua` |
 | Ending selector (`amod_new_ending`) | client.dll | **Not ported:** it only chose which of two outro videos (`Amod_OutroVideo` / `Amod_OutroVideo2`, Bink) played at the end of Episode 2 before `logic_ending_credits`; GMod can't play them | n/a |
 | Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
@@ -185,8 +185,6 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `ToggleOptionsPanel` | Options panel |
 | `ToggleEffectsPanel` | Post-Processing & Effects panel (also a button on the Options panel and chapter select) |
 | `hl2a_sky_dump`, `hl2a_sky_reload` | Show / re-apply the current map's cloud, star and horizon-fog settings |
-| `gg_toggle` / `gg_reset_open` | Geo-Guesser (also on the chapter select) |
-| `gg_debug` | List Geo-Guesser maps, positions and any missing images |
 | `ToggleMapProperties` / `mapproperties` | Map Properties editor (also on the Options panel) |
 | `ToggleSoundscapeEditor` / `soundscape_editor` | Soundscape editor (also on the Options panel) |
 | `ToggleBackgroundPanel` | Background panel (also on the Options panel) |

@@ -42,7 +42,6 @@ DATA_GLOBS = [
     "scripts/soundscapes*.txt",  # rain/snow/thunder layers (cl_weathersound.lua)
     "particles/particles_manifest.txt",
     "scripts/filters examples/*.amf",  # Effects panel example presets
-    "resource/geo_guesser/**/*.res",  # Geo-Guesser maps, positions and macros
 ]
 
 # Files the engine reads directly, copied as-is into the addon root
@@ -173,6 +172,9 @@ DEFAULT_EXCLUDE = REPO / "tools" / "cleanup_exclude.txt"
 # Menu-background maps: GMod can't use them as menu backgrounds
 BACKGROUND_MAPS_DIR = "maps/backgrounds/"
 
+# Assets of original features the port dropped (Geo-Guesser)
+DROPPED_DIRS = ("materials/vgui/geo_guesser/",)
+
 
 MUSIC_CACHE = REPO / ".cache" / "music_ogg"
 
@@ -211,7 +213,7 @@ def build_assets(out: Path, assets: Path, keep_backgrounds: bool, music_ogg: boo
             if f.is_file():
                 rel = lower_rel(f, assets)
                 relp = rel.as_posix()
-                if relp in EXCLUDE or (not keep_backgrounds and relp.startswith(BACKGROUND_MAPS_DIR)):
+                if relp in EXCLUDE or relp.startswith(DROPPED_DIRS) or (not keep_backgrounds and relp.startswith(BACKGROUND_MAPS_DIR)):
                     EXCLUDE.add(relp)
                     copy(f, out / rel, rel)  # counts it as excluded
                     continue

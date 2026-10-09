@@ -103,7 +103,6 @@ local function buildPanel()
 		{ "#Amod_WeatherPanel_Title", function() HL2A.ToggleWeatherPanel() end },
 		{ "Post-Processing & Effects", function() HL2A.ToggleEffectsPanel() end },
 		{ "Songs", function() RunConsoleCommand( "ToggleSongPanel" ) end },
-		{ "Geo-Guesser", function() HL2A.GeoGuesser.Toggle() end },
 	} ) do
 		local btn = bottom:Add( "DButton" )
 		btn:Dock( LEFT )

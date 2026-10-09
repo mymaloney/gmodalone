@@ -81,7 +81,6 @@ local FILES = {
 	"modules/cl_backgroundpanel.lua",
 	"modules/sv_graphs.lua",
 	"modules/cl_credits.lua",
-	"modules/cl_geoguesser.lua",
 	"modules/sv_dev.lua",
 }
 
