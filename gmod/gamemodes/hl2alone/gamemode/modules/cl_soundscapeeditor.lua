@@ -44,11 +44,13 @@ end
 local function stopPreview()
 	if preview then preview:Stop() end
 	preview = nil
+	W.Previewing = false
 end
 
 local function playPreview( rules )
 	stopPreview()
 	RunConsoleCommand( "stopsoundscape" )
+	W.Previewing = true -- silences the soundscape cl_weathersound.lua plays
 	preview = W.NewLayer( rules, 1 )
 end
 

@@ -28,9 +28,7 @@ net.Receive( "hl2a.video", function( _, ply )
 	cb()
 end )
 
-local function hasVideo( name )
-	return file.Exists( "html/hl2alone/videos/" .. name .. ".webm", "GAME" )
-end
+local function hasVideo( name ) return HL2A.VideoFile( name ) ~= nil end
 
 local outroPlayed = false
 

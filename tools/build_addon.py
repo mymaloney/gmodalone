@@ -16,6 +16,8 @@ Examples:
 """
 
 import argparse
+import fnmatch
+import os
 import re
 import shutil
 import subprocess
@@ -44,14 +46,47 @@ DATA_GLOBS = [
     "scripts/filters examples/*.amf",  # Effects panel example presets
 ]
 
-# Files the engine reads directly, copied as-is into the addon root
-ENGINE_GLOBS = [
-    "scripts/soundscapes_amod_*.txt",
-    "scripts/colorcorrection/**/*.raw",
+# Colour-correction lookups: the Workshop only allows .raw under
+# materials/colorcorrection/, so they move there (HL2A.ColorCorrectionPath
+# maps the old scripts/ paths). The mod's soundscapes play from Lua, out of
+# data_static (cl_weathersound.lua): the engine-read scripts/ copies aren't
+# allowed on the Workshop.
+CC_GLOB = "scripts/colorcorrection/**/*.raw"
+
+# Folders copied from the asset directory (media/ only feeds --videos)
+ASSET_DIRS = ["materials", "models", "sound", "maps", "scenes", "resource/fonts"]
+
+# Asset files Lua reads as data: moved into data_static (with .txt appended)
+ASSET_DATA_PREFIXES = ("maps/snow_materials/",)
+
+# The Workshop's file whitelist (gmad's include/AddonWhiteList.h). Anything
+# else is refused on upload, so the build leaves it out and reports it.
+# "*" matches across folders; "!" entries cancel earlier matches.
+WORKSHOP_WHITELIST = [
+    "lua/*.lua", "scenes/*.vcd", "particles/*.pcf", "resource/fonts/*.ttf", "scripts/vehicles/*.txt",
+    "resource/localization/*/*.properties", "maps/*.bsp", "maps/*.lmp", "maps/*.nav", "maps/*.ain",
+    "maps/thumb/*.png", "sound/*.wav", "sound/*.mp3", "sound/*.ogg", "materials/*.vmt", "materials/*.vtf",
+    "materials/*.png", "materials/*.jpg", "materials/*.jpeg", "materials/colorcorrection/*.raw",
+    "models/*.mdl", "models/*.phy", "models/*.ani", "models/*.vvd",
+    "models/*.vtx", "!models/*.sw.vtx", "!models/*.360.vtx", "!models/*.xbox.vtx",
+    "gamemodes/*/*.txt", "!gamemodes/*/*/*.txt", "gamemodes/*/*.fgd", "!gamemodes/*/*/*.fgd",
+    "gamemodes/*/logo.png", "gamemodes/*/icon24.png", "gamemodes/*/gamemode/*.lua",
+    "gamemodes/*/entities/effects/*.lua", "gamemodes/*/entities/weapons/*.lua", "gamemodes/*/entities/entities/*.lua",
+    "gamemodes/*/backgrounds/*.png", "gamemodes/*/backgrounds/*.jpg", "gamemodes/*/backgrounds/*.jpeg",
+    "data_static/*.txt", "data_static/*.dat", "data_static/*.json", "data_static/*.xml", "data_static/*.csv",
+    "shaders/fxc/*.vcs",
 ]
 
-# Folders copied from the asset directory
-ASSET_DIRS = ["materials", "models", "sound", "maps", "scenes", "media", "resource/fonts"]
+
+def workshop_allowed(rel: str) -> bool:
+    ok = False
+    for w in WORKSHOP_WHITELIST:
+        if w.startswith("!"):
+            if fnmatch.fnmatchcase(rel, w[1:]):
+                ok = False
+        elif not ok:
+            ok = fnmatch.fnmatchcase(rel, w)
+    return ok
 
 # data_static only allows certain extensions on the workshop
 DATA_EXTS = {".txt", ".json", ".xml", ".csv", ".dat"}
@@ -107,11 +142,6 @@ def build_lua(out: Path, link: bool):
         shutil.rmtree(gm_dst)
     gm_dst.parent.mkdir(parents=True, exist_ok=True)
 
-    # Pages for GMod's browser (the video player); videos/ is filled by --videos
-    for f in (src / "html").rglob("*"):
-        if f.is_file():
-            copy(f, out / f.relative_to(src))
-
     if link:
         gm_dst.symlink_to(src / "gamemodes" / "hl2alone", target_is_directory=True)
         print(f"linked   {gm_dst} -> repo")
@@ -135,11 +165,11 @@ def build_data(out: Path):
     print(f"copied   {n} data files -> data_static/hl2alone/")
 
     n = 0
-    for pattern in ENGINE_GLOBS:
-        for f in REPO.glob(pattern):
-            copy(f, out / lower_rel(f, REPO), lower_rel(f, REPO))
-            n += 1
-    print(f"copied   {n} soundscape / colour-correction files")
+    for f in REPO.glob(CC_GLOB):
+        rel = lower_rel(f, REPO / "scripts" / "colorcorrection")
+        copy(f, out / "materials" / "colorcorrection" / rel, lower_rel(f, REPO))
+        n += 1
+    print(f"copied   {n} colour-correction files -> materials/colorcorrection/")
 
     fonts = [REPO / "resource" / "font.ttf", *(REPO / "gamepadui" / "fonts").glob("*.ttf")]
     for f in fonts:
@@ -223,7 +253,9 @@ def build_assets(out: Path, assets: Path, keep_backgrounds: bool, music_ogg: boo
                     copy(f, out / rel, rel)  # counts it as excluded
                     continue
                 dst = out / rel
-                if f.suffix.lower() == ".vmt" and fix_vmt_shader(f, dst):
+                if relp.startswith(ASSET_DATA_PREFIXES):
+                    copy(f, out / "data_static" / "hl2alone" / (relp if relp.endswith(".txt") else relp + ".txt"))
+                elif f.suffix.lower() == ".vmt" and fix_vmt_shader(f, dst):
                     fixed += 1
                 elif music_ogg and relp.startswith("sound/music/") and relp.endswith(".wav") and convert_music(f, dst):
                     converted += 1
@@ -285,14 +317,15 @@ VIDEO_CACHE = REPO / ".cache" / "videos"
 
 
 def convert_videos(out: Path, assets: Path):
-    """media/*.bik -> html/hl2alone/videos/<name>.webm (VP9 + Opus) for cl_video.lua.
+    """media/*.bik -> data_static/hl2alone/videos/<name>.dat (WebM: VP9 + Opus) for cl_video.lua.
+    .dat because the Workshop allows no video files; the player doesn't care.
     Conversions are cached in .cache/videos."""
     media = assets / "media"
     biks = sorted(media.glob("*.bik")) if media.is_dir() else []
     if not biks:
         print("note     --videos: no .bik files in the asset folder's media/")
         return
-    dst_dir = out / "html" / "hl2alone" / "videos"
+    dst_dir = out / "data_static" / "hl2alone" / "videos"
     total = 0
     for bik in biks:
         cached = VIDEO_CACHE / (bik.stem.lower() + ".webm")
@@ -309,9 +342,30 @@ def convert_videos(out: Path, assets: Path):
                 print(f"warning  couldn't convert {bik.name}: {r.stderr.strip()[:300]}")
                 continue
         dst_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(cached, dst_dir / cached.name)
+        shutil.copy2(cached, dst_dir / (cached.stem + ".dat"))
         total += cached.stat().st_size
-    print(f"copied   videos -> html/hl2alone/videos/ ({human_mb(total)})")
+    print(f"copied   videos -> data_static/hl2alone/videos/ ({human_mb(total)})")
+
+
+def enforce_whitelist(out: Path):
+    """Removes files the Workshop would refuse (gmpublisher/gmad stop on them) and says what they were."""
+    dropped = {}
+    for root, dirs, files in os.walk(out):  # doesn't follow a --link-lua symlink
+        for name in files:
+            f = Path(root) / name
+            rel = f.relative_to(out).as_posix().lower()
+            if rel == "addon.json" or workshop_allowed(rel):
+                continue
+            ext = f.suffix.lower() or "(none)"
+            top = rel.split("/")[0]
+            entry = dropped.setdefault((top, ext), [0, rel])
+            entry[0] += 1
+            f.unlink()
+    if dropped:
+        print("removed  files the Workshop doesn't allow:")
+        for (top, ext), (count, example) in sorted(dropped.items()):
+            print(f"           {count:5d} x {ext:8s} in {top}/  (e.g. {example})")
+
 
 
 def human_mb(n):
@@ -365,6 +419,7 @@ def main():
     if args.gmod_dir:
         copy_graphs(out, args.gmod_dir.resolve(), args.navmesh, args.cubemaps)
 
+    enforce_whitelist(out)
     if excluded_bytes:
         print(f"excluded {human_mb(excluded_bytes)} (cleanup list, --exclude files"
               + ("" if args.keep_background_maps else ", menu-background maps") + ")")

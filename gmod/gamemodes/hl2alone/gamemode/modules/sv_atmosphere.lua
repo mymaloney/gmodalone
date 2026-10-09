@@ -54,7 +54,7 @@ local function wantedFilter()
 		if override then weight = override end
 	end
 
-	return name:gsub( "\\", "/" ), weight
+	return HL2A.ColorCorrectionPath( ( name:gsub( "\\", "/" ) ) ), weight
 end
 
 local function updateFilter()
@@ -117,3 +117,10 @@ concommand.Add( "ToggleEpicFilter", function( ply )
 	if IsValid( ply ) and not ply:IsListenServerHost() then return end
 	RunConsoleCommand( "amod_epic_filter", CV.amod_epic_filter:GetBool() and "0" or "1" )
 end, nil, "Toggles The Alone Mod Epic Filter" )
+
+-- The maps' own color_correction entities name scripts/colorcorrection/ files too
+hook.Add( "EntityKeyValue", "hl2a.ccpath", function( ent, key, value )
+	if key:lower() ~= "filename" or ent:GetClass() ~= "color_correction" then return end
+	local fixed = HL2A.ColorCorrectionPath( value )
+	if fixed ~= value then return fixed end
+end )

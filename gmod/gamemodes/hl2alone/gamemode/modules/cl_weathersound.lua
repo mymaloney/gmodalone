@@ -17,6 +17,13 @@
 	sv_soundscapes.lua. Supports the
 	rules the weather soundscapes use: playlooping, playrandom (wave/rndwave,
 	time/volume/pitch ranges, "position" "random") and playsoundscape.
+
+	The same player also plays the mod's own soundscapes (those in
+	scripts/soundscapes_amod_*.txt). The engine only loads soundscape files
+	from scripts/, which the Workshop doesn't allow, so the addon ships them
+	in data_static and they're played here instead, whenever the engine
+	doesn't have its own copy. Sounds tied to a soundscape "position" play
+	without direction.
 ]]
 
 local CV = HL2A.ConVars
@@ -37,14 +44,20 @@ local KINDS = {
 -- Definitions -----------------------------------------------------------------------
 
 local defs -- lowercased soundscape name -> rule list
+local luaPlayed -- lowercased soundscape name -> true: the engine can't play it, we do
 
 local function loadDefs()
-	defs = {}
+	defs, luaPlayed = {}, {}
 	for _, rel in ipairs( HL2A.FindFiles( "scripts/soundscapes*.txt" ) ) do
 		if not rel:find( "manifest", 1, true ) then
+			local base = rel:match( "([^/]+)$" ):gsub( "%.txt%.txt$", ".txt" )
+			local ours = base:StartWith( "soundscapes_amod_" ) and not file.Exists( "scripts/" .. base, "GAME" )
 			for _, root in ipairs( KV.ParseFile( rel ) or {} ) do
 				local name = root.key:lower()
-				if istable( root.value ) and not defs[ name ] then defs[ name ] = root.value end -- first wins, like the engine
+				if istable( root.value ) and not defs[ name ] then -- first wins, like the engine
+					defs[ name ] = root.value
+					if ours then luaPlayed[ name ] = true end
+				end
 			end
 		end
 	end
@@ -194,6 +207,17 @@ end
 
 local active = {} -- kind -> { layer, key }
 local muted = false
+local base -- { layer, name }: the current soundscape, when we play it (see top)
+
+local function setBase( name )
+	if not defs then loadDefs() end
+	name = name and name:lower() or nil
+	if name and not luaPlayed[ name ] then name = nil end
+	if W.Previewing then name = nil end -- the soundscape editor is playing something
+	if ( base and base.name ) == name then return end
+	if base then base.layer:Stop() end
+	base = name and { name = name, layer = newLayer( defs[ name ], 1 ) } or nil
+end
 
 -- Thunder: each strike gets a random distance. Close strikes flash bright
 -- and clap almost at once, loud and sharp; distant ones flash dimly and
@@ -353,6 +377,11 @@ local function stopAll()
 	for kind in pairs( KINDS ) do setLayer( kind, nil ) end
 end
 
+local function stopEverything()
+	stopAll()
+	setBase( nil )
+end
+
 --- Maps fire amod_rain_stopsounds to silence the rain ambience (e.g. underground)
 function W.MuteLoop()
 	muted = true
@@ -372,6 +401,7 @@ hook.Add( "Think", "hl2a.weathersound", function()
 	end
 	on = on and not muted
 	local scape = ply:GetNW2String( "hl2a.soundscape" )
+	setBase( scape ~= "" and scape or nil )
 
 	setLayer( "rain", on and kind == 1 and scape or nil )
 	setLayer( "snow", on and kind == 2 and scape or nil )
@@ -379,9 +409,10 @@ hook.Add( "Think", "hl2a.weathersound", function()
 
 	local now, eye = CurTime(), ply:EyePos()
 	for _, a in pairs( active ) do a.layer:Think( now, eye ) end
+	if base then base.layer:Think( now, eye ) end
 end )
 
-hook.Add( "ShutDown", "hl2a.weathersound", stopAll )
+hook.Add( "ShutDown", "hl2a.weathersound", stopEverything )
 
 -- Thunder flash -----------------------------------------------------------------------
 
@@ -409,6 +440,7 @@ end, nil, "Play one random-distance thunder strike" )
 
 concommand.Add( "hl2a_weathersound_debug", function()
 	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted ) )
+	MsgN( "  played by Lua: " .. ( base and string.format( "%s (%d loops, %d random)", base.name, #base.layer.loops, #base.layer.randoms ) or "no (engine or none)" ) )
 	for kind, a in pairs( active ) do
 		MsgN( string.format( "  %s: %d loops, %d random, %d nested", kind, #a.layer.loops, #a.layer.randoms, #a.layer.children ) )
 	end

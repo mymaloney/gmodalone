@@ -55,6 +55,30 @@ function HL2A.FindFiles( relWildcard )
 	return out
 end
 
+--- Colour-correction lookups. The Workshop only allows .raw files under
+-- materials/colorcorrection/, so build_addon.py moves the mod's
+-- scripts/colorcorrection/* there; this maps the old paths (time_info,
+-- convars, the maps' own color_correction entities) to wherever the file is.
+function HL2A.ColorCorrectionPath( name )
+	if not name or name == "" then return name end
+	name = name:gsub( "\\", "/" )
+	local rest = name:lower():match( "^scripts/colorcorrection/(.+)$" )
+	if rest and not file.Exists( name, "GAME" ) and file.Exists( "materials/colorcorrection/" .. rest, "GAME" ) then
+		return "materials/colorcorrection/" .. rest
+	end
+	return name
+end
+
+--- Where a converted video is (build_addon.py --videos ships them as
+-- data_static/hl2alone/videos/<name>.dat, since the Workshop allows no video
+-- files): returns path, search path; nil if it isn't installed
+function HL2A.VideoFile( name )
+	local rel = "videos/" .. name:lower() .. ".dat"
+	for _, sp in ipairs( SEARCH ) do
+		if file.Exists( sp.prefix .. rel, sp.path ) then return sp.prefix .. rel, sp.path end
+	end
+end
+
 function HL2A.ParseVector( str )
 	if not str then return nil end
 	local x, y, z = str:match( "^%s*(%S+)%s+(%S+)%s+(%S+)" )

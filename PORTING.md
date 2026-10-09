@@ -120,11 +120,18 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 |---|---|---|
 | `gamemodes/hl2alone/` | `gmod/gamemodes/hl2alone/` | Lua gamemode |
 | `data_static/hl2alone/…` | `resource/time_info`, `resource/songs`, fogs, thunder, `cfg/**`, `scripts/game_sounds_*` … | Read by Lua. Kept out of `scripts/`, where they would replace stock HL2 sounds in every gamemode. Lowercased; `.cfg` gets `.txt` appended (workshop whitelist). |
-| `scripts/soundscapes_amod_*.txt` | `scripts/` | Loaded by the engine (verify; see below) |
-| `scripts/colorcorrection/` | `scripts/colorcorrection/` | Loaded by the `color_correction` entity |
+| `data_static/hl2alone/scripts/soundscapes*.txt` | `scripts/` | The mod's own soundscapes (`soundscapes_amod_*`) are played from Lua (`cl_weathersound.lua`): the engine only reads soundscape files from `scripts/`, which the Workshop refuses |
+| `materials/colorcorrection/` | `scripts/colorcorrection/` | The only place the Workshop allows `.raw`; old `scripts/colorcorrection/…` names (time_info, convars, the maps' `color_correction` entities) are redirected by `HL2A.ColorCorrectionPath` |
+| `data_static/hl2alone/maps/snow_materials/*.smf.txt` | assets' `maps/snow_materials/` | `.smf` isn't allowed on the Workshop |
+| `data_static/hl2alone/videos/*.dat` | assets' `media/*.bik`, with `--videos` | WebM renamed to `.dat` (no video files allowed); `cl_video.lua` streams it into GMod's browser |
 | `particles/hl2alone/` | `particles/` + assets | Added with `game.AddParticles` only in this gamemode |
 | `resource/fonts/` | `resource/font.ttf`, `gamepadui/fonts` | GMod auto-loads addon fonts |
 | `materials/ models/ sound/ maps/ …` | your asset folder | As-is, lowercased |
+
+The build ends by removing anything the Workshop's upload whitelist (gmad's
+`AddonWhiteList.h`, which gmpublisher also uses) would refuse, and lists what it
+removed. Nothing the addon needs is in that list. If something new turns up there,
+it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from Lua.
 
 ## Feature status
 
@@ -164,14 +171,14 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
 | Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
 | Runtime map edits (`ep1_citadel_03_d`) | server.dll | **Ported** from disassembly | `sv_mappatches.lua` |
-| Map-fired commands (`quit`, `amod_*`, `startupmenu`, `fadein`/`fadeout`) | DLLs / engine | **Ported:** the anti-piracy check is disabled (its "download this on moddb" texts are removed at load, its `quit` ignored), the rest handled (`fadein`/`fadeout` as server-side screen fades, which GMod won't run from a map; without it the EP1 intro stayed black) | `sv/cl_mapcommands.lua` |
+| Map-fired commands (`quit`, `amod_*`, `startupmenu`, `fadein`/`fadeout`) | DLLs / engine | **Ported:** the anti-piracy check is disabled (its "download this on moddb" texts are blanked and their Display input swallowed, its `quit` ignored), the rest handled (`fadein`/`fadeout` as server-side screen fades, which GMod won't run from a map; without it the EP1 intro stayed black) | `sv/cl_mapcommands.lua` |
 | `logic_achievement`, `env_hudhint` (missing in GMod) | engine entities | **Re-created in Lua** | `entities/entities/` |
 | Blank `item_item_crate` models | server.dll | **Fixed:** defaults to the stock crate model | `sv_mappatches.lua` |
 | Custom water shader (`radialfog_water`, 61 VMTs) | `shaders/fxc` | **Fallback:** build tool rewrites them to stock `Water` | `tools/build_addon.py` |
 | Portal maps (`portal_*`) | Portal entities | **Not portable:** GMod has no portal entities | n/a |
 | Geo-Guesser mini-game | client.dll (`CGG_*`) | **Dropped:** nonessential to the campaign | n/a |
 | Credits button / panel | client.dll (`CAModCreditsPanel`) | **Ported** (Options panel button, `OpenCreditsPanel`), with a button to play the credits music | `cl_credits.lua` |
-| Ending selector (`amod_new_ending`) and Episode 2 outro video | client.dll + server.dll (`f_portal` → outro → `logic_ending_credits`) | **Ported:** the Bink videos convert to WebM (`build_addon.py --videos`, ffmpeg) and play full screen in GMod's browser; Options panel picks Ending 1/2. Without converted videos the map's own fade plays | `cl_video.lua`, `sv_video.lua`, `html/hl2alone/video.html` |
+| Ending selector (`amod_new_ending`) and Episode 2 outro video | client.dll + server.dll (`f_portal` → outro → `logic_ending_credits`) | **Ported:** the Bink videos convert to WebM (`build_addon.py --videos`, ffmpeg) and play full screen in GMod's browser; Options panel picks Ending 1/2. Without converted videos the map's own fade plays | `cl_video.lua`, `sv_video.lua` |
 | Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
 | Level transitions in multiplayer | engine `trigger_changelevel` (single player only) | **Added:** co-op. When someone reaches a level exit, everyone alive must gather within `hl2a_mp_gather_radius` (512) of it ("You must gather your party before moving forward (2/4)", with a marker to the exit for stragglers). Then a `hl2a_mp_transition_delay` (3 s) countdown runs, and health, armour, suit, weapons, ammo and each player's place relative to the landmark carry over. Scripted exits (the `ChangeLevel` input) wait too: `hl2a_mp_gather_timeout` lets them go ahead without stragglers after a while, and `hl2a_mp_force_transition` goes now. NPCs and props don't cross over as they do in single player. `hl2a_mp_transitions 0` turns this off | `sv_transitions.lua`, `cl_transitions.lua` |
 | Sandbox hints, spawn/context menus, noclip | (GMod Sandbox) | **Off by default** for the campaign; `hl2a_sandbox_tools 1` (Options panel) brings them back | `sh_sandbox.lua` |

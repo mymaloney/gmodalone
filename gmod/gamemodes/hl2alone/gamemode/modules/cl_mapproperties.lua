@@ -103,7 +103,15 @@ end
 
 local function filters()
 	local out = {}
-	for _, f in ipairs( file.Find( "scripts/colorcorrection/*.raw", "GAME" ) ) do out[ #out + 1 ] = "scripts/colorcorrection/" .. f end
+	-- Listed under their original scripts/ path (what time_info stores); the
+	-- Workshop build keeps them in materials/colorcorrection/
+	local seen = {}
+	for _, dir in ipairs( { "scripts/colorcorrection/", "materials/colorcorrection/" } ) do
+		for _, f in ipairs( file.Find( dir .. "*.raw", "GAME" ) ) do
+			local path = "scripts/colorcorrection/" .. f:lower()
+			if not seen[ path ] then seen[ path ] = true out[ #out + 1 ] = path end
+		end
+	end
 	table.sort( out )
 	return out
 end

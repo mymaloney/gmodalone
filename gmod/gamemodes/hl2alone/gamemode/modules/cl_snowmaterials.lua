@@ -175,12 +175,18 @@ local function wanted()
 	return HL2A.TimeInfo.GetSubTable( "weather" ).showsnowonmaps == "1"
 end
 
+-- The Workshop doesn't allow .smf files, so build_addon.py ships them as
+-- data_static/hl2alone/maps/snow_materials/<map>.smf.txt
+function HL2A.ReadSnowFile( map )
+	return HL2A.ReadFile( "maps/snow_materials/" .. map .. ".smf" ) or file.Read( "maps/snow_materials/" .. map .. ".smf", "GAME" )
+end
+
 function HL2A.ApplySnowMaterials()
 	restore()
 	if not wanted() then return end
 
 	local map = HL2A.Map()
-	local text = file.Read( "maps/snow_materials/" .. map .. ".smf", "GAME" )
+	local text = HL2A.ReadSnowFile( map )
 	if not text then
 		MsgN( "[HL2A] snow: no maps/snow_materials/" .. map .. ".smf" )
 		return
@@ -212,7 +218,7 @@ hook.Add( "InitPostEntity", "hl2a.snowmaterials", HL2A.ApplySnowMaterials )
 -- Shows what the .smf contains and how it matches this map's materials
 concommand.Add( "hl2a_snow_debug", function()
 	local map = HL2A.Map()
-	local text = file.Read( "maps/snow_materials/" .. map .. ".smf", "GAME" )
+	local text = HL2A.ReadSnowFile( map )
 	MsgN( "[HL2A] snow debug for " .. map .. ": snow wanted = " .. tostring( wanted() ) )
 	if not text then MsgN( "  no .smf found" ) return end
 	MsgN( "  .smf starts with: " .. text:sub( 1, 300 ):gsub( "%s+", " " ) )
