@@ -3,8 +3,8 @@
 	resource/panels/OptionsPanel.txt and using its localization strings.
 	Changes are staged and sent to the server on "Apply Settings".
 
-	Left out on purpose: Daytime (shelved) and the Effects / Credits /
-	Ending controls. The filter sliders drive cl_screenfilter.lua and
+	Left out on purpose: Daytime (shelved) and the Credits / Ending
+	controls. The Effects button opens cl_effectspanel.lua. The filter sliders drive cl_screenfilter.lua and
 	apply live while the panel is open.
 
 	Also implements the mirrored view (amod_mirrored).
@@ -37,6 +37,7 @@ local LAYOUT = {
 	{ "slider", 5, 320, 110, "amod_filter_brightness_off", 0, 10, "#AMod_OptionsPanel_Filter_FilterOffBrightness_Tooltip" },
 	{ "label", 120, 320, 116, 20, "#AMod_OptionsPanel_Filter_FilterOffBrightnessLabel" },
 	{ "check", 15, 346, 225, "amod_epic_filter", "#AMod_OptionsPanel_Filter_EnableEpicFilter", "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip" },
+	{ "button", 5, 380, 225, 20, "#AMod_OptionsPanel_ToggleEffectsPanel", function() HL2A.ToggleEffectsPanel() end },
 	{ "divider", 235, 0, 2, 405 },
 
 	{ "label", 285, 10, 150, 20, "#AMod_OptionsPanel_FlashlightTitle" },
@@ -162,6 +163,13 @@ local function buildPanel()
 			d:SetSize( math.max( 1, S( c[ 4 ] ) ), math.max( 1, S( c[ 5 ] ) ) )
 			d.Paint = function( _, w, h ) surface.SetDrawColor( 90, 90, 90 ) surface.DrawRect( 0, 0, w, h ) end
 
+		elseif kind == "button" then
+			local b = body:Add( "DButton" )
+			b:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
+			b:SetSize( S( c[ 4 ] ), S( c[ 5 ] ) )
+			b:SetText( phrase( c[ 6 ] ) )
+			b.DoClick = c[ 7 ]
+
 		elseif kind == "apply" then
 			local b = body:Add( "DButton" )
 			b:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
@@ -213,9 +221,21 @@ local mirrorRT, mirrorW, mirrorH
 local inMirror = false
 
 hook.Add( "RenderScene", "hl2a.mirror", function( origin, angles, fov )
-	if inMirror or not CV.amod_mirrored:GetBool() then return end
+	if inMirror then return end
+	local mirrored = CV.amod_mirrored:GetBool()
+	-- Claustrophobia (cl_effects.lua) renders with its own aspect ratio
+	local aspect = HL2A.Effects and HL2A.Effects.Aspect and HL2A.Effects.Aspect()
+	if not mirrored and not aspect then return end
 
 	local w, h = ScrW(), ScrH()
+	if not mirrored then
+		inMirror = true
+		render.RenderView( { origin = origin, angles = angles, fov = fov, aspect = aspect, x = 0, y = 0, w = w, h = h,
+			drawhud = false, drawviewmodel = true, dopostprocess = true } )
+		inMirror = false
+		return true
+	end
+
 	if not mirrorRT or mirrorW ~= w or mirrorH ~= h then
 		mirrorRT = GetRenderTarget( "hl2a_mirror_" .. w .. "x" .. h, w, h )
 		mirrorW, mirrorH = w, h
@@ -224,7 +244,7 @@ hook.Add( "RenderScene", "hl2a.mirror", function( origin, angles, fov )
 	inMirror = true
 	render.PushRenderTarget( mirrorRT )
 		render.Clear( 0, 0, 0, 255, true, true )
-		render.RenderView( { origin = origin, angles = angles, fov = fov, x = 0, y = 0, w = w, h = h,
+		render.RenderView( { origin = origin, angles = angles, fov = fov, aspect = aspect, x = 0, y = 0, w = w, h = h,
 			drawhud = false, drawviewmodel = true, dopostprocess = true } )
 	render.PopRenderTarget()
 	inMirror = false

@@ -21,6 +21,8 @@ local CLIENT_ONLY = {
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
 	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom",
 	"amod_filter_brightness_", "hl2a_screenfilter",
+	"amod_view_", "amod_camera_", "amod_blur_amount", "amod_lighting_debug", "amod_effects_",
+	"hl2a_effects_", "hl2a_noir", "hl2a_hide_viewmodel", "hl2a_viewmodel_fov", "hl2a_claustrophobia_fov", "hl2a_pitch_",
 }
 
 HL2A.ConVars = HL2A.ConVars or {}
@@ -52,6 +54,39 @@ cv( "hl2a_timeinfo_theme", "", "Sub-folder of resource/time_info to load (e.g. \
 
 -- Colour correction ("epic filter")
 cv( "amod_epic_filter", 1 )
+-- Effects panel, view page (cl_effects.lua). Names/defaults from client.dll;
+-- hl2a_* ones replace engine convars the original set (r_drawviewmodel,
+-- viewmodel_fov, fov_desired, cl_pitchdown/up) or had no convar (noir).
+cv( "hl2a_hide_viewmodel", 0 )
+cv( "hl2a_noir", 0, "Black and white view" )
+cv( "amod_view_lense_dirt", 0 )
+cv( "amod_view_bodycam", 0, "Old TV / bodycam overlay" )
+cv( "amod_view_binoculars", 0, "Blue tinted TV overlay" )
+cv( "amod_view_blur", 0 )
+cv( "amod_blur_amount", 1 )
+cv( "amod_view_square", 0, "Cinematic black boxes" )
+cv( "amod_view_square_width", 0.375 )
+cv( "amod_view_square_height", 0.2 )
+cv( "amod_view_claustrophobia", 0 )
+cv( "amod_view_claustrophobia_amt", 5, "View aspect ratio while claustrophobic" )
+cv( "hl2a_claustrophobia_fov", 100 )
+cv( "hl2a_viewmodel_fov_override", 0 )
+cv( "hl2a_viewmodel_fov", 54 )
+for i = 1, 8 do cv( "amod_view_filter_video" .. i, 0 ) end
+cv( "amod_camera_cinematic", 0, "Camera editor: smoothing, offsets and pitch limits" )
+cv( "amod_camera_cinematic_fix", 0, "Viewmodel follows the smoothed camera" )
+cv( "amod_camera_cinematic_lag_angles", 0 )
+cv( "amod_camera_cinematic_lag_angles_amt", 0.1 )
+cv( "amod_camera_cinematic_lag_origin", 0 )
+cv( "amod_camera_cinematic_lag_origin_amt", 0.1 )
+cv( "amod_view_override_xyz_amt", "0 0 0", "Camera offset: forward right up" )
+cv( "amod_view_override_pyr_amt", "0 0 0", "Camera angle offset: pitch yaw roll" )
+cv( "hl2a_pitch_down", 89 )
+cv( "hl2a_pitch_up", 89 )
+cv( "amod_lighting_debug", 0 )
+cv( "hl2a_effects_autoload", 0, "Load the autoload presets on every map instead of keeping the current effects" )
+cv( "amod_effects_panel_autoload_files", "", "Presets/folders to autoload, separated by ;" )
+
 -- Screen filter (cl_screenfilter.lua; original TAB key, here F2)
 cv( "hl2a_screenfilter", 0, "Screen filter on (Amod_ToggleFilter / F2)" )
 cv( "amod_filter_brightness_on", 12, "Screen filter on: brightness, 0-12" )

@@ -152,10 +152,10 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Options panel | VGUI `.res` + DLL | **Ported** (`ToggleOptionsPanel`, Options button on chapter select); Daytime, Effects/Credits/Ending left out. Thunder and breath checkboxes borrowed from the Weather panel until it's ported | `sh/sv/cl_options.lua` |
 | Mirrored view, hide HUD, footsteps off, strafe roll, soundscapes off | DLL / engine cvars | **Ported** | `cl_options.lua`, `cl_view.lua`, `sh/sv_options.lua` |
 | TAB screen filter (`Amod_ToggleFilter`, `tf1`/`tf2`) + its three brightness sliders | client.dll aliases switching `mat_monitorgamma` / TV gamma | **Ported** from disassembly as a screen-space gamma curve (exact formulas in the file). On **F2**, since TAB is the scoreboard; doesn't affect the HUD | `cl_screenfilter.lua`, `cl_options.lua` |
-| Weather / effects / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
+| Effects panel: view effects (B&W, lens dirt, TV overlays, blur, black boxes, claustrophobia, viewmodel), camera editor (smoothing, offsets, pitch limits), conditional console variables / screen overlays / lights, `.amf` presets, autoload | client.dll (`CEffectsPanel*`, view render code) | **Ported** from disassembly (convars, slider ranges and conversions, draw order, preset format). Lens dirt and blur used custom shaders: lens dirt is redrawn additively from its texture, blur uses GMod's screen blur. Lights parented by *targetname* won't find entities (names aren't networked to the client) | `cl_effects.lua`, `cl_effectspanel.lua`, `sv_effects.lua` |
+| Weather / background panels | VGUI `.res` + DLL | **TODO:** rebuild in Derma; layouts in `resource/panels/` | n/a |
 | Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
 | Volumetric clouds (`r_clouds_*`), horizon fog | engine changes | **Not portable as-is.** Would need a Lua mesh/sprite system | n/a |
-| Lens dirt, blur screen effects | `shaders/fxc` | **TODO:** redo in Lua if wanted | n/a |
 | GamepadUI main menu, bik menu backgrounds | gamepadui.dll | **Not portable.** GMod's main menu can't be replaced by a gamemode | n/a |
 | Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
 | Episode One core/citadel countdowns (`amod_core_timer`) | server.dll | **Ported** from disassembly | `entities/entities/amod_core_timer.lua`, `sv_timers.lua` |
@@ -175,6 +175,8 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
 | `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleOptionsPanel` | Options panel |
+| `ToggleEffectsPanel` | Effects panel (also a button on the Options panel) |
+| `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
 | `Amod_ToggleFilter` (F2), `tf1` / `tf2` | Toggle / switch on / switch off the screen filter |
 | `amod_do_breath` | Breathe once (fog puff + sound) |
 | `hl2a_weathersound_debug` | Show the tracked soundscape and the rain/snow/thunder layers playing |

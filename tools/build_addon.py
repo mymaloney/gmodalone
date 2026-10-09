@@ -41,6 +41,7 @@ DATA_GLOBS = [
     "scripts/npc_sounds_*.txt",
     "scripts/soundscapes*.txt",  # rain/snow/thunder layers (cl_weathersound.lua)
     "particles/particles_manifest.txt",
+    "scripts/filters examples/*.amf",  # Effects panel example presets
 ]
 
 # Files the engine reads directly, copied as-is into the addon root
