@@ -12,7 +12,9 @@
 	with amod_weather_thunder on, is "common.thunder". Each thunder clap
 	gets a random distance that sets its flash, delay and loudness.
 
-	The current soundscape name comes from sv_soundscapes.lua. Supports the
+	It plays while the port's weather falls, or on maps with their own
+	func_precipitation rain/snow. The current soundscape name comes from
+	sv_soundscapes.lua. Supports the
 	rules the weather soundscapes use: playlooping, playrandom (wave/rndwave,
 	time/volume/pitch ranges, "position" "random") and playsoundscape.
 ]]
@@ -116,8 +118,10 @@ local function newLayer( rules, volume, onRandom, depth )
 					local snd = CreateSound( ply, path )
 					snd:SetSoundLevel( 0 )
 					local vol = rand( KV.Get( body, "volume" ), 1 ) * volume
-					snd:PlayEx( 0, rand( KV.Get( body, "pitch" ), 100 ) )
-					snd:ChangeVolume( vol, FADE )
+					-- A volume change in the same frame the sound starts is dropped,
+					-- so start quiet and fade in a moment later
+					snd:PlayEx( 0.01, rand( KV.Get( body, "pitch" ), 100 ) )
+					timer.Simple( 0.1, function() if snd:IsPlaying() then snd:ChangeVolume( vol, FADE ) end end )
 					self.loops[ #self.loops + 1 ] = snd
 				end
 			elseif kind == "playrandom" then
@@ -246,8 +250,14 @@ hook.Add( "Think", "hl2a.weathersound", function()
 	local ply = LocalPlayer()
 	if not IsValid( ply ) then return end
 
+	-- Our weather while it's falling, else the map's own rain/snow brushes
 	local kind = GetGlobal2Int( "hl2a.weather.type" )
-	local on = GetGlobal2Bool( "hl2a.weather.active" ) and not muted
+	local on = GetGlobal2Bool( "hl2a.weather.active" )
+	if kind == 0 then
+		kind = GetGlobal2Int( "hl2a.weather.maptype" )
+		on = kind ~= 0
+	end
+	on = on and not muted
 	local scape = ply:GetNW2String( "hl2a.soundscape" )
 
 	setLayer( "rain", on and kind == 1 and scape or nil )
