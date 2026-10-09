@@ -222,8 +222,8 @@ local function build()
 	check( ap, P( AP .. "EnableThunder" ), P( AP .. "ToolTip_EnableThunder" ), 10, 250, "amod_weather_thunder" )
 	check( ap, P( AP .. "ShowBreaths" ), P( AP .. "ToolTip_ShowBreaths" ), 10, 270, "amod_do_breathing" )
 	slider( ap, "Rain & snow volume: %d%%", "How loud the rain and snow ambience plays", 290, 0, 100,
-		function() return math.Round( ( tonumber( value( "hl2a_weathersound_volume" ) ) or 0.4 ) * 100 ) end,
-		function( v ) set( "hl2a_weathersound_volume", v / 100 ) end )
+		function() return math.Round( ( tonumber( value( "hl2a_weather_ambience_volume" ) ) or 1 ) * 100 ) end,
+		function( v ) set( "hl2a_weather_ambience_volume", v / 100 ) end )
 
 	sheet:AddSheet( P( AP .. "Title" ), ap )
 
@@ -281,7 +281,7 @@ local function build()
 				"amod_weather_do_in_intervals", "amod_weather_wait_min", "amod_weather_wait_max", "amod_weather_snow_show_on_maps",
 				"hl2a_weather_enable", "r_clouds_enable", "r_clouds_color_override", "r_clouds_red_override", "r_clouds_green_override",
 				"r_clouds_blue_override", "r_horizonfog_enable", "r_stars_enable", "r_stars_force", "amod_sun_disable",
-				"amod_weather_thunder", "amod_do_breathing", "amod_night_sky", "hl2a_weathersound_volume",
+				"amod_weather_thunder", "amod_do_breathing", "amod_night_sky", "hl2a_weather_ambience_volume",
 			} )
 			frame:Close()
 			panel = nil

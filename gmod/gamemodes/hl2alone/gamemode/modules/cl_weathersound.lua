@@ -7,10 +7,12 @@
 		"RainVolume"       "<0-1>"
 		(and Snow... / Thunder... the same way)
 
-	Without those keys rain is "common.rain" (outdoors; soundscapes named
-	"inside" or "citadel" get none), snow is "common.snowfall" and thunder,
-	with amod_weather_thunder on, is "common.thunder". Each thunder clap
-	gets a random distance that sets its flash, delay and loudness.
+	Without those keys the choice and level are the original's (client.dll,
+	see RAIN_TABLE below): indoor soundscapes get the muffled
+	"common.rain.inside" at a low level, the rest "common.rain"; snow is
+	"common.snowfall"; rain gets louder with the rain density. Thunder, with
+	amod_weather_thunder on, is "common.thunder"; each clap gets a random
+	distance that sets its flash, delay and loudness.
 
 	It plays while the port's weather falls, or on maps with their own
 	func_precipitation rain/snow. The current soundscape name comes from
@@ -90,26 +92,75 @@ local function wavePath( w )
 end
 
 -- Which weather soundscape (rules, volume) the current soundscape asks for
+-- From client.dll (0x10512ee0): soundscape names (case-insensitive
+-- substrings, first match wins) that get the indoor rain, and its level
+local RAIN_TABLE = {
+	{ "inside.under_ep1", 0.08 },
+	{ "klab", 0.1 },
+	{ "inside_eli", 0.1 },
+	{ "inside.ravenholm_cave", 0.1 },
+	{ "inside.prison", 0.25 },
+	{ "inside_prison", 0.25 },
+	{ "nothing", 0.4 },
+	{ "portal.inside_facility_metal_intro_loudrain", 0.3 },
+	{ "portal.", 0.01 },
+}
+
+-- The rain bed's level and default soundscape for a soundscape name
+local function rainDefaults( lower )
+	for _, e in ipairs( RAIN_TABLE ) do
+		if lower:find( e[ 1 ], 1, true ) then return "common.rain.inside", e[ 2 ] end
+	end
+	if lower:find( "inside", 1, true ) then
+		return "common.rain.inside", lower:find( "citadel", 1, true ) and 0.09 or 0.285
+	end
+	return "common.rain", 0.825
+end
+
+-- Rain gets louder with its density: r_raindensity 0.0002..0.006 -> 0.4..1.6
+local function densityFactor()
+	local d = GetGlobal2Bool( "hl2a.weather.active" ) and GetGlobal2Float( "hl2a.weather.density", 0.001 )
+	if not d or d <= 0 then
+		local cv = GetConVar( "r_raindensity" )
+		d = cv and cv:GetFloat() or 0.001
+	end
+	d = math.Clamp( d, 0.0002, 0.006 )
+	return ( d - 0.0002 ) / 0.0058 * 1.2 + 0.4
+end
+
 function W.LayerFor( kind, scapeName )
 	if not defs then loadDefs() end
 	local info = KINDS[ kind ]
-	local scape = defs[ ( scapeName or "" ):lower() ]
-	local volume = 1
-	local rules
+	local lower = ( scapeName or "" ):lower()
+	local scape = defs[ lower ]
+	local rules, volume
+
+	if kind == "thunder" then
+		volume = scape and tonumber( KV.Get( scape, "ThunderVolume" ) ) or 1
+		rules = defs[ info.default ]
+	else
+		-- As client.dll: default soundscape and level by name, then the
+		-- soundscape's own Rain/Snow keys override them
+		local default, level = rainDefaults( lower )
+		if kind == "rain" then
+			volume = level * densityFactor()
+			rules = defs[ default ]
+		else
+			volume = level -- snow doesn't follow the density
+			rules = defs[ info.default ]
+		end
+		local custom = scape and tonumber( KV.Get( scape, info.prefix .. "Volume" ) )
+		if custom then volume = kind == "rain" and custom * densityFactor() or custom end
+	end
 
 	if scape then
-		volume = tonumber( KV.Get( scape, info.prefix .. "Volume" ) ) or 1
-		local inline = KV.Get( scape, info.prefix .. "SoundscapeKV" )
 		local named = KV.Get( scape, info.prefix .. "Soundscape" )
-		if istable( inline ) then rules = inline
-		elseif isstring( named ) then rules = defs[ named:lower() ] end
+		if isstring( named ) then rules = defs[ named:lower() ] end
+		local inline = KV.Get( scape, info.prefix .. "SoundscapeKV" )
+		if istable( inline ) then rules = inline end
 	end
 
-	if not rules then
-		local lower = ( scapeName or "" ):lower()
-		if kind == "rain" and ( lower:find( "inside", 1, true ) or lower:find( "citadel", 1, true ) ) then return nil end
-		rules = defs[ info.default ]
-	end
+	if not rules or volume <= 0 then return nil end
 	return rules, volume
 end
 
@@ -206,17 +257,6 @@ function Layer:Think( now, eye )
 	for _, c in ipairs( self.children ) do c:Think( now, eye ) end
 end
 
---- Scales the whole layer (how exposed to the sky the player is), fading loops
-function Layer:SetGain( g )
-	if math.abs( g - self.gain ) < 0.02 then return end
-	self.gain = g
-	if self.checkAt then self.checkAt = math.max( self.checkAt, CurTime() + 1 ) end -- let the fade finish
-	for i, snd in ipairs( self.loops ) do
-		if snd:IsPlaying() then snd:ChangeVolume( self.loopVols[ i ] * g, 0.5 ) end
-	end
-	for _, c in ipairs( self.children ) do c:SetGain( g ) end
-end
-
 function Layer:Stop()
 	for _, snd in ipairs( self.loops ) do
 		snd:ChangeVolume( 0, FADE )
@@ -240,41 +280,6 @@ function W.SetDef( name, rules )
 end
 
 -- State -----------------------------------------------------------------------------
-
--- Sky exposure ----------------------------------------------------------------------
--- Rain is chosen per soundscape, and many interiors' soundscapes aren't named
--- as such, so the weather beds also follow how much open sky the player can
--- see: straight up counts most, plus eight directions angled upwards (so a
--- doorway lets some rain in). Indoors it drops to a faint murmur.
-
-local EXPOSURE_RAIN_INDOORS = 0.08   -- rain/snow gain with no sky in sight
-local EXPOSURE_THUNDER_INDOORS = 0.4 -- thunder carries through walls
-local EXPOSURE_RATE = 1.2            -- how fast it follows (per second)
-local SKY_TRACE = 3000
-
-local exposure, exposureTarget, nextTrace = 1, 1, 0
-
-local function skyDirs()
-	local out = { { Vector( 0, 0, 1 ), 3 } }
-	for i = 0, 7 do
-		local a = math.rad( i * 45 )
-		out[ #out + 1 ] = { Vector( math.cos( a ) * 0.7, math.sin( a ) * 0.7, 0.7 ), 1 }
-	end
-	return out
-end
-local SKY_DIRS = skyDirs()
-
-local function measureExposure( eye )
-	local seen, total = 0, 0
-	for _, d in ipairs( SKY_DIRS ) do
-		local tr = util.TraceLine( { start = eye, endpos = eye + d[ 1 ] * SKY_TRACE, mask = MASK_SOLID_BRUSHONLY } )
-		if tr.HitSky or not tr.Hit then seen = seen + d[ 2 ] end
-		total = total + d[ 2 ]
-	end
-	return math.min( seen / total * 1.5, 1 ) -- half the sky visible already sounds "outside"
-end
-
-function W.Exposure() return exposure end
 
 local active = {} -- kind -> { layer, key }
 local muted = false
@@ -433,9 +438,10 @@ local function setLayer( kind, scapeName )
 	local cur = active[ kind ]
 	local rules, volume
 	if scapeName then rules, volume = W.LayerFor( kind, scapeName ) end
-	-- Rain and snow beds play as full-volume 2D loops, louder than the engine
-	-- mixed them; hl2a_weathersound_volume scales them (thunder keeps its own)
-	if rules and kind ~= "thunder" then volume = volume * math.Clamp( CV.hl2a_weathersound_volume:GetFloat(), 0, 1 ) end
+	-- hl2a_weather_ambience_volume: 1 = the original's levels (thunder keeps its own)
+	if rules and kind ~= "thunder" then volume = volume * math.Clamp( CV.hl2a_weather_ambience_volume:GetFloat(), 0, 1 ) end
+	-- The level follows the rain density; rebuild only on a real change
+	if volume then volume = math.Round( volume, 2 ) end
 
 	local key = rules and ( tostring( rules ) .. "|" .. volume ) or nil
 	if cur and cur.key == key then return end
@@ -459,7 +465,7 @@ end
 --- Maps fire amod_rain_stopsounds, but the original DLLs never implemented it
 -- (the string isn't in them): it did nothing, so it does nothing here.
 -- Muting on it silenced the rain for the rest of the map. Indoors is handled
--- by the sky exposure above.
+-- by the soundscapes themselves (indoor ones get the quiet indoor rain).
 function W.MuteLoop() end
 
 hook.Add( "Think", "hl2a.weathersound", function()
@@ -482,16 +488,7 @@ hook.Add( "Think", "hl2a.weathersound", function()
 	setLayer( "thunder", on and kind == 1 and GetGlobal2Bool( "hl2a.weather.thunder" ) and scape or nil )
 
 	local now, eye = CurTime(), ply:EyePos()
-	if now >= nextTrace then
-		nextTrace = now + 0.2
-		exposureTarget = measureExposure( eye )
-	end
-	exposure = math.Approach( exposure, exposureTarget, FrameTime() * EXPOSURE_RATE )
-	for kind, a in pairs( active ) do
-		local floor = kind == "thunder" and EXPOSURE_THUNDER_INDOORS or EXPOSURE_RAIN_INDOORS
-		a.layer:SetGain( Lerp( exposure, floor, 1 ) )
-		a.layer:Think( now, eye )
-	end
+	for _, a in pairs( active ) do a.layer:Think( now, eye ) end
 	if base then base.layer:Think( now, eye ) end
 end )
 
@@ -522,8 +519,7 @@ concommand.Add( "hl2a_thunder_test", function()
 end, nil, "Play one random-distance thunder strike" )
 
 concommand.Add( "hl2a_weathersound_debug", function()
-	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted )
-		.. string.format( "  sky exposure: %.2f", exposure ) )
+	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted ) )
 	MsgN( "  played by Lua: " .. ( base and string.format( "%s (%d loops, %d random)", base.name, #base.layer.loops, #base.layer.randoms ) or "no (engine or none)" ) )
 	for kind, a in pairs( active ) do
 		MsgN( string.format( "  %s: %d loops, %d random, %d nested, gain %.2f", kind, #a.layer.loops, #a.layer.randoms, #a.layer.children, a.layer.gain ) )
