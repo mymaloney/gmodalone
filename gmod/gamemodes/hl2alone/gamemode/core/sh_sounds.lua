@@ -87,14 +87,23 @@ end
 
 function HL2A.LoadParticles()
 	local manifest = KV.ParseFile( "particles/particles_manifest.txt" )
+	local count = 0
 	for _, root in ipairs( manifest or {} ) do
 		for _, f in ipairs( KV.GetAll( root.value, "file" ) ) do
 			-- Mod-specific .pcf files are installed under particles/hl2alone/
-			-- so they don't replace stock particles in other gamemodes.
-			local path = "particles/hl2alone/" .. f:gsub( "\\", "/" ):lower():match( "[^/]+$" )
-			if file.Exists( path, "GAME" ) then game.AddParticles( path ) end
+			-- so they don't replace stock particles in other gamemodes. The
+			-- rest of the manifest is stock HL2 / Episode files, which GMod
+			-- doesn't all load by itself (skybox_smoke, water_leaks, ...).
+			local name = f:gsub( "\\", "/" ):lower():match( "[^/]+$" )
+			local path = "particles/hl2alone/" .. name
+			if not file.Exists( path, "GAME" ) then path = "particles/" .. name end
+			if file.Exists( path, "GAME" ) then
+				game.AddParticles( path )
+				count = count + 1
+			end
 		end
 	end
+	MsgN( "[HL2A] loaded " .. count .. " particle files" )
 
 	-- Rain splash particle lives in a stock HL2 file GMod doesn't load by default
 	if not file.Exists( "particles/hl2alone/water_impact.pcf", "GAME" ) then
@@ -102,3 +111,43 @@ function HL2A.LoadParticles()
 	end
 	PrecacheParticleSystem( HL2A.ConVars.amod_rain_splash_particle_name:GetString() )
 end
+
+-- Particle addons that reload every .pcf (e.g. PEPlus) drop the ones added
+-- above, leaving fog_breath, fog_woods_* and the rest "unknown". Add them back
+-- after any such reload, and once more when the map is up.
+local function wrapReloader( name )
+	local fn = _G[ name ]
+	if not isfunction( fn ) or HL2A[ "wrapped_" .. name ] then return end
+	HL2A[ "wrapped_" .. name ] = true
+	_G[ name ] = function( ... )
+		local r = { fn( ... ) }
+		HL2A.LoadParticles()
+		return unpack( r )
+	end
+end
+
+-- The map's particle entities looked their effects up while the files were
+-- missing; precache those names again now that they're back
+local function precacheMapParticles()
+	if not SERVER then return end
+	for _, ent in ipairs( ents.FindByClass( "info_particle_system" ) ) do
+		local name = ent:GetInternalVariable( "effect_name" )
+		if isstring( name ) and name ~= "" then PrecacheParticleSystem( name ) end
+	end
+end
+
+local function reload()
+	HL2A.LoadParticles()
+	precacheMapParticles()
+end
+
+hook.Add( "InitPostEntity", "hl2a.particles", function()
+	wrapReloader( "PEPlus_ReloadPCF" )
+	wrapReloader( "PEPlus_ReadAndProcessPCFs" )
+	reload()
+	timer.Simple( 2, reload ) -- after addons that reload a moment later
+end )
+hook.Add( "Initialize", "hl2a.particles.wrap", function()
+	wrapReloader( "PEPlus_ReloadPCF" )
+	wrapReloader( "PEPlus_ReadAndProcessPCFs" )
+end )
