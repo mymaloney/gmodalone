@@ -83,12 +83,21 @@ hook.Add( "HUDPaintBackground", "hl2a.vignette", function()
 	local w, h = ScrW(), ScrH()
 	local bw = w / math.max( CV.amod_new_vignette_width_divisor:GetFloat(), 1 )
 	local bh = h / math.max( CV.amod_new_vignette_height_divisor:GetFloat(), 1 )
-	local a = CV.amod_new_vignette_start_alpha:GetFloat()
+	-- Each edge band fades from start alpha at the screen edge to end alpha
+	-- on its inner side: a solid layer at end alpha plus a gradient of the rest
+	local a0 = math.Clamp( CV.amod_new_vignette_start_alpha:GetFloat(), 0, 255 )
+	local a1 = math.Clamp( CV.amod_new_vignette_end_alpha:GetFloat(), 0, 255 )
+	local r, g, b = CV.amod_new_vignette_color_r:GetInt(), CV.amod_new_vignette_color_g:GetInt(), CV.amod_new_vignette_color_b:GetInt()
 
-	surface.SetDrawColor( CV.amod_new_vignette_color_r:GetInt(), CV.amod_new_vignette_color_g:GetInt(),
-		CV.amod_new_vignette_color_b:GetInt(), a )
+	if a1 > 0 then
+		surface.SetDrawColor( r, g, b, a1 )
+		surface.DrawRect( 0, 0, bw, h )
+		surface.DrawRect( w - bw, 0, bw, h )
+		surface.DrawRect( bw, 0, w - bw * 2, bh )
+		surface.DrawRect( bw, h - bh, w - bw * 2, bh )
+	end
 
-	-- TODO: amod_new_vignette_end_alpha (gradients currently fade to 0)
+	surface.SetDrawColor( r, g, b, math.max( a0 - a1, 0 ) )
 	surface.SetMaterial( gradL ) surface.DrawTexturedRect( 0, 0, bw, h )
 	surface.SetMaterial( gradR ) surface.DrawTexturedRect( w - bw, 0, bw, h )
 	surface.SetMaterial( gradU ) surface.DrawTexturedRect( 0, 0, w, bh )

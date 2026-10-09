@@ -74,6 +74,8 @@ local FILES = {
 	"modules/sh_options.lua",
 	"modules/sv_options.lua",
 	"modules/cl_options.lua",
+	"modules/sh_sandbox.lua",
+	"modules/cl_credits.lua",
 	"modules/sv_dev.lua",
 }
 

@@ -3,8 +3,8 @@
 	resource/panels/OptionsPanel.txt and using its localization strings.
 	Changes are staged and sent to the server on "Apply Settings".
 
-	Left out on purpose: Daytime (shelved) and the Credits / Ending
-	controls. The original's filter section, saturation and vignette now
+	Left out on purpose: Daytime (shelved) and the ending selector (it chose
+	between two outro videos GMod can't play). The original's filter section, saturation and vignette now
 	live on the Post-Processing & Effects panel's Look tab.
 
 	Also implements the mirrored view (amod_mirrored).
@@ -59,6 +59,7 @@ local LAYOUT = {
 	-- Look (colour grade, faded, saturation, vignette, bloom) moved to the
 	-- Post-Processing & Effects panel
 	{ "button", 5, 210, 225, 24, "Post-Processing & Effects...", function() HL2A.ToggleEffectsPanel() end },
+	{ "button", 5, 240, 225, 24, "#Amod_OptionsPanel_Credits", function() HL2A.ShowCredits() end },
 	{ "divider", 235, 0, 2, 405 },
 
 	{ "label", 285, 10, 150, 20, "#AMod_OptionsPanel_FlashlightTitle" },
@@ -92,6 +93,7 @@ local LAYOUT = {
 	{ "check", 240, 246, 235, "amod_do_citadel_timer", "#Amod_OptionsPanel_Other_CitadelTimer", "#Amod_OptionsPanel_Other_CitadelTimer_Tooltip" },
 	{ "check", 240, 265, 235, "amod_do_core_timer", "#Amod_OptionsPanel_Other_CoreTimer", "#Amod_OptionsPanel_Other_CoreTimer_Tooltip" },
 	{ "check", 240, 284, 235, "hl2a_achievement_notifications_disable", "#Amod_OptionsPanel_Other_DisableAchievementNotifications", "#Amod_OptionsPanel_Other_DisableAchievementNotifications_Tooltip" },
+	{ "check", 240, 303, 235, "hl2a_sandbox_tools", "Sandbox tools (spawn menu, hints, noclip)", "Garry's Mod's Sandbox spawn menu (Q), context menu (C), hint pop-ups and noclip. Off for the campaign." },
 	{ "divider", 236, 324, 239, 2 },
 	{ "reset", 247, 336, 219, 24, "Reset everything" },
 	{ "apply", 247, 370, 219, 26, "#Amod_OptionsPanel_ApplySettings" },

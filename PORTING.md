@@ -169,6 +169,10 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Outro video on `ep2_outland_12a_d` (`amod_outrotest`) | server.dll + `.bik` | **Not portable:** the normal fade plays instead | n/a |
 | Portal maps (`portal_*`) | Portal entities | **Not portable:** GMod has no portal entities | n/a |
 | GeoGuesser mini-game | client.dll | **TODO** | n/a |
+| Credits button / panel | client.dll (`CAModCreditsPanel`) | **Ported** (Options panel button, `OpenCreditsPanel`), with a button to play the credits music | `cl_credits.lua` |
+| Ending selector (`amod_new_ending`) | client.dll | **Not ported:** it only chose which of two outro videos (`Amod_OutroVideo` / `Amod_OutroVideo2`, Bink) played at the end of Episode 2 before `logic_ending_credits`; GMod can't play them | n/a |
+| Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
+| Sandbox hints, spawn/context menus, noclip | (GMod Sandbox) | **Off by default** for the campaign; `hl2a_sandbox_tools 1` (Options panel) brings them back | `sh_sandbox.lua` |
 
 ## Console commands
 
