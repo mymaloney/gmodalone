@@ -53,6 +53,9 @@ function GM:CalcView( ply, origin, angles, fov, znear, zfar )
 		view.angles.y = view.angles.y + math.sin( now * 0.45 ) * 0.25 * w
 	end
 
+	-- Effects panel: claustrophobia fov, camera editor (cl_effects.lua)
+	if HL2A.Effects and HL2A.Effects.CalcView then HL2A.Effects.CalcView( ply, view ) end
+
 	return view
 end
 

@@ -13,6 +13,7 @@
 		hl2a.weather.splashes
 		hl2a.weather.radius   r_RainRadius from cfg/rain/<map>.cfg (0 = no weather on this map)
 		hl2a.weather.thunder  amod_weather_thunder
+		hl2a.weather.maptype  the map's own func_precipitation (1 rain, 2 snow) while ours is off
 ]]
 
 local CV = HL2A.ConVars
@@ -57,6 +58,35 @@ end
 
 local cfg
 
+-- The map's own precipitation (func_precipitation "preciptype"), so the
+-- client plays rain/snow ambience on maps that rain by themselves.
+-- 0 rain, 1 snow, 2 ash, 3 snowfall, 4 particle rain, 5 particle ash,
+-- 6 particle rainstorm, 7 particle snow
+local MAP_PRECIP = { [ 0 ] = 1, [ 1 ] = 2, [ 3 ] = 2, [ 4 ] = 1, [ 6 ] = 1, [ 7 ] = 2 }
+local precipTypes = {} -- func_precipitation -> preciptype (default 0, rain)
+local mapPrecip
+
+hook.Add( "OnEntityCreated", "hl2a.weather.mapprecip", function( ent )
+	if ent:GetClass() == "func_precipitation" then precipTypes[ ent ] = 0 end
+end )
+
+hook.Add( "EntityKeyValue", "hl2a.weather.mapprecip", function( ent, key, value )
+	if key:lower() == "preciptype" and ent:GetClass() == "func_precipitation" then
+		precipTypes[ ent ] = tonumber( value ) or 0
+	end
+end )
+
+-- Worked out once, before our weather may remove the brushes. Rain wins if a map mixes types.
+local function mapPrecipType()
+	if mapPrecip then return mapPrecip end
+	mapPrecip = 0
+	for _, t in pairs( precipTypes ) do
+		local kind = MAP_PRECIP[ t ]
+		if kind and ( mapPrecip == 0 or kind == 1 ) then mapPrecip = kind end
+	end
+	return mapPrecip
+end
+
 local function setActive( active )
 	SetGlobal2Bool( "hl2a.weather.active", active )
 	if cfg.intervals then
@@ -72,6 +102,8 @@ function HL2A.ApplyWeather()
 	local on = cfg.enabled and cfg.type ~= 0 and radius > 0
 
 	SetGlobal2Int( "hl2a.weather.type", on and cfg.type or 0 )
+	-- Our weather replaces the map's own (removed below), so it only counts when ours is off
+	SetGlobal2Int( "hl2a.weather.maptype", on and 0 or mapPrecipType() )
 	SetGlobal2Float( "hl2a.weather.density", cfg.density )
 	SetGlobal2Bool( "hl2a.weather.splashes", cfg.splashes )
 	SetGlobal2Float( "hl2a.weather.radius", radius )

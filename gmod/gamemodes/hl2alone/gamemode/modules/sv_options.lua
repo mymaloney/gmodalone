@@ -10,7 +10,8 @@ net.Receive( "hl2a.options", function( _, ply )
 
 	for _ = 1, net.ReadUInt( 8 ) do
 		local name, value = net.ReadString(), net.ReadString()
-		if HL2A.OptionConVars[ name ] then RunConsoleCommand( name, value ) end
+		-- The options panel's settings, or (Effects panel convar page) any of the gamemode's own
+		if HL2A.OptionConVars[ name ] or HL2A.ConVars[ name ] then RunConsoleCommand( name, value ) end
 	end
 end )
 
