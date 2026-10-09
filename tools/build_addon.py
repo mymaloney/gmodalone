@@ -233,6 +233,41 @@ def build_assets(out: Path, assets: Path, keep_backgrounds: bool, music_ogg: boo
         copy(f, out / "particles" / "hl2alone" / f.name.lower())
 
 
+def copy_graphs(out: Path, gmod: Path, navmesh: bool):
+    """Node graphs (and navmeshes) GMod rebuilt for the addon's maps
+    (hl2a_build_graphs in-game) replace the out-of-date ones from the mod."""
+    maps_dir = out / "maps"
+    if not maps_dir.is_dir():
+        print("note     --gmod-dir: no maps in the addon yet (use it together with --assets)")
+        return
+    graphs = navs = 0
+    added = 0
+    for bsp in maps_dir.rglob("*.bsp"):
+        rel = bsp.relative_to(maps_dir).with_suffix("")
+        if rel.parts[0] == "graphs":
+            continue
+        ain = gmod / "maps" / "graphs" / rel.with_suffix(".ain")
+        if ain.is_file():
+            dst = maps_dir / "graphs" / rel.with_suffix(".ain")
+            old = dst.stat().st_size if dst.is_file() else 0
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ain, dst)
+            added += ain.stat().st_size - old
+            graphs += 1
+        nav = gmod / "maps" / rel.with_suffix(".nav")
+        if navmesh and nav.is_file():
+            dst = maps_dir / rel.with_suffix(".nav")
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(nav, dst)
+            added += nav.stat().st_size
+            navs += 1
+    sign = "+" if added >= 0 else "-"
+    print(f"copied   {graphs} rebuilt node graphs" + (f", {navs} navmeshes" if navmesh else "")
+          + f" from {gmod} ({sign}{human_mb(abs(added))})")
+    if graphs == 0:
+        print("note     no rebuilt graphs found: run 'hl2a_build_graphs start' in GMod first")
+
+
 def human_mb(n):
     return f"{n / 1048576:.1f} MB"
 
@@ -249,6 +284,10 @@ def main():
                     help=f"don't apply {DEFAULT_EXCLUDE.relative_to(REPO).as_posix()} (the reviewed cleanup list)")
     ap.add_argument("--keep-background-maps", action="store_true",
                     help="also copy maps/backgrounds/ (menu-background maps; ~400 MB)")
+    ap.add_argument("--gmod-dir", type=Path,
+                    help="your garrysmod folder: copy the node graphs rebuilt in-game (hl2a_build_graphs) into the addon")
+    ap.add_argument("--navmesh", action="store_true",
+                    help="with --gmod-dir, also copy generated navmeshes (maps/*.nav)")
     ap.add_argument("--music-ogg", action="store_true",
                     help="convert sound/music/*.wav to .ogg with ffmpeg (~650 MB smaller)")
     args = ap.parse_args()
@@ -269,6 +308,8 @@ def main():
     build_data(out)
     if args.assets:
         build_assets(out, args.assets.resolve(), args.keep_background_maps, args.music_ogg)
+    if args.gmod_dir:
+        copy_graphs(out, args.gmod_dir.resolve(), args.navmesh)
     else:
         print("note     no --assets given; materials/models/sound/maps were not copied")
 

@@ -25,6 +25,23 @@ local KV = HL2A.KV
 HL2A.TimeInfo = HL2A.TimeInfo or {}
 local TI = HL2A.TimeInfo
 
+--- Where the Map Properties editor keeps this theme's saved maps
+function TI.OverrideDir()
+	local theme = HL2A.ConVars.hl2a_timeinfo_theme:GetString()
+	return "hl2alone/map_properties/" .. ( theme ~= "" and theme:gsub( "[^%w_%- ]", "_" ) or "default" ) .. "/"
+end
+
+--- Replaces a map's Night block (editor preview / saved properties)
+function TI.SetNightBlock( map, night )
+	map = map:lower()
+	local block = TI.Maps[ map ]
+	if not block then
+		block = {}
+		TI.Maps[ map ] = block
+	end
+	KV.Set( block, "Night", night )
+end
+
 function TI.Load()
 	TI.Maps = {}
 	TI.Thunder = {}
@@ -41,6 +58,15 @@ function TI.Load()
 				end
 			end
 		end
+	end
+
+	-- Map Properties editor saves (cl_mapproperties.lua) replace a map's
+	-- Night block: data/hl2alone/map_properties/<theme or default>/<map>.txt
+	for _, f in ipairs( file.Find( TI.OverrideDir() .. "*.txt", "DATA" ) ) do
+		local root = KV.Parse( file.Read( TI.OverrideDir() .. f, "DATA" ) or "" )
+		local m = root and root[ 1 ]
+		local night = m and istable( m.value ) and KV.Get( m.value, "Night" )
+		if istable( night ) then TI.SetNightBlock( m.key, night ) end
 	end
 
 	for _, root in ipairs( KV.ParseFile( "resource/thunder_locations.txt" ) or {} ) do

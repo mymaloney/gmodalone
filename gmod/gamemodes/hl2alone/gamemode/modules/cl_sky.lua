@@ -265,6 +265,7 @@ hook.Add( "PostDraw2DSkyBox", "hl2a.sky", function()
 end )
 
 hook.Add( "InitPostEntity", "hl2a.sky", S.Rebuild )
+hook.Add( "HL2A_TimeInfoChanged", "hl2a.sky", S.Rebuild )
 cvars.AddChangeCallback( "hl2a_timeinfo_theme", function() timer.Simple( 0.1, S.Rebuild ) end, "hl2a.sky" )
 
 concommand.Add( "hl2a_sky_reload", S.Rebuild, nil, "Rebuild the clouds, stars and horizon fog from time_info" )

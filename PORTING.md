@@ -155,8 +155,10 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Effects panel: view effects (B&W, lens dirt, TV overlays, blur, black boxes, claustrophobia, viewmodel), camera editor (smoothing, offsets, pitch limits), conditional console variables / screen overlays / lights, `.amf` presets, autoload | client.dll (`CEffectsPanel*`, view render code) | **Ported** from disassembly (convars, slider ranges and conversions, draw order, preset format). Lens dirt and blur used custom shaders: lens dirt is redrawn additively from its texture, blur uses GMod's screen blur. Lights parented by *targetname* won't find entities (names aren't networked to the client) | `cl_effects.lua`, `cl_effectspanel.lua`, `sv_effects.lua` |
 | Weather panel (weather override/type/intensity/intervals, sun, thunder, breath, night skybox) | VGUI `.res` + client.dll | **Ported** (`toggleweatherpanel`, or the chapter select's Weather button); rain intensity formula and slider ranges from the DLL. The sky angle slider needed engine changes | `cl_weatherpanel.lua` |
 | Lightning bolts with thunder | `materials/lightning/*` | **Added:** closer strikes may show a bolt in the clap's direction (the mod's lightning images if present, else a generated bolt); `hl2a_lightning_bolts 0` turns them off | `cl_weathersound.lua` |
-| Background panel | VGUI `.res` + DLL | **TODO** (low priority) | n/a |
-| Map Properties / Soundscape editors | client.dll | **TODO** (dev tools; low priority) | n/a |
+| Background panel | VGUI `.res` + DLL | **Ported:** pick and load a menu-background map with its preview (needs `--keep-background-maps`) | `cl_backgroundpanel.lua` |
+| Out-of-date node graphs ("Node graph out of date. Rebuilding...") | mod `.ain` files | **Tool:** `hl2a_build_graphs start [nav]` walks every map so GMod rebuilds and saves the graphs (and optionally navmeshes); `build_addon.py --gmod-dir <garrysmod> [--navmesh]` ships them in place of the stale ones | `sv_graphs.lua`, `tools/build_addon.py` |
+| Map Properties editor | client.dll (`CMapPropertiesPanel*`) | **Ported:** fog, sky & colour grade, sun, weather, clouds, stars, horizon and fog-trigger pages for the current map's Night block, previewed live; Save keeps it in `data/hl2alone/map_properties/<theme>/<map>.txt` (loaded over the shipped time_info); "Copy as time_info" for putting it back into the mod. Day pages and theme export dialogs left out with daytime | `cl_mapproperties.lua`, `sh_mapproperties.lua` |
+| Soundscape editor (Soundscape Maker) | client.dll (`CSoundscapeEditor*`) | **Core ported:** browse/search all soundscapes, edit as KeyValues, preview, save to `data/hl2alone/soundscapes/`, jump to the current soundscape. The original's position editor, manifest editor and preloaded-soundscape dialogs are left out | `cl_soundscapeeditor.lua` |
 | Clouds, stars, horizon fog (`r_clouds*`, `r_stars*`, `r_horizonfog*`) | engine changes in client.dll + time_info `clouds`/`stars`/`horizon` blocks | **Ported** as Lua meshes drawn after the 2D skybox, using the DLL's defaults and per-map settings. Geometry/UV details are approximations; tune in-game (`hl2a_sky_dump`, `hl2a_sky_reload`) | `cl_sky.lua` |
 | GamepadUI main menu, bik menu backgrounds | gamepadui.dll | **Not portable.** GMod's main menu can't be replaced by a gamemode | n/a |
 | Achievements (Void Walker, Broken Facility, Workaholic) | server.dll + `logic_achievement` | **Ported:** all 59 map events, toasts, `amod_show_achievements` | `sh/sv/cl_achievements.lua` |
@@ -185,6 +187,11 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `hl2a_sky_dump`, `hl2a_sky_reload` | Show / re-apply the current map's cloud, star and horizon-fog settings |
 | `gg_toggle` / `gg_reset_open` | Geo-Guesser (also on the chapter select) |
 | `gg_debug` | List Geo-Guesser maps, positions and any missing images |
+| `ToggleMapProperties` / `mapproperties` | Map Properties editor (also on the Options panel) |
+| `ToggleSoundscapeEditor` / `soundscape_editor` | Soundscape editor (also on the Options panel) |
+| `ToggleBackgroundPanel` | Background panel (also on the Options panel) |
+| `hl2a_timeinfo_reload` | Re-read time_info and saved map properties |
+| `hl2a_build_graphs start [nav] \| stop \| status` | Rebuild node graphs (and navmeshes) for every map |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
 | `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
 | `Amod_ToggleFilter` / `hl2a_toggle_postprocess` (F2) | Post-processing on/off (`hl2a_postprocess`) |
@@ -232,6 +239,24 @@ in code. The disassembly found:
 The 95 maps that fire `quit` do it from map logic; neither DLL refers to
 it. The audit report's "Where traced commands come from" section shows the
 exact chain. The port blocks it regardless.
+
+## Node graphs and navmeshes
+
+The mod's `.ain` node graphs are out of date for GMod, so each map flashes
+"Node graph out of date. Rebuilding..." on its first load. To ship fresh
+ones:
+
+1. In GMod (single player, the addon installed), run
+   `hl2a_build_graphs start` (or `start nav` to also generate navmeshes).
+   It loads every map in turn and leaves each rebuilt graph in
+   `garrysmod/maps/graphs/`. `hl2a_build_graphs stop` cancels; it resumes
+   where it left off if you start it again.
+2. Rebuild the addon with `--gmod-dir C:/GarrysMod/garrysmod` (plus
+   `--navmesh` for the navmeshes). The tool prints how much they add.
+
+Navmeshes only matter for nextbots and Lua NPCs; HL2's NPCs use the node
+graphs. They're typically a few hundred KB per map, so check the size the
+build reports before shipping them.
 
 ## Things to verify in-game first
 

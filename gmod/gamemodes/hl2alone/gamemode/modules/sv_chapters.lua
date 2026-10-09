@@ -68,3 +68,14 @@ end
 function GM:ShowTeam( ply )
 	ply:ConCommand( "Amod_ToggleFilter" )
 end
+
+-- Background panel (cl_backgroundpanel.lua): load a menu-background map
+concommand.Add( "hl2a_background", function( ply, _, args )
+	if IsValid( ply ) and not ply:IsListenServerHost() then return end
+	local name = ( args[ 1 ] or "" ):lower():gsub( "[^%w_]", "" )
+	if name == "" or not file.Exists( "maps/backgrounds/" .. name .. ".bsp", "GAME" ) then
+		MsgN( "[HL2A] no background map '" .. name .. "'" )
+		return
+	end
+	RunConsoleCommand( "changelevel", "backgrounds/" .. name )
+end, nil, "Load a menu-background map from maps/backgrounds/" )

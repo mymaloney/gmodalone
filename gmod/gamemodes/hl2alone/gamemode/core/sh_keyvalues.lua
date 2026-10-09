@@ -172,3 +172,38 @@ function KV.ToTable( block )
 	end
 	return out
 end
+
+local function quote( s ) return '"' .. tostring( s ):gsub( '"', "'" ) .. '"' end
+
+--- KeyValues text for a parsed block ({ { key, value } } lists, nested)
+function KV.Write( block, indent )
+	indent = indent or ""
+	local out = {}
+	for _, kv in ipairs( block ) do
+		if istable( kv.value ) then
+			out[ #out + 1 ] = indent .. quote( kv.key ) .. "\n" .. indent .. "{\n" .. KV.Write( kv.value, indent .. "\t" ) .. indent .. "}\n"
+		else
+			out[ #out + 1 ] = indent .. quote( kv.key ) .. "\t\t" .. quote( kv.value ) .. "\n"
+		end
+	end
+	return table.concat( out )
+end
+
+--- Sets key in block (replacing the first match), or removes it with nil
+function KV.Set( block, key, value )
+	local lower = key:lower()
+	for i, kv in ipairs( block ) do
+		if kv.key:lower() == lower then
+			if value == nil then table.remove( block, i ) else kv.value = value end
+			return
+		end
+	end
+	if value ~= nil then block[ #block + 1 ] = { key = key, value = value } end
+end
+
+--- Deep copy of a parsed block
+function KV.Copy( block )
+	local out = {}
+	for i, kv in ipairs( block ) do out[ i ] = { key = kv.key, value = istable( kv.value ) and KV.Copy( kv.value ) or kv.value } end
+	return out
+end

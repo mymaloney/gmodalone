@@ -178,6 +178,18 @@ function Layer:Stop()
 	self.loops, self.randoms, self.children = {}, {}, {}
 end
 
+-- For the Soundscape editor (cl_soundscapeeditor.lua): play any rules, and
+-- swap in edited soundscapes so nested playsoundscape rules find them
+function W.NewLayer( rules, volume )
+	if not defs then loadDefs() end
+	return newLayer( rules, volume or 1 )
+end
+
+function W.SetDef( name, rules )
+	if not defs then loadDefs() end
+	defs[ name:lower() ] = rules
+end
+
 -- State -----------------------------------------------------------------------------
 
 local active = {} -- kind -> { layer, key }

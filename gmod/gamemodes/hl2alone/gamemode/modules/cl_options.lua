@@ -60,6 +60,10 @@ local LAYOUT = {
 	-- Post-Processing & Effects panel
 	{ "button", 5, 210, 225, 24, "Post-Processing & Effects...", function() HL2A.ToggleEffectsPanel() end },
 	{ "button", 5, 240, 225, 24, "#Amod_OptionsPanel_Credits", function() HL2A.ShowCredits() end },
+	{ "label", 70, 276, 160, 20, "Creator tools" },
+	{ "button", 5, 298, 225, 22, "Map Properties...", function() HL2A.ToggleMapProperties() end },
+	{ "button", 5, 324, 225, 22, "Soundscape Editor...", function() HL2A.ToggleSoundscapeEditor() end },
+	{ "button", 5, 350, 225, 22, "Background Panel...", function() HL2A.ToggleBackgroundPanel() end },
 	{ "divider", 235, 0, 2, 405 },
 
 	{ "label", 285, 10, 150, 20, "#AMod_OptionsPanel_FlashlightTitle" },
