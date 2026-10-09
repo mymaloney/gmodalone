@@ -266,6 +266,26 @@ local function build()
 
 	-- Apply -----------------------------------------------------------------------------------
 
+	local reset = frame:Add( "DButton" )
+	reset:Dock( BOTTOM )
+	reset:DockMargin( 0, 4, 0, 0 )
+	reset:SetTall( 22 )
+	reset:SetText( "Reset everything" )
+	reset.DoClick = function()
+		Derma_Query( "Put every weather, atmosphere and skybox setting back to the mod's defaults?", "Reset everything", "Reset", function()
+			HL2A.ResetConVars( {
+				"amod_weather_override", "amod_weather_type", "amod_weather_rain_density", "amod_weather_rain_splashes",
+				"amod_weather_do_in_intervals", "amod_weather_wait_min", "amod_weather_wait_max", "amod_weather_snow_show_on_maps",
+				"hl2a_weather_enable", "r_clouds_enable", "r_clouds_color_override", "r_clouds_red_override", "r_clouds_green_override",
+				"r_clouds_blue_override", "r_horizonfog_enable", "r_stars_enable", "r_stars_force", "amod_sun_disable",
+				"amod_weather_thunder", "amod_do_breathing", "amod_night_sky",
+			} )
+			frame:Close()
+			panel = nil
+			timer.Simple( 0.3, HL2A.ToggleWeatherPanel )
+		end, "Cancel" )
+	end
+
 	local apply = frame:Add( "DButton" )
 	apply:Dock( BOTTOM )
 	apply:DockMargin( 0, 6, 0, 0 )

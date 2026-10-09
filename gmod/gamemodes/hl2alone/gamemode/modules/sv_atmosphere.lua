@@ -90,6 +90,7 @@ end
 -- Lifecycle -----------------------------------------------------------------
 
 function HL2A.ApplyAtmosphere()
+	SetGlobal2Bool( "hl2a.epicfilter", CV.amod_epic_filter:GetBool() )
 	applySky()
 	applySun()
 	ccWeight = nil

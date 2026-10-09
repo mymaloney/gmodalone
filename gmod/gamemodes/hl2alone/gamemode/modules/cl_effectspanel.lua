@@ -565,7 +565,7 @@ local function build()
 		timer.Simple( 0.05, HL2A.ToggleEffectsPanel )
 	end
 
-	barButton( P( "Buttons_Reset" ), function()
+	barButton( "Reset everything", function()
 		Derma_Query( P( "ResetPrompt_Desc" ), P( "ResetPrompt_Title" ), "Yes", function()
 			E.Reset()
 			timer.Simple( 0.1, rebuild )

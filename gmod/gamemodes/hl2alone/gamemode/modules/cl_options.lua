@@ -12,6 +12,35 @@
 
 local CV = HL2A.ConVars
 
+--- Sets convars from { { name, value } }: client settings directly, the
+-- gamemode's server settings through the server (listen host only)
+function HL2A.SetConVars( list )
+	local server = {}
+	for _, kv in ipairs( list ) do
+		local cvar = GetConVar( kv[ 1 ] )
+		if HL2A.ClientConVars[ kv[ 1 ] ] or not HL2A.ConVars[ kv[ 1 ] ] then
+			RunConsoleCommand( kv[ 1 ], tostring( kv[ 2 ] ) )
+		elseif cvar then
+			server[ #server + 1 ] = kv
+		end
+	end
+	if #server == 0 then return end
+	net.Start( "hl2a.options" )
+		net.WriteUInt( #server, 8 )
+		for _, kv in ipairs( server ) do net.WriteString( kv[ 1 ] ) net.WriteString( tostring( kv[ 2 ] ) ) end
+	net.SendToServer()
+end
+
+--- Puts every convar in names back to its default
+function HL2A.ResetConVars( names )
+	local list = {}
+	for _, name in ipairs( names ) do
+		local cvar = GetConVar( name )
+		if cvar then list[ #list + 1 ] = { name, cvar:GetDefault() } end
+	end
+	HL2A.SetConVars( list )
+end
+
 local function phrase( token ) return language.GetPhrase( ( token:gsub( "^#", "" ) ) ) end
 
 -- x, y, w, h are the original panel's VGUI coordinates (475 x 405 panel)
@@ -36,7 +65,7 @@ local LAYOUT = {
 	{ "label", 120, 290, 116, 20, "#AMod_OptionsPanel_Filter_FilterOnExponentLabel" },
 	{ "slider", 5, 320, 110, "amod_filter_brightness_off", 0, 10, "#AMod_OptionsPanel_Filter_FilterOffBrightness_Tooltip" },
 	{ "label", 120, 320, 116, 20, "#AMod_OptionsPanel_Filter_FilterOffBrightnessLabel" },
-	{ "check", 15, 346, 225, "amod_epic_filter", "#AMod_OptionsPanel_Filter_EnableEpicFilter", "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip" },
+	{ "filterpreset", 5, 346, 225 },
 	{ "button", 5, 380, 225, 20, "#AMod_OptionsPanel_ToggleEffectsPanel", function() HL2A.ToggleEffectsPanel() end },
 	{ "divider", 235, 0, 2, 405 },
 
@@ -72,6 +101,7 @@ local LAYOUT = {
 	{ "check", 240, 265, 235, "amod_do_core_timer", "#Amod_OptionsPanel_Other_CoreTimer", "#Amod_OptionsPanel_Other_CoreTimer_Tooltip" },
 	{ "check", 240, 284, 235, "hl2a_achievement_notifications_disable", "#Amod_OptionsPanel_Other_DisableAchievementNotifications", "#Amod_OptionsPanel_Other_DisableAchievementNotifications_Tooltip" },
 	{ "divider", 236, 324, 239, 2 },
+	{ "reset", 247, 336, 219, 24, "Reset everything" },
 	{ "apply", 247, 370, 219, 26, "#Amod_OptionsPanel_ApplySettings" },
 }
 
@@ -160,6 +190,37 @@ local function buildPanel()
 			d:SetSize( math.max( 1, S( c[ 4 ] ) ), math.max( 1, S( c[ 5 ] ) ) )
 			d.Paint = function( _, w, h ) surface.SetDrawColor( 90, 90, 90 ) surface.DrawRect( 0, 0, w, h ) end
 
+		elseif kind == "filterpreset" then
+			-- Screen filter and epic filter as presets of one filter (F2 cycles them)
+			local box = body:Add( "DComboBox" )
+			box:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
+			box:SetSize( S( c[ 4 ] ), S( 22 ) )
+			box:SetSortItems( false )
+			box:SetTooltip( "F2 cycles through these.\n\n" .. phrase( "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip" ) )
+			local cur = HL2A.FilterPreset()
+			for i, name in ipairs( HL2A.FILTER_PRESETS ) do box:AddChoice( name, i - 1, i - 1 == cur ) end
+			box.OnSelect = function( _, _, _, p )
+				pending.hl2a_screenfilter = bit.band( p, 1 ) ~= 0 and "1" or "0"
+				pending.amod_epic_filter = bit.band( p, 2 ) ~= 0 and "1" or "0"
+			end
+
+		elseif kind == "reset" then
+			local b = body:Add( "DButton" )
+			b:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
+			b:SetSize( S( c[ 4 ] ), S( c[ 5 ] ) )
+			b:SetText( c[ 6 ] )
+			b.DoClick = function()
+				Derma_Query( "Put every option on this panel back to the mod's defaults?", c[ 6 ], "Reset", function()
+					local names = { "hl2a_screenfilter", "amod_epic_filter" }
+					for _, e in ipairs( LAYOUT ) do
+						if ( e[ 1 ] == "check" or e[ 1 ] == "slider" or e[ 1 ] == "combo" ) and isstring( e[ 5 ] ) then names[ #names + 1 ] = e[ 5 ] end
+					end
+					HL2A.ResetConVars( names )
+					frame:Close()
+					timer.Simple( 0.3, HL2A.ToggleOptionsPanel )
+				end, "Cancel" )
+			end
+
 		elseif kind == "button" then
 			local b = body:Add( "DButton" )
 			b:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
@@ -175,21 +236,8 @@ local function buildPanel()
 			b.DoClick = function()
 				-- Client settings apply here; server settings go to the server
 				local list = {}
-				for name, v in pairs( pending ) do
-					if GetConVar( name ):GetString() ~= v then
-						if HL2A.ClientConVars[ name ] then
-							RunConsoleCommand( name, v )
-						else
-							list[ #list + 1 ] = { name, v }
-						end
-					end
-				end
-				if #list > 0 then
-					net.Start( "hl2a.options" )
-						net.WriteUInt( #list, 8 )
-						for _, kv in ipairs( list ) do net.WriteString( kv[ 1 ] ) net.WriteString( kv[ 2 ] ) end
-					net.SendToServer()
-				end
+				for name, v in pairs( pending ) do list[ #list + 1 ] = { name, v } end
+				HL2A.SetConVars( list )
 				frame:Close()
 			end
 		end

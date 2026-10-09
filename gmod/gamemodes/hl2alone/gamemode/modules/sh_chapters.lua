@@ -78,7 +78,7 @@ end
 
 -- The maps tell the player to press TAB to toggle the screen filter. TAB
 -- opens GMod's scoreboard, so the filter moved to F2 (cl_screenfilter.lua).
-HL2A.F1_HINT = "Press F2 to toggle the screen filter, F1 for chapter select and options"
+HL2A.F1_HINT = "Press F2 to switch filters, F1 for chapter select and options"
 
 --- Replacement for a map message, or nil to keep it.
 function HL2A.FixHintText( text )

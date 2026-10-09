@@ -1,5 +1,6 @@
 --[[
-	The screen filter (original key TAB, here F2 or Amod_ToggleFilter).
+	The screen filter (original key TAB). F2 / Amod_ToggleFilter now cycles
+	filter presets: off, this screen filter, the epic filter, both.
 
 	Recovered from client.dll: the options panel built two aliases that
 	switched the display gamma ramp,
@@ -101,10 +102,46 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.screenfilter", function()
 	end
 end )
 
+-- Filter presets (F2) -------------------------------------------------------------------
+-- The screen filter and the epic filter (colour correction, sv_atmosphere.lua)
+-- are presets of one filter: F2 cycles Off -> Screen -> Epic -> Both -> Off.
+
+HL2A.FILTER_PRESETS = { "Filters off", "Screen filter", "Epic filter", "Screen + epic filter" }
+
+--- 0 off, 1 screen, 2 epic, 3 both
+function HL2A.FilterPreset()
+	return ( enabled() and 1 or 0 ) + ( GetGlobal2Bool( "hl2a.epicfilter", true ) and 2 or 0 )
+end
+
+local notice
+
+function HL2A.SetFilterPreset( p )
+	p = p % 4
+	HL2A.SetConVars( {
+		{ "hl2a_screenfilter", bit.band( p, 1 ) ~= 0 and "1" or "0" },
+		{ "amod_epic_filter", bit.band( p, 2 ) ~= 0 and "1" or "0" },
+	} )
+	notice = { text = HL2A.FILTER_PRESETS[ p + 1 ], start = RealTime() }
+end
+
+surface.CreateFont( "HL2A.FilterNotice", { font = "Verdana", size = 22, weight = 600 } )
+
+hook.Add( "HUDPaint", "hl2a.filternotice", function()
+	if not notice then return end
+	local age = RealTime() - notice.start
+	if age > 2 then notice = nil return end
+	local a = math.Clamp( ( 2 - age ) * 2, 0, 1 )
+	draw.SimpleTextOutlined( notice.text, "HL2A.FilterNotice", ScrW() / 2, ScrH() * 0.12, Color( 255, 220, 0, 255 * a ),
+		TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 200 * a ) )
+end )
+
 -- Commands ----------------------------------------------------------------------------
 
 local function set( on ) RunConsoleCommand( "hl2a_screenfilter", on and "1" or "0" ) end
 
-concommand.Add( "Amod_ToggleFilter", function() set( not enabled() ) end, nil, "Toggle the screen filter (F2)" )
+concommand.Add( "Amod_ToggleFilter", function() HL2A.SetFilterPreset( HL2A.FilterPreset() + 1 ) end, nil,
+	"Next filter preset: off, screen filter, epic filter, both (F2)" )
+concommand.Add( "hl2a_filter_preset", function( _, _, args ) HL2A.SetFilterPreset( tonumber( args[ 1 ] ) or 0 ) end, nil,
+	"Set the filter preset: 0 off, 1 screen filter, 2 epic filter, 3 both" )
 concommand.Add( "tf1", function() set( true ) end, nil, "Screen filter on" )
 concommand.Add( "tf2", function() set( false ) end, nil, "Screen filter off" )
