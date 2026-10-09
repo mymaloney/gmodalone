@@ -67,6 +67,8 @@ local FILES = {
 	"modules/sv_mapcommands.lua",
 	"modules/cl_mapcommands.lua",
 	"modules/sv_timers.lua",
+	"modules/sv_transitions.lua",
+	"modules/cl_transitions.lua",
 	"modules/sv_mappatches.lua",
 	"modules/sh_achievements.lua",
 	"modules/sv_achievements.lua",

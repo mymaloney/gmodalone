@@ -35,6 +35,8 @@ function HL2A.MapCommandChangeLevel( cmd, args )
 		return
 	end
 	MsgN( "[HL2A] map-fired " .. cmd .. " " .. args )
+	-- Multiplayer: carry everyone's health and weapons over, as a level exit does
+	if not game.SinglePlayer() and cmd == "changelevel" then HL2A.SaveTransitionCarry( map:lower(), landmark ) end
 	if landmark ~= "" then RunConsoleCommand( cmd, map, landmark ) else RunConsoleCommand( cmd, map ) end
 end
 

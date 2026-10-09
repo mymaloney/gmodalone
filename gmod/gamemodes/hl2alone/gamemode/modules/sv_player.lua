@@ -36,6 +36,9 @@ function GM:PlayerSpawn( ply, transition )
 	applySpeeds( ply )
 	if CV.amod_enable_god:GetBool() then ply:GodEnable() end
 
+	-- Multiplayer level change: health, suit, weapons and place carried over (sv_transitions.lua)
+	if HL2A.RestoreTransitionCarry( ply ) then return end
+
 	if not transition and HL2A.NoSuitMaps[ HL2A.Map() ] then
 		ply:RemoveSuit()
 	end
@@ -83,13 +86,14 @@ hook.Add( "KeyPress", "hl2a.jumppunch", function( ply, key )
 	ply:ViewPunch( Angle( -2, 0, 0 ) )
 end )
 
--- Campaign level transitions (trigger_changelevel) only work in Single Player
+-- The engine ignores trigger_changelevel in multiplayer; sv_transitions.lua
+-- takes over unless hl2a_mp_transitions is off
 hook.Add( "PlayerInitialSpawn", "hl2a.spwarning", function( ply )
-	if game.SinglePlayer() then return end
-	MsgN( "[HL2A] WARNING: not in Single Player - level transitions won't work" )
+	if game.SinglePlayer() or CV.hl2a_mp_transitions:GetBool() then return end
+	MsgN( "[HL2A] WARNING: hl2a_mp_transitions is off - level transitions won't work in multiplayer" )
 	timer.Simple( 3, function()
 		if IsValid( ply ) then
-			ply:PrintMessage( HUD_PRINTTALK, "[HL2: Alone] This is a single-player campaign. Level transitions won't work in multiplayer - start it from Single Player." )
+			ply:PrintMessage( HUD_PRINTTALK, "[HL2: Alone] Level transitions are off in multiplayer (hl2a_mp_transitions 0)." )
 		end
 	end )
 end )

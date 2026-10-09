@@ -173,6 +173,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | Credits button / panel | client.dll (`CAModCreditsPanel`) | **Ported** (Options panel button, `OpenCreditsPanel`), with a button to play the credits music | `cl_credits.lua` |
 | Ending selector (`amod_new_ending`) and Episode 2 outro video | client.dll + server.dll (`f_portal` → outro → `logic_ending_credits`) | **Ported:** the Bink videos convert to WebM (`build_addon.py --videos`, ffmpeg) and play full screen in GMod's browser; Options panel picks Ending 1/2. Without converted videos the map's own fade plays | `cl_video.lua`, `sv_video.lua`, `html/hl2alone/video.html` |
 | Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
+| Level transitions in multiplayer | engine `trigger_changelevel` (single player only) | **Added:** co-op. When someone reaches a level exit, everyone alive must gather within `hl2a_mp_gather_radius` (512) of it ("You must gather your party before moving forward (2/4)", with a marker to the exit for stragglers). Then a `hl2a_mp_transition_delay` (3 s) countdown runs, and health, armour, suit, weapons, ammo and each player's place relative to the landmark carry over. Scripted exits (the `ChangeLevel` input) wait too: `hl2a_mp_gather_timeout` lets them go ahead without stragglers after a while, and `hl2a_mp_force_transition` goes now. NPCs and props don't cross over as they do in single player. `hl2a_mp_transitions 0` turns this off | `sv_transitions.lua`, `cl_transitions.lua` |
 | Sandbox hints, spawn/context menus, noclip | (GMod Sandbox) | **Off by default** for the campaign; `hl2a_sandbox_tools 1` (Options panel) brings them back | `sh_sandbox.lua` |
 
 ## Console commands
@@ -190,6 +191,8 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `hl2a_timeinfo_reload` | Re-read time_info and saved map properties |
 | `hl2a_build_graphs start [cubemaps] [nav] \| stop \| status` | Rebuild node graphs (and missing cubemaps, navmeshes) for every map |
 | `hl2a_check_cubemaps` | List maps with unbuilt cubemaps |
+| `hl2a_mp_force_transition` | Multiplayer: change level now without waiting for everyone at the exit (host/superadmin) |
+| `hl2a_mp_exits` | List the map's level exits (target map, landmark, disabled / input-only) |
 | `amod_playvideo <name>` | Play one of the mod's videos (after `--videos`) |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
 | `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
