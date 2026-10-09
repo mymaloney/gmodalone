@@ -26,7 +26,8 @@
 local CV = HL2A.ConVars
 
 local CARRY_FILE = "hl2alone/mp_carry.json"
-local POLL = 0.25
+local POLL = 0.1
+local TOUCH_SLACK = 8 -- units: counts as touching an exit this close to it
 local SF_NO_TOUCH = 2 -- trigger_changelevel spawnflag: only the ChangeLevel input fires it
 
 local function active()
@@ -235,9 +236,13 @@ local function boxDistance( pos, mins, maxs )
 	return pos:Distance( closest )
 end
 
+-- Whether the player's body touches the box. Exits are often thin brushes in
+-- a doorway, which the player's centre may never get inside.
 local function inside( ply, mins, maxs )
-	local p = ply:WorldSpaceCenter()
-	return p.x >= mins.x and p.y >= mins.y and p.z >= mins.z and p.x <= maxs.x and p.y <= maxs.y and p.z <= maxs.z
+	local pmins, pmaxs = ply:WorldSpaceAABB()
+	return pmaxs.x >= mins.x - TOUCH_SLACK and pmins.x <= maxs.x + TOUCH_SLACK
+		and pmaxs.y >= mins.y - TOUCH_SLACK and pmins.y <= maxs.y + TOUCH_SLACK
+		and pmaxs.z >= mins.z - TOUCH_SLACK and pmins.z <= maxs.z + TOUCH_SLACK
 end
 
 local function party()
@@ -275,6 +280,7 @@ local function startGather( trigger, leader, scripted )
 		mins, maxs = leader:GetPos(), leader:GetPos()
 	end
 	gather = { trigger = trigger, mins = mins, maxs = maxs, map = map, landmark = landmark, leader = leader, started = CurTime(), scripted = scripted }
+	MsgN( string.format( "[HL2A] %s reached the exit to %s; gathering the party", IsValid( leader ) and leader:Nick() or "a script", map ) )
 end
 
 local function tick()
@@ -303,19 +309,18 @@ local function tick()
 	local radius = CV.hl2a_mp_gather_radius:GetFloat()
 
 	local members = party()
-	local have, anyInside = 0, false
+	local have = 0
 	for _, ply in ipairs( members ) do
 		local here = boxDistance( ply:WorldSpaceCenter(), mins, maxs ) <= radius
 		if here then have = have + 1 end
-		if inside( ply, mins, maxs ) then anyInside = true end
 		if ply:GetNW2Bool( "hl2a.gather.here" ) ~= here then ply:SetNW2Bool( "hl2a.gather.here", here ) end
 	end
 
-	-- A walk-in gather ends when nobody is standing in the exit any more
-	if not g.scripted and ( not anyInside or not isEnabled( g.trigger ) ) then return stopGather() end
+	-- A walk-in gather ends once nobody is near the exit any more (or it's switched off)
+	if not g.scripted and ( have == 0 or not isEnabled( g.trigger ) ) then return stopGather() end
 	if not IsValid( g.leader ) or not g.leader:Alive() then
 		for _, ply in ipairs( members ) do
-			if g.scripted or inside( ply, mins, maxs ) then g.leader = ply break end
+			if g.scripted or boxDistance( ply:WorldSpaceCenter(), mins, maxs ) <= radius then g.leader = ply break end
 		end
 	end
 
