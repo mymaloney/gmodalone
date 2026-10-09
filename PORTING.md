@@ -199,6 +199,7 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | `hl2a_build_graphs start [cubemaps] [nav] \| stop \| status` | Rebuild node graphs (and missing cubemaps, navmeshes) for every map |
 | `hl2a_check_cubemaps` | List maps with unbuilt cubemaps |
 | `hl2a_mp_force_transition` | Multiplayer: change level now without waiting for everyone at the exit (host/superadmin) |
+| `hl2a_settings_dump` | Server settings remembered this session and put back after a map change (`sv_settings.lua`) |
 | `hl2a_mp_gather_debug` | Multiplayer: each level exit's size and every player's distance from it |
 | `hl2a_mp_exits` | List the map's level exits (target map, landmark, disabled / input-only) |
 | `amod_playvideo <name>` | Play one of the mod's videos (after `--videos`) |

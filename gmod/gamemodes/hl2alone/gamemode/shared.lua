@@ -42,6 +42,7 @@ local FILES = {
 	"core/sh_sounds.lua",
 	"core/cl_localization.lua",
 
+	"modules/sv_settings.lua",
 	"modules/sv_player.lua",
 	"modules/sv_atmosphere.lua",
 	"modules/cl_fog.lua",

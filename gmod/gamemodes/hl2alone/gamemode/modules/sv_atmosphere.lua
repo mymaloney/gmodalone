@@ -101,6 +101,10 @@ end
 hook.Add( "InitPostEntity", "hl2a.atmosphere", function()
 	timer.Simple( 0, HL2A.ApplyAtmosphere )
 end )
+hook.Add( "HL2A_PublishSettings", "hl2a.atmosphere", function()
+	SetGlobal2Bool( "hl2a.epicfilter", CV.amod_epic_filter:GetBool() )
+	SetGlobal2Bool( "hl2a.postprocess", CV.hl2a_postprocess:GetBool() )
+end )
 hook.Add( "PostCleanupMap", "hl2a.atmosphere", function()
 	cc = nil
 	HL2A.ApplyAtmosphere()
