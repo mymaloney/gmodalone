@@ -27,6 +27,15 @@ end
 
 local function ignore() end
 
+-- fadein / fadeout {time r g b}, as the engine commands; ply NULL = everyone
+local function screenFade( ply, args, flags )
+	local t, r, g, b = args:match( "^(%S*)%s*(%S*)%s*(%S*)%s*(%S*)" )
+	local col = Color( tonumber( r ) or 0, tonumber( g ) or 0, tonumber( b ) or 0, 255 )
+	local time = tonumber( t ) or 2
+	if IsValid( ply ) then ply:ScreenFade( flags, col, time, 0 )
+	else for _, p in player.Iterator() do p:ScreenFade( flags, col, time, 0 ) end end
+end
+
 function HL2A.MapCommandChangeLevel( cmd, args )
 	local map, landmark = args:match( "^(%S+)%s*(%S*)" )
 	if not map then return end
@@ -62,6 +71,12 @@ local HANDLERS = {
 	playvideo = function( _, args ) if args ~= "" then HL2A.SendVideo( args:match( "^(%S+)" ) ) end end,
 	amod_playvideo = function( _, args ) if args ~= "" then HL2A.SendVideo( args:match( "^(%S+)" ) ) end end,
 	amod_outrotest = function() HL2A.SendVideo( "amod_outrovideo" ) end,
+
+	-- Screen fades. GMod won't run these from the server, so a map that
+	-- fades to black with "Stay Out" and lifts it with "fadein" (e.g. the
+	-- ep1_citadel_00_d intro) stayed black for good.
+	fadein = function( ply, args ) screenFade( ply, args, SCREENFADE.IN + SCREENFADE.PURGE ) end,
+	fadeout = function( ply, args ) screenFade( ply, args, SCREENFADE.OUT + SCREENFADE.STAYOUT ) end,
 
 	-- Menu-background / commentary helpers with no GMod equivalent
 	amod_random_background = ignore,
