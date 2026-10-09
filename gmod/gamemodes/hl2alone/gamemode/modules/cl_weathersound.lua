@@ -119,7 +119,7 @@ local Layer = {}
 Layer.__index = Layer
 
 local function newLayer( rules, volume, onRandom, depth )
-	local self = setmetatable( { loops = {}, randoms = {}, children = {}, onRandom = onRandom }, Layer )
+	local self = setmetatable( { loops = {}, loopVols = {}, gain = 1, randoms = {}, children = {}, onRandom = onRandom }, Layer )
 	depth = depth or 0
 	local ply = LocalPlayer()
 
@@ -135,8 +135,9 @@ local function newLayer( rules, volume, onRandom, depth )
 					-- A volume change in the same frame the sound starts is dropped,
 					-- so start quiet and fade in a moment later
 					snd:PlayEx( 0.01, rand( KV.Get( body, "pitch" ), 100 ) )
-					timer.Simple( 0.1, function() if snd:IsPlaying() then snd:ChangeVolume( vol, FADE ) end end )
+					timer.Simple( 0.1, function() if snd:IsPlaying() then snd:ChangeVolume( vol * self.gain, FADE ) end end )
 					self.loops[ #self.loops + 1 ] = snd
+					self.loopVols[ #self.loops ] = vol
 				end
 			elseif kind == "playrandom" then
 				local waves = KV.GetAll( body, "wave" )
@@ -164,11 +165,11 @@ function Layer:Think( now, eye )
 		if now >= r.next then
 			r.next = now + rand( KV.Get( r.body, "time" ), 10 )
 			local path = wavePath( r.waves[ math.random( #r.waves ) ] )
-			local vol = rand( KV.Get( r.body, "volume" ), 1 ) * r.volume
+			local vol = rand( KV.Get( r.body, "volume" ), 1 ) * r.volume * self.gain
 			local pitch = rand( KV.Get( r.body, "pitch" ), 100 )
 
 			if self.onRandom then
-				self.onRandom( path, r.volume, pitch, eye ) -- the layer plays it itself (thunder)
+				self.onRandom( path, r.volume * self.gain, pitch, eye ) -- the layer plays it itself (thunder)
 			elseif ( KV.Get( r.body, "position" ) or "" ):lower() == "random" then
 				local dir = VectorRand()
 				dir.z = math.abs( dir.z ) * 0.5
@@ -182,13 +183,23 @@ function Layer:Think( now, eye )
 	for _, c in ipairs( self.children ) do c:Think( now, eye ) end
 end
 
+--- Scales the whole layer (how exposed to the sky the player is), fading loops
+function Layer:SetGain( g )
+	if math.abs( g - self.gain ) < 0.02 then return end
+	self.gain = g
+	for i, snd in ipairs( self.loops ) do
+		if snd:IsPlaying() then snd:ChangeVolume( self.loopVols[ i ] * g, 0.5 ) end
+	end
+	for _, c in ipairs( self.children ) do c:SetGain( g ) end
+end
+
 function Layer:Stop()
 	for _, snd in ipairs( self.loops ) do
 		snd:ChangeVolume( 0, FADE )
 		timer.Simple( FADE, function() snd:Stop() end )
 	end
 	for _, c in ipairs( self.children ) do c:Stop() end
-	self.loops, self.randoms, self.children = {}, {}, {}
+	self.loops, self.loopVols, self.randoms, self.children = {}, {}, {}, {}
 end
 
 -- For the Soundscape editor (cl_soundscapeeditor.lua): play any rules, and
@@ -204,6 +215,41 @@ function W.SetDef( name, rules )
 end
 
 -- State -----------------------------------------------------------------------------
+
+-- Sky exposure ----------------------------------------------------------------------
+-- Rain is chosen per soundscape, and many interiors' soundscapes aren't named
+-- as such, so the weather beds also follow how much open sky the player can
+-- see: straight up counts most, plus eight directions angled upwards (so a
+-- doorway lets some rain in). Indoors it drops to a faint murmur.
+
+local EXPOSURE_RAIN_INDOORS = 0.08   -- rain/snow gain with no sky in sight
+local EXPOSURE_THUNDER_INDOORS = 0.4 -- thunder carries through walls
+local EXPOSURE_RATE = 1.2            -- how fast it follows (per second)
+local SKY_TRACE = 3000
+
+local exposure, exposureTarget, nextTrace = 1, 1, 0
+
+local function skyDirs()
+	local out = { { Vector( 0, 0, 1 ), 3 } }
+	for i = 0, 7 do
+		local a = math.rad( i * 45 )
+		out[ #out + 1 ] = { Vector( math.cos( a ) * 0.7, math.sin( a ) * 0.7, 0.7 ), 1 }
+	end
+	return out
+end
+local SKY_DIRS = skyDirs()
+
+local function measureExposure( eye )
+	local seen, total = 0, 0
+	for _, d in ipairs( SKY_DIRS ) do
+		local tr = util.TraceLine( { start = eye, endpos = eye + d[ 1 ] * SKY_TRACE, mask = MASK_SOLID_BRUSHONLY } )
+		if tr.HitSky or not tr.Hit then seen = seen + d[ 2 ] end
+		total = total + d[ 2 ]
+	end
+	return math.min( seen / total * 1.5, 1 ) -- half the sky visible already sounds "outside"
+end
+
+function W.Exposure() return exposure end
 
 local active = {} -- kind -> { layer, key }
 local muted = false
@@ -411,7 +457,16 @@ hook.Add( "Think", "hl2a.weathersound", function()
 	setLayer( "thunder", on and kind == 1 and GetGlobal2Bool( "hl2a.weather.thunder" ) and scape or nil )
 
 	local now, eye = CurTime(), ply:EyePos()
-	for _, a in pairs( active ) do a.layer:Think( now, eye ) end
+	if now >= nextTrace then
+		nextTrace = now + 0.2
+		exposureTarget = measureExposure( eye )
+	end
+	exposure = math.Approach( exposure, exposureTarget, FrameTime() * EXPOSURE_RATE )
+	for kind, a in pairs( active ) do
+		local floor = kind == "thunder" and EXPOSURE_THUNDER_INDOORS or EXPOSURE_RAIN_INDOORS
+		a.layer:SetGain( Lerp( exposure, floor, 1 ) )
+		a.layer:Think( now, eye )
+	end
 	if base then base.layer:Think( now, eye ) end
 end )
 
@@ -442,9 +497,10 @@ concommand.Add( "hl2a_thunder_test", function()
 end, nil, "Play one random-distance thunder strike" )
 
 concommand.Add( "hl2a_weathersound_debug", function()
-	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted ) )
+	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted )
+		.. string.format( "  sky exposure: %.2f", exposure ) )
 	MsgN( "  played by Lua: " .. ( base and string.format( "%s (%d loops, %d random)", base.name, #base.layer.loops, #base.layer.randoms ) or "no (engine or none)" ) )
 	for kind, a in pairs( active ) do
-		MsgN( string.format( "  %s: %d loops, %d random, %d nested", kind, #a.layer.loops, #a.layer.randoms, #a.layer.children ) )
+		MsgN( string.format( "  %s: %d loops, %d random, %d nested, gain %.2f", kind, #a.layer.loops, #a.layer.randoms, #a.layer.children, a.layer.gain ) )
 	end
 end )
