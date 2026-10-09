@@ -133,10 +133,32 @@ end )
 -- Map texts telling the player about the TAB filter -> F1 hint
 local TEXT_CLASSES = { game_text = true, env_message = true, point_message = true }
 
+-- The anti-piracy texts are stripped from the maps at build time
+-- (tools/strip_antipiracy.py). If one still turns up, the map GMod loaded is
+-- an unpatched copy (e.g. garrysmod/maps/ from the cubemap rebuild): say so.
+local PIRACY_TEXT = { "moddb%.com/mods/half%-life%-2%-alone", "whatever your playing it on" }
+local piracyWarned = false
+
+local function isPiracyText( value )
+	value = value:lower()
+	for _, p in ipairs( PIRACY_TEXT ) do
+		if value:find( p ) then return true end
+	end
+	return false
+end
+
 hook.Add( "EntityKeyValue", "hl2a.f1hint", function( ent, key, value )
 	if key:lower() ~= "message" then return end
 	local class = ent:GetClass()
 	if TEXT_CLASSES[ class ] then
+		if isPiracyText( value ) then
+			if not piracyWarned then
+				piracyWarned = true
+				MsgN( "[HL2A] WARNING: this copy of " .. game.GetMap() .. " still has the mod's anti-piracy check. Run"
+					.. " tools/strip_antipiracy.py on your garrysmod folder (see PORTING.md)." )
+			end
+			return " "
+		end
 		return HL2A.FixHintText( value )
 	elseif class == "ambient_generic" then
 		-- Map music named as .wav may ship as .ogg (build_addon.py --music-ogg)

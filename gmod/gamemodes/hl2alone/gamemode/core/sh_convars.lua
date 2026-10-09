@@ -204,6 +204,7 @@ cv( "hl2a_sandbox_loadout", 0, "Give the sandbox physgun/toolgun loadout on spaw
 
 -- Multiplayer level transitions (sv_transitions.lua)
 cv( "hl2a_mp_transitions", 1, "Multiplayer: change level when the whole party gathers at a level exit" )
-cv( "hl2a_mp_gather_radius", 512, "Multiplayer: how close to a level exit every player must be" )
+cv( "hl2a_mp_gather_radius", 768, "Multiplayer: how close to a level exit (units, from its edge) every player must be" )
+cv( "hl2a_mp_exit_reach", 128, "Multiplayer: how close to a level exit (units, from its edge) counts as reaching it" )
 cv( "hl2a_mp_transition_delay", 3, "Multiplayer: countdown once everyone has gathered" )
 cv( "hl2a_mp_gather_timeout", 0, "Multiplayer: seconds before a scripted level change goes ahead without stragglers (0 = wait)" )

@@ -180,7 +180,7 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | Credits button / panel | client.dll (`CAModCreditsPanel`) | **Ported** (Options panel button, `OpenCreditsPanel`), with a button to play the credits music | `cl_credits.lua` |
 | Ending selector (`amod_new_ending`) and Episode 2 outro video | client.dll + server.dll (`f_portal` → outro → `logic_ending_credits`) | **Ported:** the Bink videos convert to WebM (`build_addon.py --videos`, ffmpeg) and play full screen in GMod's browser; Options panel picks Ending 1/2. Without converted videos the map's own fade plays | `cl_video.lua`, `sv_video.lua` |
 | Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
-| Level transitions in multiplayer | engine `trigger_changelevel` (single player only) | **Added:** co-op. When someone reaches a level exit, everyone alive must gather within `hl2a_mp_gather_radius` (512) of it ("You must gather your party before moving forward (2/4)", with a marker to the exit for stragglers). Then a `hl2a_mp_transition_delay` (3 s) countdown runs, and health, armour, suit, weapons, ammo and each player's place relative to the landmark carry over. Scripted exits (the `ChangeLevel` input) wait too: `hl2a_mp_gather_timeout` lets them go ahead without stragglers after a while, and `hl2a_mp_force_transition` goes now. NPCs and props don't cross over as they do in single player. `hl2a_mp_transitions 0` turns this off | `sv_transitions.lua`, `cl_transitions.lua` |
+| Level transitions in multiplayer | engine `trigger_changelevel` (single player only) | **Added:** co-op. When someone reaches a level exit (within `hl2a_mp_exit_reach`, 128 units of its edge; exits are often small), everyone alive must gather within `hl2a_mp_gather_radius` (768) of it ("You must gather your party before moving forward (2/4)", with a marker to the exit for stragglers). Then a `hl2a_mp_transition_delay` (3 s) countdown runs, and health, armour, suit, weapons, ammo and each player's place relative to the landmark carry over. Scripted exits (the `ChangeLevel` input) wait too: `hl2a_mp_gather_timeout` lets them go ahead without stragglers after a while, and `hl2a_mp_force_transition` goes now. NPCs and props don't cross over as they do in single player. `hl2a_mp_transitions 0` turns this off | `sv_transitions.lua`, `cl_transitions.lua` |
 | Sandbox hints, spawn/context menus, noclip | (GMod Sandbox) | **Off by default** for the campaign; `hl2a_sandbox_tools 1` (Options panel) brings them back | `sh_sandbox.lua` |
 
 ## Console commands
@@ -199,6 +199,7 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | `hl2a_build_graphs start [cubemaps] [nav] \| stop \| status` | Rebuild node graphs (and missing cubemaps, navmeshes) for every map |
 | `hl2a_check_cubemaps` | List maps with unbuilt cubemaps |
 | `hl2a_mp_force_transition` | Multiplayer: change level now without waiting for everyone at the exit (host/superadmin) |
+| `hl2a_mp_gather_debug` | Multiplayer: each level exit's size and every player's distance from it |
 | `hl2a_mp_exits` | List the map's level exits (target map, landmark, disabled / input-only) |
 | `amod_playvideo <name>` | Play one of the mod's videos (after `--videos`) |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
@@ -273,6 +274,18 @@ Cubemaps are built for the HDR mode you play in (`mat_hdr_level`).
 Navmeshes only matter for nextbots and Lua NPCs; HL2's NPCs use the node
 graphs. They're typically a few hundred KB per map, so check the size the
 build reports before shipping them.
+
+## Anti-piracy check
+
+Many of the mod's maps show "play this by downloading this on moddb…" and
+fire `quit` on load. `build_addon.py` strips that from every map it copies
+(`tools/strip_antipiracy.py`). GMod loads `garrysmod/maps/` before addons,
+and the cubemap rebuild saves unpatched maps there, so if the text still
+appears (the console also warns), run the tool over the whole garrysmod
+folder; it finds and fixes every copy, including `<map>_l_0.lmp` overrides:
+
+    python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod" --dry-run --deep   (list)
+    python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod"                     (fix)
 
 ## Finding why a map hangs
 

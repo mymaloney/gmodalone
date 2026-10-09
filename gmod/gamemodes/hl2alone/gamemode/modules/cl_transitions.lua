@@ -49,6 +49,8 @@ hook.Add( "HUDPaint", "hl2a.transitions", function()
 
 	if ends > 0 then
 		text( string.format( "Moving on in %d...", math.max( math.ceil( ends - CurTime() ), 0 ) ), "HL2A.Gather", y )
+	elseif ply:GetNW2Bool( "hl2a.gather.here" ) and have >= need and not GetGlobal2Bool( "hl2a.gather.atexit", false ) then
+		text( "Everyone's here - step up to the exit to move on", "HL2A.Gather", y )
 	elseif ply:GetNW2Bool( "hl2a.gather.here" ) then
 		text( string.format( "You must gather your party before moving forward (%d/%d)", have, need ), "HL2A.Gather", y )
 	else

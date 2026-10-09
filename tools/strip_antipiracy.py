@@ -17,9 +17,17 @@ Nothing else in the map changes. An uncompressed entity lump is rewritten in
 place at the same size (padded with whitespace); a compressed one is
 written uncompressed at the end of the file. Running it twice is harmless.
 
-build_addon.py runs this on every map it copies. To patch maps directly:
-  python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod/addons/hl2alone/maps"
-  python tools/strip_antipiracy.py path/to/one_map.bsp [--dry-run]
+Entity-lump override files (maps/<map>_l_0.lmp), which replace a map's
+entities when present, are patched the same way.
+
+build_addon.py runs this on every map it copies. To find and fix every copy
+GMod might load (garrysmod/maps/ wins over addons, and the cubemap rebuild
+saves unpatched maps there), point it at your whole garrysmod folder:
+  python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod" --dry-run   (just list)
+  python tools/strip_antipiracy.py "C:/GarrysMod/garrysmod"             (fix them)
+  python tools/strip_antipiracy.py path/to/one_map.bsp
+--deep also searches the rest of each map file (e.g. its packed files)
+and reports any other place the text appears.
 """
 
 import argparse
@@ -128,32 +136,69 @@ def patch_bsp(path: Path, dry_run: bool = False):
     return ents, outputs
 
 
-def patch_tree(root: Path, dry_run: bool = False, quiet: bool = False):
-    """Patches every .bsp under root; returns (maps changed, maps scanned)."""
-    maps = sorted(root.rglob("*.bsp")) if root.is_dir() else [root]
+LMP_HEADER = struct.Struct("<iiiii")  # offset, lump id, version, length, map revision
+
+
+def patch_lmp(path: Path, dry_run: bool = False):
+    """Same as patch_bsp for an entity-lump override file (<map>_l_0.lmp)."""
+    data = path.read_bytes()
+    ofs, lump_id, version, length, revision = LMP_HEADER.unpack_from(data)
+    if lump_id != 0:
+        return 0, 0
+    text = data[ofs:ofs + length].split(b"\0", 1)[0].decode("latin-1")
+    new, ents, outputs = strip_text(text)
+    if (ents or outputs) and not dry_run:
+        body = new.encode("latin-1") + b"\0"
+        path.write_bytes(LMP_HEADER.pack(LMP_HEADER.size, 0, version, len(body), revision) + body)
+    return ents, outputs
+
+
+PHRASE = re.compile(rb"moddb\.com/mods/half-life-2-alone|whatever your playing it on", re.I)
+
+
+def deep_hits(path: Path):
+    """Offsets where the text appears anywhere in the file (packed files are often stored uncompressed)."""
+    return [m.start() for m in PHRASE.finditer(path.read_bytes())]
+
+
+def patch_tree(root: Path, dry_run: bool = False, quiet: bool = False, deep: bool = False):
+    """Patches every .bsp and entity .lmp under root; returns (files changed, files scanned)."""
+    if root.is_dir():
+        files = sorted(list(root.rglob("*.bsp")) + list(root.rglob("*_l_0.lmp")))
+    else:
+        files = [root]
     changed = 0
-    for bsp in maps:
+    for f in files:
         try:
-            ents, outputs = patch_bsp(bsp, dry_run)
+            fn = patch_lmp if f.suffix.lower() == ".lmp" else patch_bsp
+            ents, outputs = fn(f, dry_run)
         except Exception as e:  # noqa: BLE001 - report and carry on
-            print(f"warning  {bsp.name}: {e}")
+            print(f"warning  {f}: {e}")
             continue
+        shown = f if not root.is_dir() else f.relative_to(root)
         if ents or outputs:
             changed += 1
             if not quiet:
-                print(f"{'would strip' if dry_run else 'stripped'} {bsp.name}: {ents} entities, {outputs} outputs")
-    return changed, len(maps)
+                print(f"{'found   ' if dry_run else 'stripped'} {shown}: {ents} entities, {outputs} outputs")
+        if deep:
+            left = deep_hits(f)
+            if left:
+                print(f"{'text in ' if dry_run else 'still in'} {shown} at byte {', '.join(map(str, left[:5]))}"
+                      + ("" if dry_run else " (outside the entity data: tell the port's author)"))
+    return changed, len(files)
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("path", type=Path, help="a .bsp, or a folder searched for .bsp files")
-    ap.add_argument("--dry-run", action="store_true", help="report without changing anything")
+    ap.add_argument("paths", type=Path, nargs="+", help="a .bsp/.lmp, or folders searched for them (e.g. your garrysmod folder)")
+    ap.add_argument("--dry-run", action="store_true", help="only list what has the anti-piracy check")
+    ap.add_argument("--deep", action="store_true", help="also search the whole of each map file for the text")
     args = ap.parse_args()
-    if not args.path.exists():
-        sys.exit(f"Not found: {args.path}")
-    changed, total = patch_tree(args.path, args.dry_run)
-    print(f"done     {changed} of {total} maps {'would change' if args.dry_run else 'changed'}")
+    for path in args.paths:
+        if not path.exists():
+            sys.exit(f"Not found: {path}")
+        changed, total = patch_tree(path, args.dry_run, deep=args.deep)
+        print(f"done     {path}: {changed} of {total} map files {'have the check' if args.dry_run else 'changed'}")
 
 
 if __name__ == "__main__":

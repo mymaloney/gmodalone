@@ -27,7 +27,6 @@ local CV = HL2A.ConVars
 
 local CARRY_FILE = "hl2alone/mp_carry.json"
 local POLL = 0.1
-local TOUCH_SLACK = 8 -- units: counts as touching an exit this close to it
 local SF_NO_TOUCH = 2 -- trigger_changelevel spawnflag: only the ChangeLevel input fires it
 
 local function active()
@@ -212,13 +211,14 @@ end
 
 local gather -- { trigger, map, landmark, leader, started, scripted, countdownEnds }
 
-local function setHud( g, have, need )
+local function setHud( g, have, need, atExit )
 	SetGlobal2Bool( "hl2a.gather", g ~= nil )
 	if not g then return end
 	SetGlobal2Vector( "hl2a.gather.pos", ( g.mins + g.maxs ) / 2 )
 	SetGlobal2Int( "hl2a.gather.have", have )
 	SetGlobal2Int( "hl2a.gather.need", need )
 	SetGlobal2Float( "hl2a.gather.ends", g.countdownEnds or 0 )
+	SetGlobal2Bool( "hl2a.gather.atexit", atExit or g.scripted or false )
 end
 
 local function stopGather()
@@ -227,23 +227,19 @@ local function stopGather()
 	for _, ply in player.Iterator() do ply:SetNW2Bool( "hl2a.gather.here", false ) end
 end
 
--- Distance from a point to the trigger's box (0 inside)
-local function boxDistance( pos, mins, maxs )
-	local closest = Vector(
-		math.Clamp( pos.x, mins.x, maxs.x ),
-		math.Clamp( pos.y, mins.y, maxs.y ),
-		math.Clamp( pos.z, mins.z, maxs.z ) )
-	return pos:Distance( closest )
+-- Gap between the player's body and the box (0 when touching). Exits are
+-- often small, thin brushes in a doorway, so distances are measured from
+-- their edges and from the player's whole body, not its centre.
+local function gap( ply, mins, maxs )
+	local pmins, pmaxs = ply:WorldSpaceAABB()
+	local function axis( a0, a1, b0, b1 ) return math.max( b0 - a1, a0 - b1, 0 ) end
+	local dx = axis( pmins.x, pmaxs.x, mins.x, maxs.x )
+	local dy = axis( pmins.y, pmaxs.y, mins.y, maxs.y )
+	local dz = axis( pmins.z, pmaxs.z, mins.z, maxs.z )
+	return math.sqrt( dx * dx + dy * dy + dz * dz )
 end
 
--- Whether the player's body touches the box. Exits are often thin brushes in
--- a doorway, which the player's centre may never get inside.
-local function inside( ply, mins, maxs )
-	local pmins, pmaxs = ply:WorldSpaceAABB()
-	return pmaxs.x >= mins.x - TOUCH_SLACK and pmins.x <= maxs.x + TOUCH_SLACK
-		and pmaxs.y >= mins.y - TOUCH_SLACK and pmins.y <= maxs.y + TOUCH_SLACK
-		and pmaxs.z >= mins.z - TOUCH_SLACK and pmins.z <= maxs.z + TOUCH_SLACK
-end
+local function reach() return CV.hl2a_mp_exit_reach:GetFloat() end
 
 local function party()
 	local out = {}
@@ -276,7 +272,7 @@ local function startGather( trigger, leader, scripted )
 	local mins, maxs = trigger:WorldSpaceAABB()
 	-- Input-only exits are often out of reach (a box in the void behind an
 	-- elevator): gather around the player who set the transition off instead
-	if scripted and IsValid( leader ) and boxDistance( leader:WorldSpaceCenter(), mins, maxs ) > CV.hl2a_mp_gather_radius:GetFloat() then
+	if scripted and IsValid( leader ) and gap( leader, mins, maxs ) > CV.hl2a_mp_gather_radius:GetFloat() then
 		mins, maxs = leader:GetPos(), leader:GetPos()
 	end
 	gather = { trigger = trigger, mins = mins, maxs = maxs, map = map, landmark = landmark, leader = leader, started = CurTime(), scripted = scripted }
@@ -295,7 +291,7 @@ local function tick()
 			if isEnabled( trigger ) and bit.band( trigger:GetSpawnFlags(), SF_NO_TOUCH ) == 0 then
 				local mins, maxs = trigger:WorldSpaceAABB()
 				for _, ply in ipairs( party() ) do
-					if inside( ply, mins, maxs ) then startGather( trigger, ply, false ) break end
+					if gap( ply, mins, maxs ) <= reach() then startGather( trigger, ply, false ) break end
 				end
 			end
 			if gather then break end
@@ -309,10 +305,12 @@ local function tick()
 	local radius = CV.hl2a_mp_gather_radius:GetFloat()
 
 	local members = party()
-	local have = 0
+	local have, atExit = 0, false
 	for _, ply in ipairs( members ) do
-		local here = boxDistance( ply:WorldSpaceCenter(), mins, maxs ) <= radius
+		local d = gap( ply, mins, maxs )
+		local here = d <= radius
 		if here then have = have + 1 end
+		if d <= reach() then atExit = true end
 		if ply:GetNW2Bool( "hl2a.gather.here" ) ~= here then ply:SetNW2Bool( "hl2a.gather.here", here ) end
 	end
 
@@ -320,25 +318,26 @@ local function tick()
 	if not g.scripted and ( have == 0 or not isEnabled( g.trigger ) ) then return stopGather() end
 	if not IsValid( g.leader ) or not g.leader:Alive() then
 		for _, ply in ipairs( members ) do
-			if g.scripted or boxDistance( ply:WorldSpaceCenter(), mins, maxs ) <= radius then g.leader = ply break end
+			if g.scripted or gap( ply, mins, maxs ) <= radius then g.leader = ply break end
 		end
 	end
 
 	local timeout = CV.hl2a_mp_gather_timeout:GetFloat()
 	local timedOut = g.scripted and timeout > 0 and CurTime() - g.started >= timeout
 
-	if have >= #members or timedOut or g.force then
+	-- Everyone near, and someone actually at the exit (a scripted exit needs no one there)
+	if ( have >= #members and ( atExit or g.scripted ) ) or timedOut or g.force then
 		if not g.countdownEnds then
 			g.countdownEnds = CurTime() + math.max( CV.hl2a_mp_transition_delay:GetFloat(), 0 )
 		end
 		if CurTime() >= g.countdownEnds then
-			setHud( g, have, #members )
+			setHud( g, have, #members, atExit )
 			return goNow( g )
 		end
 	else
 		g.countdownEnds = nil
 	end
-	setHud( g, have, #members )
+	setHud( g, have, #members, atExit )
 end
 
 timer.Create( "hl2a.transitions", POLL, 0, tick )
@@ -360,6 +359,21 @@ concommand.Add( "hl2a_mp_force_transition", function( ply )
 	gather.force = true
 	PrintMessage( HUD_PRINTTALK, "[HL2: Alone] Moving on without the stragglers." )
 end, nil, "Multiplayer: change level now, without waiting for everyone to gather" )
+
+concommand.Add( "hl2a_mp_gather_debug", function( ply )
+	if IsValid( ply ) and not ply:IsListenServerHost() and not ply:IsSuperAdmin() then return end
+	MsgN( string.format( "[HL2A] reach %d, gather radius %d (units from the exit's edge)", reach(), CV.hl2a_mp_gather_radius:GetFloat() ) )
+	for _, t in ipairs( ents.FindByClass( "trigger_changelevel" ) ) do
+		local mins, maxs = t:WorldSpaceAABB()
+		local size = maxs - mins
+		MsgN( string.format( "  exit to %s: %d x %d x %d units at %s%s", tostring( triggerInfo( t ) ), size.x, size.y, size.z,
+			tostring( ( mins + maxs ) / 2 ), isEnabled( t ) and "" or " [disabled]" ) )
+		for _, p in player.Iterator() do
+			MsgN( string.format( "    %s: %d units away", p:Nick(), gap( p, mins, maxs ) ) )
+		end
+	end
+	MsgN( gather and ( "  gathering for " .. gather.map ) or "  no gather running" )
+end, nil, "Multiplayer: show each level exit's size and every player's distance from it" )
 
 concommand.Add( "hl2a_mp_exits", function( ply )
 	if IsValid( ply ) and not ply:IsListenServerHost() and not ply:IsSuperAdmin() then return end
