@@ -75,7 +75,7 @@ local function buildPanel()
 	themeBox:Dock( RIGHT )
 	themeBox:SetWide( 260 )
 	for _, t in ipairs( themes ) do
-		themeBox:AddChoice( t == "" and phrase( "#Amod_NewGamePanel_DefaultThemeText" ) or ( phrase( "#Amod_NewGamePanel_ThemeText" ) .. " " .. t ), t, t == state.theme )
+		themeBox:AddChoice( t == "" and phrase( "#Amod_NewGamePanel_DefaultThemeText" ) or ( phrase( "#Amod_NewGamePanel_ThemeText" ) .. " " .. HL2A.Spell( t ) ), t, t == state.theme )
 	end
 
 	-- Bottom bar: status + load ----------------------------------------------------------
@@ -101,14 +101,14 @@ local function buildPanel()
 	-- The other panels (the original bound them to T, O and X)
 	for _, b in ipairs( {
 		{ "#Amod_WeatherPanel_Title", function() HL2A.ToggleWeatherPanel() end },
-		{ "#Amod_EffectsPanel_Title", function() HL2A.ToggleEffectsPanel() end },
+		{ "Post-Processing & Effects", function() HL2A.ToggleEffectsPanel() end },
 		{ "Songs", function() RunConsoleCommand( "ToggleSongPanel" ) end },
 	} ) do
 		local btn = bottom:Add( "DButton" )
 		btn:Dock( LEFT )
-		btn:SetWide( 120 )
-		btn:DockMargin( 0, 0, 12, 0 )
 		btn:SetText( phrase( b[ 1 ] ) )
+		btn:SizeToContentsX( 28 )
+		btn:DockMargin( 0, 0, 12, 0 )
 		btn.DoClick = b[ 2 ]
 	end
 
@@ -161,7 +161,7 @@ local function buildPanel()
 		for _, ch in ipairs( HL2A.GetChapters( state.game.prefix ) ) do
 			ch.installed = HL2A.IsMapInstalled( ch.map )
 			local mat = chapterMaterial( state.theme, state.game.dir, ch.n )
-			local name = phrase( ch.title )
+			local name = HL2A.Spell( phrase( ch.title ) )
 
 			local tile = grid:Add( "DButton" )
 			tile:SetSize( tileW, imgH + 50 )
@@ -200,7 +200,7 @@ local function buildPanel()
 	end
 
 	for _, g in ipairs( games ) do
-		gameBox:AddChoice( "Game: " .. g.name, g, g.default )
+		gameBox:AddChoice( "Game: " .. HL2A.Spell( g.name ), g, g.default )
 		if g.default then state.game = g end
 	end
 	state.game = state.game or games[ 1 ]

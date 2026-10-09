@@ -1,6 +1,9 @@
 --[[
-	Effects panel (ToggleEffectsPanel / toggleeffectspanel, or the button on
-	the Options panel). Rebuilt in Derma from the original's pages, with its
+	Post-Processing & Effects panel (ToggleEffectsPanel / toggleeffectspanel,
+	or the buttons on the Options panel and chapter select): the original's
+	Effects panel, plus a Look tab combining the map colour grade and the
+	faded TV curve (the original's "epic filter" and "screen filter") with
+	saturation, vignette and bloom. Rebuilt in Derma from the original's pages, with its
 	slider ranges and localization; changes apply immediately. The effects
 	themselves are in cl_effects.lua.
 ]]
@@ -111,6 +114,52 @@ local function warn( text ) Derma_Message( text, "Error", "Ok" ) surface.PlaySou
 
 local function cvBool( name ) return function() return CV[ name ]:GetBool() end end
 local function setBool( name ) return function( v ) RunConsoleCommand( name, v and "1" or "0" ) end end
+
+-- Look -------------------------------------------------------------------------------------
+-- The map's colour grade and the faded TV curve (cl_screenfilter.lua) as
+-- looks, plus the general post-processing that used to be on the Options panel.
+
+HL2A.LOOK_CONVARS = {
+	"hl2a_screenfilter", "amod_epic_filter", "amod_filter_brightness_on", "amod_filter_brightness_on_exp",
+	"amod_filter_brightness_off", "amod_saturation", "amod_vignette", "hl2a_bloom",
+}
+
+local function lookPage( sheet )
+	local pg = vgui.Create( "DPanel", sheet )
+	pg:SetPaintBackground( false )
+
+	label( pg, "Look (F2 cycles through these):", 8, 6, 300 )
+	local box = pg:Add( "DComboBox" )
+	box:SetPos( 8, 26 )
+	box:SetSize( 290, 22 )
+	box:SetSortItems( false )
+	local cur = HL2A.Look()
+	for _, l in ipairs( HL2A.LOOK_ORDER ) do box:AddChoice( HL2A.LOOKS[ l ], l, l == cur ) end
+	box.OnSelect = function( _, _, _, l ) HL2A.SetLook( l ) end
+
+	local about = label( pg, "Default: the map's own colour grade.\nFaded: an old-TV curve with greyer shadows (the original's TAB screen filter).", 8, 52, 300 )
+	about:SetWrap( true )
+	about:SetTall( 48 )
+
+	local function cvSlider( text, tip, y, name, min, max )
+		slider( pg, text, tip, 8, y, 290, min, max,
+			function() return CV[ name ]:GetFloat() end,
+			function( v ) RunConsoleCommand( name, tostring( v ) ) end )
+	end
+	cvSlider( "Faded: brightness", "How bright the Faded look is.", 108, "amod_filter_brightness_on", 0, 12 )
+	cvSlider( "Faded: brightness curve", "Higher lifts the midtones of the Faded look.", 148, "amod_filter_brightness_on_exp", 0, 12 )
+	cvSlider( "Brightness without Faded", "Overall brightness while the Faded look is off.", 188, "amod_filter_brightness_off", 0, 10 )
+
+	local x = 320
+	label( pg, "Post-processing:", x, 6, 290 )
+	check( pg, phrase( "#AMod_OptionsPanel_View_EnableSaturation" ), phrase( "#AMod_OptionsPanel_View_EnableSaturation_ToolTip" ),
+		x, 28, cvBool( "amod_saturation" ), setBool( "amod_saturation" ) )
+	check( pg, phrase( "#AMod_OptionsPanel_View_EnableVignette" ), phrase( "#AMod_OptionsPanel_View_EnableVignette_ToolTip" ),
+		x, 48, cvBool( "amod_vignette" ), setBool( "amod_vignette" ) )
+	check( pg, "Bloom on maps that use it", "Per-map bloom from the map's settings.", x, 68, cvBool( "hl2a_bloom" ), setBool( "hl2a_bloom" ) )
+
+	return pg
+end
 
 -- View Effects -------------------------------------------------------------------------------
 
@@ -526,13 +575,14 @@ end
 
 local function build()
 	local frame = vgui.Create( "DFrame" )
-	frame:SetTitle( P( "Title" ) )
+	frame:SetTitle( "Post-Processing & Effects" )
 	frame:SetSize( 640, 470 )
 	frame:Center()
 	frame:SetDeleteOnClose( true )
 
 	local sheet = frame:Add( "DPropertySheet" )
 	sheet:Dock( FILL )
+	sheet:AddSheet( "Look", lookPage( sheet ) )
 	local pages = {
 		viewPage( sheet ), convarPage( sheet ), overlayPage( sheet ), lightingPage( sheet ), autoloadPage( sheet ),
 	}
@@ -568,6 +618,7 @@ local function build()
 	barButton( "Reset everything", function()
 		Derma_Query( P( "ResetPrompt_Desc" ), P( "ResetPrompt_Title" ), "Yes", function()
 			E.Reset()
+			HL2A.ResetConVars( HL2A.LOOK_CONVARS )
 			timer.Simple( 0.1, rebuild )
 		end, "No" )
 	end )

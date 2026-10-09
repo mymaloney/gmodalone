@@ -151,7 +151,7 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | HL2 movement speeds, god mode, suit | autoexec / DLL | **Ported** (`hl2a_*speed`, `amod_enable_god`) | `sv_player.lua` |
 | Options panel | VGUI `.res` + DLL | **Ported** (`ToggleOptionsPanel`, Options button on chapter select); Daytime, Effects/Credits/Ending left out.  | `sh/sv/cl_options.lua` |
 | Mirrored view, hide HUD, footsteps off, strafe roll, soundscapes off | DLL / engine cvars | **Ported** | `cl_options.lua`, `cl_view.lua`, `sh/sv_options.lua` |
-| TAB screen filter (`Amod_ToggleFilter`, `tf1`/`tf2`) + its three brightness sliders | client.dll aliases switching `mat_monitorgamma` / TV gamma | **Ported** from disassembly as a screen-space gamma curve (exact formulas in the file). On **F2** (TAB is the scoreboard), which now cycles it with the epic filter as presets of one filter (off / screen / epic / both, chosen also in the Options panel); doesn't affect the HUD | `cl_screenfilter.lua`, `cl_options.lua` |
+| Looks on F2: the map colour grade (original "epic filter") and the faded TV curve (original TAB "screen filter") | client.dll gamma aliases + colour correction | **Ported**: the TAB filter's gamma curve recovered from disassembly and drawn as a screen effect. Combined as looks (Default, Default + Faded, Faded, Off) on the Post-Processing & Effects panel's Look tab, with saturation, vignette and bloom | `cl_screenfilter.lua`, `sv_atmosphere.lua`, `cl_effectspanel.lua` |
 | Effects panel: view effects (B&W, lens dirt, TV overlays, blur, black boxes, claustrophobia, viewmodel), camera editor (smoothing, offsets, pitch limits), conditional console variables / screen overlays / lights, `.amf` presets, autoload | client.dll (`CEffectsPanel*`, view render code) | **Ported** from disassembly (convars, slider ranges and conversions, draw order, preset format). Lens dirt and blur used custom shaders: lens dirt is redrawn additively from its texture, blur uses GMod's screen blur. Lights parented by *targetname* won't find entities (names aren't networked to the client) | `cl_effects.lua`, `cl_effectspanel.lua`, `sv_effects.lua` |
 | Weather panel (weather override/type/intensity/intervals, sun, thunder, breath, night skybox) | VGUI `.res` + client.dll | **Ported** (`toggleweatherpanel`, or the chapter select's Weather button); rain intensity formula and slider ranges from the DLL. The sky angle slider needed engine changes | `cl_weatherpanel.lua` |
 | Lightning bolts with thunder | `materials/lightning/*` | **Added:** closer strikes may show a bolt in the clap's direction (the mod's lightning images if present, else a generated bolt); `hl2a_lightning_bolts 0` turns them off | `cl_weathersound.lua` |
@@ -177,12 +177,12 @@ Use `--clean` when changing these, so files from earlier builds don't linger.
 | `hl2a_chapter <game> <n>` | Load chapter `n` from `cfg/<game>/chapterN.cfg` (`hl2`, `ep1`, `ep2`, `portal`, `bonus`, `"lost coast"`) |
 | `togglenewgamepanel` (F1) | Chapter select panel |
 | `ToggleOptionsPanel` | Options panel |
-| `ToggleEffectsPanel` | Effects panel (also a button on the Options panel and chapter select) |
+| `ToggleEffectsPanel` | Post-Processing & Effects panel (also a button on the Options panel and chapter select) |
 | `hl2a_sky_dump`, `hl2a_sky_reload` | Show / re-apply the current map's cloud, star and horizon-fog settings |
 | `toggleweatherpanel` | Weather panel (original bind: `t`; also on the chapter select) |
 | `hl2a_effects_list`, `hl2a_effects_load <name>`, `hl2a_effects_reset` | List / add / clear Effects panel presets (`data/hl2alone/effects/`, plus the mod's `examples/…`) |
-| `Amod_ToggleFilter` (F2) | Next filter preset: off → screen filter → epic filter → both |
-| `hl2a_filter_preset <0-3>` | Set the filter preset directly; `tf1` / `tf2` still switch the screen filter alone |
+| `Amod_ToggleFilter` / `hl2a_next_look` (F2) | Next look: Default → Default + Faded → Faded → Off |
+| `hl2a_look <off\|faded\|default\|defaultfaded>` | Set the look directly; `tf1` / `tf2` switch Faded alone |
 | `amod_do_breath` | Breathe once (fog puff + sound) |
 | `hl2a_weathersound_debug` | Show the tracked soundscape and the rain/snow/thunder layers playing |
 | `hl2a_thunder_test` | One thunder strike at a random distance (flash, delay, clap) |
@@ -268,3 +268,12 @@ These rely on engine behaviour I couldn't test outside GMod:
 3. Rebuild the Weather/Options panels in Derma using the layouts in
    `resource/panels/` as reference.
 4. Achievements and the remaining server.dll features.
+
+## Naming
+
+Player-facing text says "snowy" where the mod wrote "snowey"
+(`HL2A.Spell`); map and folder names keep the original spelling, since
+level changes and data lookups depend on them. The original's "screen
+filter" and "epic filter" are called looks (Faded, Default) in the UI;
+their convars (`hl2a_screenfilter`, `amod_epic_filter`) keep their names
+for compatibility.

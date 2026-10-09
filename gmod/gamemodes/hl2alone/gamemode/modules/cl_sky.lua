@@ -66,13 +66,17 @@ local cloudMat, starMat, horizonMat
 
 -- Materials ----------------------------------------------------------------------------
 
+--- Texture name for a material or texture path, or nil if neither exists.
+-- (A missing texture used to leave the layer as a solid tinted dome.)
 local function textureOf( path )
-	path = path:gsub( "%.vtf$", "" ):gsub( "%.vmt$", "" )
-	local m = Material( path )
-	local tex = not m:IsError() and m:GetTexture( "$basetexture" )
-	if tex and not tex:IsError() then return tex end
+	path = path:gsub( "\\", "/" ):gsub( "%.vtf$", "" ):gsub( "%.vmt$", "" ):lower()
+	if file.Exists( "materials/" .. path .. ".vmt", "GAME" ) then
+		local tex = Material( path ):GetTexture( "$basetexture" )
+		if tex and not tex:IsError() then return tex:GetName() end
+	end
 	-- r_clouds_material can also name a texture directly
-	return path
+	if file.Exists( "materials/" .. path .. ".vtf", "GAME" ) then return path end
+	return nil
 end
 
 -- Blend mode of one of the mod's sky materials (nature/clouds_sphere,
@@ -90,14 +94,14 @@ local function vmtFlags( path )
 end
 
 local function skyMaterial( name, tex, additive )
-	-- Blend flags only take effect at creation, so each mode gets its own material
-	local m = CreateMaterial( "hl2a_sky_" .. name .. ( additive and "_add" or "_blend" ), "UnlitGeneric", {
-		[ "$basetexture" ] = "vgui/white", [ "$nocull" ] = 1, [ "$vertexcolor" ] = 1, [ "$vertexalpha" ] = 1,
+	if not tex then return nil end
+	-- The texture and blend flags only take effect when a material is created,
+	-- so each combination gets its own material
+	local id = "hl2a_sky_" .. name .. "_" .. tex:gsub( "[^%w]", "_" ) .. ( additive and "_add" or "_blend" )
+	return CreateMaterial( id, "UnlitGeneric", {
+		[ "$basetexture" ] = tex, [ "$nocull" ] = 1, [ "$vertexcolor" ] = 1, [ "$vertexalpha" ] = 1,
 		[ "$additive" ] = additive and 1 or 0, [ "$translucent" ] = additive and 0 or 1, [ "$nofog" ] = 1,
 	} )
-	if isstring( tex ) then m:SetString( "$basetexture", tex ) else m:SetTexture( "$basetexture", tex ) end
-	m:Recompute()
-	return m
 end
 
 -- Meshes -----------------------------------------------------------------------------------
@@ -211,9 +215,9 @@ end
 
 hook.Add( "PostDraw2DSkyBox", "hl2a.sky", function()
 	if not clouds then return end
-	local showStars = shown( stars.r_stars, CV.r_stars_enable:GetBool(), 0, CV.r_stars_force:GetBool() )
+	local showStars = starMat and shown( stars.r_stars, CV.r_stars_enable:GetBool(), 0, CV.r_stars_force:GetBool() )
 	local showHorizon = shown( horizon.r_horizonfog, CV.r_horizonfog_enable:GetBool(), horizon.r_horizonfog_force, false )
-	local showClouds = shown( clouds.r_clouds, CV.r_clouds_enable:GetBool(), clouds.r_clouds_force, false )
+	local showClouds = cloudMat and shown( clouds.r_clouds, CV.r_clouds_enable:GetBool(), clouds.r_clouds_force, false )
 	if not ( showStars or showHorizon or showClouds ) then return end
 
 	local vs = render.GetViewSetup and render.GetViewSetup()
@@ -266,7 +270,7 @@ cvars.AddChangeCallback( "hl2a_timeinfo_theme", function() timer.Simple( 0.1, S.
 concommand.Add( "hl2a_sky_reload", S.Rebuild, nil, "Rebuild the clouds, stars and horizon fog from time_info" )
 concommand.Add( "hl2a_sky_dump", function()
 	local tex = cloudMat and cloudMat:GetTexture( "$basetexture" )
-	MsgN( "cloud texture: " .. ( tex and tex:GetName() or "?" ) .. ( tex and tex:IsError() and " (MISSING)" or "" ) )
+	MsgN( "cloud texture: " .. ( tex and tex:GetName() or "MISSING - clouds not drawn" ) )
 	for name, f in pairs( { clouds_sphere = S.CloudFlags, stars01 = S.StarFlags } ) do
 		MsgN( string.format( "nature/%s: shader %s, %s", name, f.shader, f.additive and "additive" or "translucent" ) )
 	end

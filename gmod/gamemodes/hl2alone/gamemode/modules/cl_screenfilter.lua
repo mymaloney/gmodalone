@@ -1,6 +1,6 @@
 --[[
-	The screen filter (original key TAB). F2 / Amod_ToggleFilter now cycles
-	filter presets: off, this screen filter, the epic filter, both.
+	The "Faded" look (the original's TAB screen filter). F2 cycles the
+	looks: Default (the map's colour grade), Default + Faded, Faded, Off.
 
 	Recovered from client.dll: the options panel built two aliases that
 	switched the display gamma ramp,
@@ -102,36 +102,52 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.screenfilter", function()
 	end
 end )
 
--- Filter presets (F2) -------------------------------------------------------------------
--- The screen filter and the epic filter (colour correction, sv_atmosphere.lua)
--- are presets of one filter: F2 cycles Off -> Screen -> Epic -> Both -> Off.
+-- Looks (F2) -------------------------------------------------------------------------
+-- The map's colour grade (the original's "epic filter", sv_atmosphere.lua)
+-- and this faded TV curve (the original's TAB "screen filter") are combined
+-- into looks. Bit 1 = faded, bit 2 = colour grade. F2 cycles them in LOOK_ORDER,
+-- starting from Default.
 
-HL2A.FILTER_PRESETS = { "Filters off", "Screen filter", "Epic filter", "Screen + epic filter" }
+HL2A.LOOKS = { [ 0 ] = "Off", [ 1 ] = "Faded", [ 2 ] = "Default", [ 3 ] = "Default + Faded" }
+HL2A.LOOK_ORDER = { 2, 3, 1, 0 }
 
---- 0 off, 1 screen, 2 epic, 3 both
-function HL2A.FilterPreset()
+--- Current look: 0 off, 1 faded, 2 default, 3 default + faded
+function HL2A.Look()
 	return ( enabled() and 1 or 0 ) + ( GetGlobal2Bool( "hl2a.epicfilter", true ) and 2 or 0 )
+end
+
+--- The convar values for a look, as { { name, value } }
+function HL2A.LookConVars( look )
+	return {
+		{ "hl2a_screenfilter", bit.band( look, 1 ) ~= 0 and "1" or "0" },
+		{ "amod_epic_filter", bit.band( look, 2 ) ~= 0 and "1" or "0" },
+	}
 end
 
 local notice
 
-function HL2A.SetFilterPreset( p )
-	p = p % 4
-	HL2A.SetConVars( {
-		{ "hl2a_screenfilter", bit.band( p, 1 ) ~= 0 and "1" or "0" },
-		{ "amod_epic_filter", bit.band( p, 2 ) ~= 0 and "1" or "0" },
-	} )
-	notice = { text = HL2A.FILTER_PRESETS[ p + 1 ], start = RealTime() }
+function HL2A.SetLook( look )
+	look = look % 4
+	HL2A.SetConVars( HL2A.LookConVars( look ) )
+	notice = { text = "Look: " .. HL2A.LOOKS[ look ], start = RealTime() }
 end
 
-surface.CreateFont( "HL2A.FilterNotice", { font = "Verdana", size = 22, weight = 600 } )
+function HL2A.NextLook()
+	local cur = HL2A.Look()
+	for i, l in ipairs( HL2A.LOOK_ORDER ) do
+		if l == cur then return HL2A.SetLook( HL2A.LOOK_ORDER[ i % #HL2A.LOOK_ORDER + 1 ] ) end
+	end
+	HL2A.SetLook( 2 )
+end
 
-hook.Add( "HUDPaint", "hl2a.filternotice", function()
+surface.CreateFont( "HL2A.LookNotice", { font = "Verdana", size = 22, weight = 600 } )
+
+hook.Add( "HUDPaint", "hl2a.looknotice", function()
 	if not notice then return end
 	local age = RealTime() - notice.start
 	if age > 2 then notice = nil return end
 	local a = math.Clamp( ( 2 - age ) * 2, 0, 1 )
-	draw.SimpleTextOutlined( notice.text, "HL2A.FilterNotice", ScrW() / 2, ScrH() * 0.12, Color( 255, 220, 0, 255 * a ),
+	draw.SimpleTextOutlined( notice.text, "HL2A.LookNotice", ScrW() / 2, ScrH() * 0.12, Color( 255, 220, 0, 255 * a ),
 		TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, Color( 0, 0, 0, 200 * a ) )
 end )
 
@@ -139,9 +155,15 @@ end )
 
 local function set( on ) RunConsoleCommand( "hl2a_screenfilter", on and "1" or "0" ) end
 
-concommand.Add( "Amod_ToggleFilter", function() HL2A.SetFilterPreset( HL2A.FilterPreset() + 1 ) end, nil,
-	"Next filter preset: off, screen filter, epic filter, both (F2)" )
-concommand.Add( "hl2a_filter_preset", function( _, _, args ) HL2A.SetFilterPreset( tonumber( args[ 1 ] ) or 0 ) end, nil,
-	"Set the filter preset: 0 off, 1 screen filter, 2 epic filter, 3 both" )
-concommand.Add( "tf1", function() set( true ) end, nil, "Screen filter on" )
-concommand.Add( "tf2", function() set( false ) end, nil, "Screen filter off" )
+-- Amod_ToggleFilter is the original's bind name, kept so old binds work
+concommand.Add( "Amod_ToggleFilter", HL2A.NextLook, nil, "Next look: default, default + faded, faded, off (F2)" )
+concommand.Add( "hl2a_next_look", HL2A.NextLook, nil, "Next look (F2)" )
+concommand.Add( "hl2a_look", function( _, _, args )
+	local want = ( args[ 1 ] or "" ):lower()
+	for i = 0, 3 do
+		if want == tostring( i ) or want == HL2A.LOOKS[ i ]:lower():gsub( "[^%a]", "" ) then return HL2A.SetLook( i ) end
+	end
+	MsgN( "hl2a_look: off | faded | default | defaultfaded (or 0-3)" )
+end, nil, "Set the look: off, faded, default, defaultfaded" )
+concommand.Add( "tf1", function() set( true ) end, nil, "Faded on (original command)" )
+concommand.Add( "tf2", function() set( false ) end, nil, "Faded off (original command)" )

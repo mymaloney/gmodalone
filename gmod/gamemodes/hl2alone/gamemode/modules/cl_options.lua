@@ -4,8 +4,8 @@
 	Changes are staged and sent to the server on "Apply Settings".
 
 	Left out on purpose: Daytime (shelved) and the Credits / Ending
-	controls. The Effects button opens cl_effectspanel.lua. The filter sliders drive cl_screenfilter.lua and
-	apply live while the panel is open.
+	controls. The original's filter section, saturation and vignette now
+	live on the Post-Processing & Effects panel's Look tab.
 
 	Also implements the mirrored view (amod_mirrored).
 ]]
@@ -49,24 +49,16 @@ local LAYOUT = {
 	{ "check", 5, 35, 225, "hl2a_nofootsteps", "#AMod_OptionsPanel_View_DisableFootstepSounds" },
 	{ "check", 5, 53, 225, "hl2a_hidehud", "#AMod_OptionsPanel_View_DisableHud", "#AMod_OptionsPanel_View_DisableHud_ToolTip" },
 	{ "check", 5, 71, 225, "amod_mirrored", "#AMod_OptionsPanel_View_EnableMirroredView", "#AMod_OptionsPanel_View_EnableMirroredView_Tooltip" },
-	{ "check", 5, 89, 225, "amod_vignette", "#AMod_OptionsPanel_View_EnableVignette", "#AMod_OptionsPanel_View_EnableVignette_ToolTip" },
-	{ "check", 5, 107, 225, "amod_saturation", "#AMod_OptionsPanel_View_EnableSaturation", "#AMod_OptionsPanel_View_EnableSaturation_ToolTip" },
-	{ "check", 5, 126, 225, "amod_viewbob_enabled", "#AMod_OptionsPanel_View_EnableCameraBob", "#AMod_OptionsPanel_View_EnableCameraBob_ToolTip" },
-	{ "check", 5, 145, 225, "amod_standbob_enabled", "#AMod_OptionsPanel_View_EnableCameraStandBob", "#AMod_OptionsPanel_View_EnableCameraStandBob_ToolTip" },
-	{ "check", 5, 163, 225, "amod_jump_punch_enable", "#AMod_OptionsPanel_View_EnableJumpViewpunch", "#AMod_OptionsPanel_View_EnableJumpViewpunch_ToolTip" },
-	{ "check", 5, 181, 225, "amod_land_punch_enable", "#AMod_OptionsPanel_View_EnableLandViewpunch", "#AMod_OptionsPanel_View_EnableLandViewpunch_ToolTip" },
-	{ "slider", 10, 204, 115, "hl2a_rollangle", 0, 10 },
-	{ "label", 130, 200, 110, 30, "#AMod_OptionsPanel_View_EnableCameraRoll_Text" },
-	{ "divider", 0, 234, 236, 2 },
-	{ "label", 75, 240, 160, 20, "#AMod_OptionsPanel_FilterTitle" },
-	{ "slider", 5, 263, 110, "amod_filter_brightness_on", 0, 12, "#AMod_OptionsPanel_Filter_FilterOnBrightness_ToolTip" },
-	{ "label", 120, 263, 116, 20, "#AMod_OptionsPanel_Filter_FilterOnBrightnessLabel" },
-	{ "slider", 5, 290, 110, "amod_filter_brightness_on_exp", 0, 12, "#AMod_OptionsPanel_Filter_FilterOnExponent_ToolTip" },
-	{ "label", 120, 290, 116, 20, "#AMod_OptionsPanel_Filter_FilterOnExponentLabel" },
-	{ "slider", 5, 320, 110, "amod_filter_brightness_off", 0, 10, "#AMod_OptionsPanel_Filter_FilterOffBrightness_Tooltip" },
-	{ "label", 120, 320, 116, 20, "#AMod_OptionsPanel_Filter_FilterOffBrightnessLabel" },
-	{ "filterpreset", 5, 346, 225 },
-	{ "button", 5, 380, 225, 20, "#AMod_OptionsPanel_ToggleEffectsPanel", function() HL2A.ToggleEffectsPanel() end },
+	{ "check", 5, 89, 225, "amod_viewbob_enabled", "#AMod_OptionsPanel_View_EnableCameraBob", "#AMod_OptionsPanel_View_EnableCameraBob_ToolTip" },
+	{ "check", 5, 108, 225, "amod_standbob_enabled", "#AMod_OptionsPanel_View_EnableCameraStandBob", "#AMod_OptionsPanel_View_EnableCameraStandBob_ToolTip" },
+	{ "check", 5, 126, 225, "amod_jump_punch_enable", "#AMod_OptionsPanel_View_EnableJumpViewpunch", "#AMod_OptionsPanel_View_EnableJumpViewpunch_ToolTip" },
+	{ "check", 5, 144, 225, "amod_land_punch_enable", "#AMod_OptionsPanel_View_EnableLandViewpunch", "#AMod_OptionsPanel_View_EnableLandViewpunch_ToolTip" },
+	{ "slider", 10, 167, 115, "hl2a_rollangle", 0, 10 },
+	{ "label", 130, 163, 110, 30, "#AMod_OptionsPanel_View_EnableCameraRoll_Text" },
+	{ "divider", 0, 197, 236, 2 },
+	-- Look (colour grade, faded, saturation, vignette, bloom) moved to the
+	-- Post-Processing & Effects panel
+	{ "button", 5, 210, 225, 24, "Post-Processing & Effects...", function() HL2A.ToggleEffectsPanel() end },
 	{ "divider", 235, 0, 2, 405 },
 
 	{ "label", 285, 10, 150, 20, "#AMod_OptionsPanel_FlashlightTitle" },
@@ -190,20 +182,6 @@ local function buildPanel()
 			d:SetSize( math.max( 1, S( c[ 4 ] ) ), math.max( 1, S( c[ 5 ] ) ) )
 			d.Paint = function( _, w, h ) surface.SetDrawColor( 90, 90, 90 ) surface.DrawRect( 0, 0, w, h ) end
 
-		elseif kind == "filterpreset" then
-			-- Screen filter and epic filter as presets of one filter (F2 cycles them)
-			local box = body:Add( "DComboBox" )
-			box:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
-			box:SetSize( S( c[ 4 ] ), S( 22 ) )
-			box:SetSortItems( false )
-			box:SetTooltip( "F2 cycles through these.\n\n" .. phrase( "#AMod_OptionsPanel_Filter_EnableEpicFilter_ToolTip" ) )
-			local cur = HL2A.FilterPreset()
-			for i, name in ipairs( HL2A.FILTER_PRESETS ) do box:AddChoice( name, i - 1, i - 1 == cur ) end
-			box.OnSelect = function( _, _, _, p )
-				pending.hl2a_screenfilter = bit.band( p, 1 ) ~= 0 and "1" or "0"
-				pending.amod_epic_filter = bit.band( p, 2 ) ~= 0 and "1" or "0"
-			end
-
 		elseif kind == "reset" then
 			local b = body:Add( "DButton" )
 			b:SetPos( S( c[ 2 ] ), S( c[ 3 ] ) )
@@ -211,7 +189,7 @@ local function buildPanel()
 			b:SetText( c[ 6 ] )
 			b.DoClick = function()
 				Derma_Query( "Put every option on this panel back to the mod's defaults?", c[ 6 ], "Reset", function()
-					local names = { "hl2a_screenfilter", "amod_epic_filter" }
+					local names = {}
 					for _, e in ipairs( LAYOUT ) do
 						if ( e[ 1 ] == "check" or e[ 1 ] == "slider" or e[ 1 ] == "combo" ) and isstring( e[ 5 ] ) then names[ #names + 1 ] = e[ 5 ] end
 					end

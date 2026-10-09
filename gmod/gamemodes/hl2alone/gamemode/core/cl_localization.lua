@@ -16,7 +16,7 @@ function HL2A.LoadLocalization()
 		for _, root in ipairs( KV.ParseFile( rel ) or {} ) do
 			for _, kv in ipairs( KV.Get( root.value, "Tokens" ) or {} ) do
 				if isstring( kv.value ) then
-					language.Add( kv.key, kv.value )
+					language.Add( kv.key, HL2A.Spell( kv.value ) )
 					count = count + 1
 				end
 			end

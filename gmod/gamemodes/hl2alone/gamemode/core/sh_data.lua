@@ -98,3 +98,10 @@ function HL2A.ResolveSound( path )
 	end
 	return path
 end
+
+--- Text shown to the player with the mod's "snowey" spelled "snowy".
+-- Only for display: map and folder names keep the original spelling.
+function HL2A.Spell( text )
+	if not isstring( text ) then return text end
+	return ( text:gsub( "([Ss])nowey", "%1nowy" ):gsub( "SNOWEY", "SNOWY" ) )
+end
