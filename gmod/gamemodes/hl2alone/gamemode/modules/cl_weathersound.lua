@@ -519,9 +519,20 @@ concommand.Add( "hl2a_thunder_test", function()
 end, nil, "Play one random-distance thunder strike" )
 
 concommand.Add( "hl2a_weathersound_debug", function()
+	local scape = LocalPlayer():GetNW2String( "hl2a.soundscape" )
+	MsgN( string.format( "weather: type %d active %s maptype %d density %.4f thunder %s  ambience volume %.2f",
+		GetGlobal2Int( "hl2a.weather.type" ), tostring( GetGlobal2Bool( "hl2a.weather.active" ) ), GetGlobal2Int( "hl2a.weather.maptype" ),
+		GetGlobal2Float( "hl2a.weather.density" ), tostring( GetGlobal2Bool( "hl2a.weather.thunder" ) ), CV.hl2a_weather_ambience_volume:GetFloat() ) )
+	local rules, volume = W.LayerFor( "rain", scape )
+	local which = "none"
+	for name, d in pairs( defs or {} ) do if d == rules then which = name end end
+	MsgN( string.format( "rain for '%s': %s at %.3f", scape, which, volume or 0 ) )
 	MsgN( "soundscape: '" .. LocalPlayer():GetNW2String( "hl2a.soundscape" ) .. "'  muted: " .. tostring( muted ) )
 	MsgN( "  played by Lua: " .. ( base and string.format( "%s (%d loops, %d random)", base.name, #base.layer.loops, #base.layer.randoms ) or "no (engine or none)" ) )
 	for kind, a in pairs( active ) do
-		MsgN( string.format( "  %s: %d loops, %d random, %d nested, gain %.2f", kind, #a.layer.loops, #a.layer.randoms, #a.layer.children, a.layer.gain ) )
+		MsgN( string.format( "  %s: %d loops, %d random, %d nested", kind, #a.layer.loops, #a.layer.randoms, #a.layer.children ) )
+		for i, snd in ipairs( a.layer.loops ) do
+			MsgN( string.format( "    loop %d: playing %s, volume %.2f (wants %.2f)", i, tostring( snd:IsPlaying() ), snd:GetVolume(), a.layer.loopVols[ i ] ) )
+		end
 	end
 end )

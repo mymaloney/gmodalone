@@ -121,6 +121,8 @@ function HL2A.ApplyWeather()
 end
 
 hook.Add( "InitPostEntity", "hl2a.weather", function() HL2A.ApplyWeather() end )
+-- Again once settings are put back after a map change (sv_settings.lua)
+hook.Add( "HL2A_PublishSettings", "hl2a.weather", function() HL2A.ApplyWeather() end )
 
 for _, name in ipairs( { "hl2a_timeinfo_theme", "amod_weather_override", "hl2a_weather_enable",
 	"amod_weather_type", "amod_weather_do_in_intervals", "amod_weather_wait_min", "amod_weather_wait_max",
