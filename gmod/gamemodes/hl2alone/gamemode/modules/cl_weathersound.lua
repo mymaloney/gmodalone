@@ -132,12 +132,18 @@ local function newLayer( rules, volume, onRandom, depth )
 					local snd = CreateSound( ply, path )
 					snd:SetSoundLevel( 0 )
 					local vol = rand( KV.Get( body, "volume" ), 1 ) * volume
+					local pitch = rand( KV.Get( body, "pitch" ), 100 )
 					-- A volume change in the same frame the sound starts is dropped,
-					-- so start quiet and fade in a moment later
-					snd:PlayEx( 0.01, rand( KV.Get( body, "pitch" ), 100 ) )
+					-- so start quiet and fade in a moment later; Layer:Think keeps
+					-- checking, since one issued while the map is still loading can
+					-- be lost too (the loop then stayed at 1% for the whole map)
+					snd:PlayEx( 0.01, pitch )
 					timer.Simple( 0.1, function() if snd:IsPlaying() then snd:ChangeVolume( vol * self.gain, FADE ) end end )
 					self.loops[ #self.loops + 1 ] = snd
 					self.loopVols[ #self.loops ] = vol
+					self.loopPitch = self.loopPitch or {}
+					self.loopPitch[ #self.loops ] = pitch
+					self.checkAt = CurTime() + FADE + 1
 				end
 			elseif kind == "playrandom" then
 				local waves = KV.GetAll( body, "wave" )
@@ -160,7 +166,24 @@ local function newLayer( rules, volume, onRandom, depth )
 	return self
 end
 
+-- Loops that stopped or never reached their volume (lost while loading) are put right
+local function healLoops( self, now )
+	if not self.checkAt or now < self.checkAt then return end
+	self.checkAt = now + 1
+	for i, snd in ipairs( self.loops ) do
+		local want = self.loopVols[ i ] * self.gain
+		if not snd:IsPlaying() then
+			snd:PlayEx( 0.01, self.loopPitch and self.loopPitch[ i ] or 100 )
+			timer.Simple( 0.1, function() if snd:IsPlaying() then snd:ChangeVolume( self.loopVols[ i ] * self.gain, FADE ) end end )
+			self.checkAt = now + FADE + 1
+		elseif math.abs( snd:GetVolume() - want ) > 0.03 then
+			snd:ChangeVolume( want, 0.5 )
+		end
+	end
+end
+
 function Layer:Think( now, eye )
+	healLoops( self, now )
 	for _, r in ipairs( self.randoms ) do
 		if now >= r.next then
 			r.next = now + rand( KV.Get( r.body, "time" ), 10 )
@@ -187,6 +210,7 @@ end
 function Layer:SetGain( g )
 	if math.abs( g - self.gain ) < 0.02 then return end
 	self.gain = g
+	if self.checkAt then self.checkAt = math.max( self.checkAt, CurTime() + 1 ) end -- let the fade finish
 	for i, snd in ipairs( self.loops ) do
 		if snd:IsPlaying() then snd:ChangeVolume( self.loopVols[ i ] * g, 0.5 ) end
 	end
@@ -200,6 +224,7 @@ function Layer:Stop()
 	end
 	for _, c in ipairs( self.children ) do c:Stop() end
 	self.loops, self.loopVols, self.randoms, self.children = {}, {}, {}, {}
+	self.checkAt = nil
 end
 
 -- For the Soundscape editor (cl_soundscapeeditor.lua): play any rules, and
@@ -431,11 +456,11 @@ local function stopEverything()
 	setBase( nil )
 end
 
---- Maps fire amod_rain_stopsounds to silence the rain ambience (e.g. underground)
-function W.MuteLoop()
-	muted = true
-	stopAll()
-end
+--- Maps fire amod_rain_stopsounds, but the original DLLs never implemented it
+-- (the string isn't in them): it did nothing, so it does nothing here.
+-- Muting on it silenced the rain for the rest of the map. Indoors is handled
+-- by the sky exposure above.
+function W.MuteLoop() end
 
 hook.Add( "Think", "hl2a.weathersound", function()
 	local ply = LocalPlayer()
