@@ -4,7 +4,10 @@ Show how a map starts: what its logic_auto entities trigger, followed a
 few steps down the I/O chain, plus the fades, scenes and commands involved.
 For finding why a map hangs (e.g. a black screen waiting on a scene).
 
-  python tools/map_logic.py "<mod folder>/maps/ep1_citadel_00_d.bsp" [--depth 4] [--find name]
+  python tools/map_logic.py "<mod folder>/maps/ep1_citadel_00_d.bsp"
+  python tools/map_logic.py "<mod folder>/maps/ep1_citadel_00_d" --depth 6 --find fade
+
+(--depth and --find are optional.)
 """
 import argparse
 import sys
@@ -27,6 +30,10 @@ def main():
     ap.add_argument("--depth", type=int, default=4)
     ap.add_argument("--find", help="also show every entity whose name contains this")
     args = ap.parse_args()
+    if args.bsp.suffix.lower() != ".bsp":
+        args.bsp = args.bsp.with_name(args.bsp.name + ".bsp")
+    if not args.bsp.is_file():
+        sys.exit(f"No such map: {args.bsp}\n(point it at the mod's own maps folder, e.g. <mod folder>/maps/ep1_citadel_00_d.bsp)")
 
     ents = [dict(kvs) | {"_kvs": kvs} for kvs in parse_entities(read_entity_lump(args.bsp))]
     by_name = defaultdict(list)
