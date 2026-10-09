@@ -172,7 +172,11 @@ Layer.__index = Layer
 local function newLayer( rules, volume, onRandom, depth )
 	local self = setmetatable( { loops = {}, loopVols = {}, gain = 1, randoms = {}, children = {}, onRandom = onRandom }, Layer )
 	depth = depth or 0
-	local ply = LocalPlayer()
+	-- Played from the world, as the engine plays soundscapes. On the local
+	-- player they fell in the player's mixer group, where quiet loops (the
+	-- indoor rain at 0.05-0.3) went silent.
+	local source = game.GetWorld()
+	if not source then source = LocalPlayer() end
 
 	for _, rule in ipairs( rules ) do
 		local kind, body = rule.key:lower(), rule.value
@@ -180,7 +184,7 @@ local function newLayer( rules, volume, onRandom, depth )
 			if kind == "playlooping" then
 				local path = wavePath( KV.Get( body, "wave" ) )
 				if path and file.Exists( "sound/" .. path, "GAME" ) then
-					local snd = CreateSound( ply, path )
+					local snd = CreateSound( source, path )
 					snd:SetSoundLevel( 0 )
 					local vol = rand( KV.Get( body, "volume" ), 1 ) * volume
 					local pitch = rand( KV.Get( body, "pitch" ), 100 )
@@ -250,7 +254,7 @@ function Layer:Think( now, eye )
 				dir:Normalize()
 				sound.Play( path, eye + dir * RANDOM_DISTANCE, soundLevel( KV.Get( r.body, "soundlevel" ), 0 ), pitch, vol )
 			else
-				LocalPlayer():EmitSound( path, 0, pitch, vol, CHAN_STATIC )
+				sound.Play( path, eye, 0, pitch, vol ) -- level 0: no attenuation, from the world
 			end
 		end
 	end
@@ -528,6 +532,28 @@ concommand.Add( "hl2a_thunder_test", function()
 	local waves = { "ambient/weather/thunder1.wav", "ambient/weather/thunder3.wav", "ambient/weather/thunder4.wav" }
 	thunderStrike( waves[ math.random( #waves ) ], 0.8, 100, ply:EyePos() )
 end, nil, "Play one random-distance thunder strike" )
+
+-- A/B test: the current rain loop at a given volume, from the world then from the player
+concommand.Add( "hl2a_rain_source_test", function( _, _, args )
+	local vol = math.Clamp( tonumber( args[ 1 ] ) or 0.15, 0, 1 )
+	local rules = W.LayerFor( "rain", LocalPlayer():GetNW2String( "hl2a.soundscape" ) ) or ( defs and defs[ "common.rain" ] )
+	local wave
+	for _, rule in ipairs( rules or {} ) do
+		if rule.key:lower() == "playlooping" and istable( rule.value ) then wave = wavePath( KV.Get( rule.value, "wave" ) ) break end
+	end
+	if not wave then MsgN( "no rain loop to test" ) return end
+	local function play( source, label, after )
+		local snd = CreateSound( source, wave )
+		snd:SetSoundLevel( 0 )
+		snd:PlayEx( 0.01, 100 )
+		timer.Simple( 0.1, function() snd:ChangeVolume( vol, 0 ) end )
+		MsgN( string.format( "[HL2A] %s at %.2f: %s", label, vol, wave ) )
+		timer.Simple( 4, function() snd:Stop() if after then after() end end )
+	end
+	play( game.GetWorld(), "from the WORLD", function()
+		timer.Simple( 0.5, function() play( LocalPlayer(), "from the PLAYER" ) end )
+	end )
+end, nil, "Play the rain loop at a volume (default 0.15) from the world, then from the player" )
 
 concommand.Add( "hl2a_weathersound_debug", function()
 	local scape = LocalPlayer():GetNW2String( "hl2a.soundscape" )
