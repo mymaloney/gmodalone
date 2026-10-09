@@ -19,6 +19,7 @@
 	time/volume/pitch ranges, "position" "random") and playsoundscape.
 ]]
 
+local CV = HL2A.ConVars
 local KV = HL2A.KV
 
 HL2A.Weather = HL2A.Weather or {}
@@ -198,6 +199,105 @@ local flash -- { start, length, strength, flickers }
 
 local function lerpBy( d, pair ) return Lerp( d, pair[ 1 ], pair[ 2 ] ) end
 
+-- Lightning bolts ------------------------------------------------------------------------
+-- Closer strikes may show a bolt in the sky in the clap's direction, drawn
+-- right after the 2D skybox so buildings, the 3D skybox and interiors hide
+-- it. The mod's materials/lightning/* images are used when present, else a
+-- generated bolt.
+
+local BOLT_CHANCE = 0.8     -- for strikes closer than BOLT_MAX_DIST
+local BOLT_MAX_DIST = 0.7
+local BOLT_RADIUS = 100     -- drawing distance around a camera at the origin
+local beamMat = Material( "sprites/lgtning" )
+
+local boltMats
+local function lightningMaterials()
+	if boltMats then return boltMats end
+	boltMats = {}
+	for _, f in ipairs( file.Find( "materials/lightning/*.vmt", "GAME" ) ) do
+		local m = Material( "lightning/" .. f:gsub( "%.vmt$", "" ) )
+		if not m:IsError() then boltMats[ #boltMats + 1 ] = m end
+	end
+	return boltMats
+end
+
+-- A jagged line from high in the sky to the horizon, with a few forks, as
+-- { x = sideways, e = elevation (radians) } points
+local function makeBoltShape( top )
+	local lines, main = {}, {}
+	local x, steps = 0, 14
+	for i = 0, steps do
+		local e = top * ( 1 - i / steps ) - 0.02
+		main[ #main + 1 ] = { x = x, e = e }
+		x = x + math.Rand( -4, 4 )
+		if i > 2 and i < steps - 2 and math.random() < 0.18 then
+			local fork, fx, fe = {}, x, e
+			for _ = 1, math.random( 3, 5 ) do
+				fork[ #fork + 1 ] = { x = fx, e = fe }
+				fx, fe = fx + math.Rand( -6, 6 ), fe - top / steps * math.Rand( 0.6, 1.2 )
+			end
+			lines[ #lines + 1 ] = { pts = fork, width = 0.5 }
+		end
+	end
+	table.insert( lines, 1, { pts = main, width = 1 } )
+	return lines
+end
+
+local bolt -- { start, length, flickers, yaw, scale, mat, shape }
+
+local function startBolt( d, dir )
+	if not CV.hl2a_lightning_bolts:GetBool() or d > BOLT_MAX_DIST or math.random() > BOLT_CHANCE then return end
+	local mats = lightningMaterials()
+	bolt = {
+		start = CurTime(), length = flash.length, flickers = flash.flickers,
+		yaw = dir:Angle().y + 0, scale = Lerp( d / BOLT_MAX_DIST, 1, 0.45 ),
+		mat = #mats > 0 and mats[ math.random( #mats ) ] or nil,
+	}
+	if not bolt.mat then bolt.shape = makeBoltShape( math.rad( Lerp( d, 40, 15 ) ) ) end
+end
+
+hook.Add( "PostDraw2DSkyBox", "hl2a.lightning", function()
+	if not bolt then return end
+	local t = ( CurTime() - bolt.start ) / bolt.length
+	if t >= 1 then bolt = nil return end
+	local alpha = math.abs( math.cos( t * math.pi * bolt.flickers ) ) * ( 1 - t ) ^ 0.7 * bolt.scale
+
+	local fwd = Angle( 0, bolt.yaw, 0 ):Forward()
+	local right = Angle( 0, bolt.yaw, 0 ):Right()
+	local function point( x, e )
+		return ( fwd * math.cos( e ) + vector_up * math.sin( e ) ) * BOLT_RADIUS + right * x * bolt.scale
+	end
+
+	local vs = render.GetViewSetup and render.GetViewSetup()
+	cam.Start3D( vector_origin, EyeAngles(), vs and vs.fov or nil )
+	render.OverrideDepthEnable( true, false )
+
+	if bolt.mat then
+		-- An image of a bolt standing on the horizon
+		local h = BOLT_RADIUS * 0.8 * bolt.scale
+		local base = point( 0, -0.02 )
+		local up = vector_up * h
+		local half = right * h * 0.25
+		bolt.mat:SetFloat( "$alpha", alpha )
+		render.SetMaterial( bolt.mat )
+		render.DrawQuad( base + up - half, base + up + half, base + half, base - half )
+	else
+		render.SetMaterial( beamMat )
+		local col = Color( 220, 225, 255, 255 * alpha )
+		for _, line in ipairs( bolt.shape ) do
+			for i = 2, #line.pts do
+				local a, b = line.pts[ i - 1 ], line.pts[ i ]
+				local p1, p2 = point( a.x, a.e ), point( b.x, b.e )
+				render.DrawBeam( p1, p2, 3 * line.width * bolt.scale, 0, 1, Color( 150, 160, 255, 90 * alpha ) ) -- glow
+				render.DrawBeam( p1, p2, 0.8 * line.width * bolt.scale, 0, 1, col )
+			end
+		end
+	end
+
+	render.OverrideDepthEnable( false )
+	cam.End3D()
+end )
+
 local function thunderStrike( path, volume, pitch, eye )
 	local d = math.random() -- 0 = overhead, 1 = far away
 
@@ -212,6 +312,7 @@ local function thunderStrike( path, volume, pitch, eye )
 	dir.z = math.abs( dir.z ) * 0.5
 	dir:Normalize()
 	local pos = eye + dir * lerpBy( d, THUNDER.soundDist )
+	startBolt( d, dir )
 	local vol = math.min( lerpBy( d, THUNDER.volume ) * volume, 1 )
 	local pit = lerpBy( d, THUNDER.pitch ) + ( pitch - 100 ) * 0.5
 

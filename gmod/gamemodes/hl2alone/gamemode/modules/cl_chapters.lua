@@ -98,6 +98,20 @@ local function buildPanel()
 	options:SetText( phrase( "#AMod_OptionsPanel_Title" ) )
 	options.DoClick = function() HL2A.ToggleOptionsPanel() end
 
+	-- The other panels (the original bound them to T, O and X)
+	for _, b in ipairs( {
+		{ "#Amod_WeatherPanel_Title", function() HL2A.ToggleWeatherPanel() end },
+		{ "#Amod_EffectsPanel_Title", function() HL2A.ToggleEffectsPanel() end },
+		{ "Songs", function() RunConsoleCommand( "ToggleSongPanel" ) end },
+	} ) do
+		local btn = bottom:Add( "DButton" )
+		btn:Dock( LEFT )
+		btn:SetWide( 120 )
+		btn:DockMargin( 0, 0, 12, 0 )
+		btn:SetText( phrase( b[ 1 ] ) )
+		btn.DoClick = b[ 2 ]
+	end
+
 	local status = bottom:Add( "DLabel" )
 	status:Dock( FILL )
 	status:SetTextColor( DIM )

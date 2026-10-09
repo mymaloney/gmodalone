@@ -71,10 +71,7 @@ local LAYOUT = {
 	{ "check", 240, 246, 235, "amod_do_citadel_timer", "#Amod_OptionsPanel_Other_CitadelTimer", "#Amod_OptionsPanel_Other_CitadelTimer_Tooltip" },
 	{ "check", 240, 265, 235, "amod_do_core_timer", "#Amod_OptionsPanel_Other_CoreTimer", "#Amod_OptionsPanel_Other_CoreTimer_Tooltip" },
 	{ "check", 240, 284, 235, "hl2a_achievement_notifications_disable", "#Amod_OptionsPanel_Other_DisableAchievementNotifications", "#Amod_OptionsPanel_Other_DisableAchievementNotifications_Tooltip" },
-	-- From the Weather panel's Atmosphere page (that panel isn't ported yet)
-	{ "check", 240, 303, 235, "amod_weather_thunder", "#Amod_WeatherPanel_AtmospherePage_EnableThunder", "#Amod_WeatherPanel_AtmospherePage_ToolTip_EnableThunder" },
-	{ "check", 240, 322, 235, "amod_do_breathing", "#Amod_WeatherPanel_AtmospherePage_ShowBreaths", "#Amod_WeatherPanel_AtmospherePage_ToolTip_ShowBreaths" },
-	{ "divider", 236, 344, 239, 2 },
+	{ "divider", 236, 324, 239, 2 },
 	{ "apply", 247, 370, 219, 26, "#Amod_OptionsPanel_ApplySettings" },
 }
 
