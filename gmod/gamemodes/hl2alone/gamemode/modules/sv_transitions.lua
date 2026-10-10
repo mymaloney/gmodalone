@@ -81,6 +81,7 @@ local GLOBAL_NAMES = {
 	"gordon_precriminal", "gordon_invulnerable", "gordon_protect_driver", "antlion_allied",
 	"citizens_passive", "super_phys_gun", "suit_no_sprint", "friendly_encounter",
 	"no_seagulls_on_jeep", "ep_alyx_darknessmode", "ep2_alyx_injured", "hunters_to_run_over",
+	"bridge_gate_open", "global_striderhall_generatorstate", -- found in the maps (chapter_audit.py)
 }
 local KNOWN_GLOBALS_FILE = "hl2alone/globalstates.txt"
 local knownGlobals = {}
@@ -111,6 +112,61 @@ local function applyGlobals( g )
 		if isnumber( v[ 2 ] ) and v[ 2 ] ~= 0 then game.SetGlobalCounter( name, v[ 2 ] ) end
 	end
 end
+
+-- New game vs. arriving from the last level ---------------------------------------------
+-- A multiplayer changelevel loads every map as a new game, so the maps' logic_auto
+-- OnNewGame outputs fired on each co-op level change: chapter-start item piles,
+-- and chapter shortcuts such as ep2_outland_11 opening doors and removing player
+-- blockers, or ep2_outland_12 disabling its autosaves; while OnMapTransition, what
+-- single player runs when you arrive from the previous level, never fired. When
+-- this load is a co-op arrival, OnNewGame outputs are dropped as the map spawns and
+-- the OnMapTransition ones are fired instead.
+
+local arriving = false
+do
+	local data = not game.SinglePlayer() and util.JSONToTable( file.Read( CARRY_FILE, "DATA" ) or "" )
+	arriving = istable( data ) and os.time() - ( data.saved or 0 ) < 300 and data.map == HL2A.MapPath():lower()
+end
+local transitionOutputs = {} -- { ent, value } from logic_auto OnMapTransition
+
+hook.Add( "EntityKeyValue", "hl2a.transitions.newgame", function( ent, key, value )
+	if not arriving or ent:GetClass() ~= "logic_auto" then return end
+	key = key:lower()
+	if key == "onnewgame" then
+		return "hl2a_no_such_entity,Kill,,0,-1" -- dropped: points at nothing
+	elseif key == "onmaptransition" then
+		transitionOutputs[ #transitionOutputs + 1 ] = { ent = ent, value = value }
+	end
+end )
+
+local function fireTransitionOutputs()
+	for _, o in ipairs( transitionOutputs ) do
+		local sep = o.value:find( "\x1b", 1, true ) and "\x1b" or ","
+		local p = string.Explode( sep, o.value )
+		local target, input, param, delay = p[ 1 ] or "", p[ 2 ] or "", p[ 3 ] or "", tonumber( p[ 4 ] ) or 0
+		local targets
+		if target:lower() == "!player" or target:lower() == "!activator" then
+			targets = player.GetAll()
+		elseif target:lower() == "!self" then
+			targets = { o.ent }
+		else
+			targets = ents.FindByName( target )
+			if #targets == 0 then targets = ents.FindByClass( target ) end
+		end
+		for _, t in ipairs( targets ) do
+			if IsValid( t ) then t:Fire( input, param, delay ) end
+		end
+	end
+	if #transitionOutputs > 0 then MsgN( "[HL2A] co-op arrival: fired " .. #transitionOutputs .. " OnMapTransition output(s), skipped OnNewGame" ) end
+	transitionOutputs = {}
+end
+
+-- As logic_auto would, a moment after the players are in
+hook.Add( "PlayerSpawn", "hl2a.transitions.newgame", function()
+	if not arriving or #transitionOutputs == 0 then return end
+	timer.Simple( 0.2, fireTransitionOutputs )
+	arriving = false
+end )
 
 -- Carrying players over ----------------------------------------------------------------
 

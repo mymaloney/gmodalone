@@ -50,7 +50,35 @@ function HL2A.MapCommandChangeLevel( cmd, args )
 end
 
 -- handler( ply, args ) where ply is the command's target player (may be NULL)
+-- "give <class>" fired by maps: EP2's first map hands out the gravity gun
+-- (trigger_Get_physgun) and the suit this way, the EP1 intro and Breen's
+-- chapter the suit, portal_07 the gravity gun. GMod treats give as a cheat
+-- and won't run it from a map, so they silently failed (EP2 softlocked
+-- without the gravity gun). Weapons and the suit go to every player, so
+-- nobody in co-op is left without them; other items to whoever set it off.
+local function giveItem( ply, args )
+	local class = ( args:match( "^(%S+)" ) or "" ):lower()
+	if not class:match( "^weapon_" ) and not class:match( "^item_" ) then return end
+	local everyone = class:match( "^weapon_" ) or class == "item_suit" or not IsValid( ply )
+	local function give( p )
+		if not IsValid( p ) or not p:Alive() then return end
+		if class == "item_suit" then
+			p:EquipSuit()
+		elseif not p:HasWeapon( class ) then
+			p:Give( class )
+		end
+	end
+	if everyone then
+		for _, p in player.Iterator() do give( p ) end
+	else
+		give( ply )
+	end
+	MsgN( "[HL2A] map gave " .. class .. ( everyone and " to everyone" or ( " to " .. ply:Nick() ) ) )
+end
+
 local HANDLERS = {
+	give = function( ply, args ) giveItem( ply, args ) end,
+
 	-- The maps' anti-piracy check fired this; build_addon.py strips that from
 	-- the maps (tools/strip_antipiracy.py), and this stays as a safety net
 	quit = function( _, _, ent )
