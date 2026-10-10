@@ -49,6 +49,8 @@ local function modMaps()
 	return out
 end
 
+HL2A.ModMaps = modMaps -- also walked by sv_smoketest.lua
+
 --- Cubemap positions in the BSP, and whether cubemap textures are packed in it
 function HL2A.CubemapState( map )
 	local f = file.Open( "maps/" .. map .. ".bsp", "rb", "GAME" )

@@ -35,6 +35,7 @@ end
 
 -- Order matters: later files use what earlier ones define.
 local FILES = {
+	"core/sh_instrument.lua", -- first: wraps what the rest registers (errors, timings)
 	"core/sh_keyvalues.lua",
 	"core/sh_data.lua",
 	"core/sh_convars.lua",
@@ -89,6 +90,9 @@ local FILES = {
 	"modules/cl_video.lua",
 	"modules/cl_credits.lua",
 	"modules/sv_dev.lua",
+	"modules/sh_smoketest.lua",
+	"modules/sh_report.lua",
+	"modules/sh_perf.lua",
 }
 
 for _, f in ipairs( FILES ) do HL2A.Include( f ) end

@@ -105,7 +105,10 @@ local HANDLERS = {
 	-- Screen fades. GMod won't run these from the server, so a map that
 	-- fades to black with "Stay Out" and lifts it with "fadein" (e.g. the
 	-- ep1_citadel_00_d intro) stayed black for good.
-	fadein = function( ply, args ) screenFade( ply, args, SCREENFADE.IN + SCREENFADE.PURGE ) end,
+	fadein = function( ply, args )
+		screenFade( ply, args, SCREENFADE.IN + SCREENFADE.PURGE )
+		hook.Run( "HL2A_ScreenFadeIn" )
+	end,
 	fadeout = function( ply, args ) screenFade( ply, args, SCREENFADE.OUT + SCREENFADE.STAYOUT ) end,
 
 	-- Menu-background / commentary helpers with no GMod equivalent
@@ -141,6 +144,7 @@ hook.Add( "AcceptInput", "hl2a.mapcommands", function( ent, input, activator, ca
 			handler( IsValid( ply ) and ply:IsPlayer() and ply or NULL, args, ent )
 		else
 			passthrough[ #passthrough + 1 ] = cmd
+			hook.Run( "HL2A_MapCommandPassthrough", name, cmd, ent )
 		end
 	end
 

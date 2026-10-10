@@ -206,6 +206,9 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | `hl2a_mp_force_transition` | Multiplayer: change level now without waiting for everyone at the exit (host/superadmin) |
 | `hl2a_stormfox_status` | StormFox 2 integration: what the map asks for, what StormFox has, session overrides |
 | `hl2a_checkpoint`, `hl2a_checkpoint_status` | Set a checkpoint here / show the current one |
+| `hl2a_smoketest start [seconds] [filter]` / `stop` / `status` / `resume` | Load every map (or those matching the filter) for a while each and write `data/hl2alone/smoketest_report.txt`: errors, missing models/sounds, entities GMod can't create, unhandled map commands, screens left faded, checkpoints, soundscapes, frame time, costliest hook. `resume` after a crash marks that map |
+| `hl2a_report` | Write a bug report to `data/hl2alone/reports/`: versions, map, weather/StormFox state, changed settings, mounted addons (known conflicts flagged), recent errors with tracebacks and output, client and server |
+| `hl2a_perf 1`, `hl2a_perf_server [seconds]` | What the gamemode costs: on-screen ms per frame and costliest hooks / the server side printed |
 | `hl2a_settings_dump` | Server settings remembered this session and put back after a map change (`sv_settings.lua`) |
 | `hl2a_mp_gather_debug` | Multiplayer: each level exit's size and every player's distance from it |
 | `hl2a_mp_exits` | List the map's level exits (target map, landmark, disabled / input-only) |
@@ -315,6 +318,24 @@ start, what a new game hands out (OnNewGame logic, `game_player_equip`,
 `give` commands, items at the start), the `env_global` story flags it sets,
 and its autosaves; then which maps have no autosaves and every story flag
 the campaign uses. `--all` covers every map.
+
+## Tests
+
+    pip install -r tests/requirements.txt
+    python -m pytest tests
+
+`tests/test_static.py` compiles every Lua file and checks the gamemode's
+rules (no hook registered by function name: one returning a value stops the
+event's other hooks; every module is in `shared.lua`). `tests/test_tools.py`
+covers the build tools. `tests/lua/test_*.lua` run the real modules on GMod
+stubs (`tests/lua/stubs.lua`): transitions, checkpoints, map commands,
+soundscapes, settings, StormFox, rain selection, the smoke test and the
+instrumentation. They run on every push (`.github/workflows/tests.yml`).
+
+`core/sh_instrument.lua` wraps the gamemode's own hooks, timers, net
+messages and commands: they're timed (`hl2a_perf`) and run under `xpcall`,
+so an error is recorded with its traceback (`hl2a_report`, the smoke test)
+and no longer stops the event's other hooks.
 
 ## Finding why a map hangs
 

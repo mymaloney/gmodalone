@@ -47,7 +47,7 @@ hook.Add( "RenderScreenspaceEffects", "hl2a.bloom", function()
 end )
 
 hook.Add( "InitPostEntity", "hl2a.bloom", function() apply() end )
-hook.Add( "HL2A_TimeInfoChanged", "hl2a.bloom", apply )
+hook.Add( "HL2A_TimeInfoChanged", "hl2a.bloom", function() apply() end )
 hook.Add( "ShutDown", "hl2a.bloom", function() restoreScalar() end )
 cvars.AddChangeCallback( "hl2a_bloom", function() timer.Simple( 0, apply ) end, "hl2a.bloom" )
 cvars.AddChangeCallback( "hl2a_timeinfo_theme", function() timer.Simple( 0, apply ) end, "hl2a.bloom" )

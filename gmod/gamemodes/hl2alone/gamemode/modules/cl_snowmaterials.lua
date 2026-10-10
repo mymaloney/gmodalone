@@ -213,7 +213,7 @@ function HL2A.ApplySnowMaterials()
 	MsgN( string.format( "[HL2A] snow: %d rules, %d materials changed", #rules, changed ) )
 end
 
-hook.Add( "InitPostEntity", "hl2a.snowmaterials", HL2A.ApplySnowMaterials )
+hook.Add( "InitPostEntity", "hl2a.snowmaterials", function() HL2A.ApplySnowMaterials() end )
 
 -- Shows what the .smf contains and how it matches this map's materials
 concommand.Add( "hl2a_snow_debug", function()

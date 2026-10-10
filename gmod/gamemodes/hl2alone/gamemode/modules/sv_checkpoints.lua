@@ -217,6 +217,11 @@ function HL2A.RestoreCheckpoint( ply )
 	return true
 end
 
+--- For the smoke test: whether a checkpoint exists, and the map's autosave entities
+function HL2A.CheckpointInfo()
+	return checkpoint ~= nil, #ents.FindByClass( "logic_autosave" ) + #ents.FindByClass( "trigger_autosave" )
+end
+
 -- Commands -----------------------------------------------------------------------------------
 
 local function host( ply ) return not IsValid( ply ) or ply:IsListenServerHost() or ply:IsSuperAdmin() end

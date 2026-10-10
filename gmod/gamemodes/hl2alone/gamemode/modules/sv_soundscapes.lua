@@ -157,3 +157,6 @@ concommand.Add( "hl2a_soundscapes_list", function( ply )
 		end
 	end
 end, nil, "List the map's soundscapes, which are enabled, and which you can hear" )
+
+--- For the smoke test: how many soundscapes this map has
+function HL2A.SoundscapeCount() return #scapes end

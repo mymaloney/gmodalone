@@ -19,7 +19,7 @@ local CLIENT_ONLY = {
 	"amod_fog_disabled", "amod_saturation", "hl2a_saturation_amount", "amod_vignette", "amod_new_vignette_",
 	"amod_viewbob_", "amod_standbob_", "amod_flashlight", "hl2a_flashlight_", "amod_music_disable",
 	"amod_songs_transition_through_levels", "hl2a_music_volume", "amod_mirrored", "hl2a_hidehud",
-	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "hl2a_weather_ambience_", "hl2a_soundscape_debug", "amod_new_ending", "r_clouds_", "r_stars_", "r_horizonfog_",
+	"hl2a_rollangle", "hl2a_achievement_notifications_disable", "hl2a_bloom", "hl2a_lightning_bolts", "hl2a_weather_ambience_", "hl2a_soundscape_debug", "hl2a_perf", "amod_new_ending", "r_clouds_", "r_stars_", "r_horizonfog_",
 	"amod_filter_brightness_", "hl2a_screenfilter",
 	"amod_view_", "amod_camera_", "amod_blur_amount", "amod_lensdirt_", "amod_lighting_debug", "amod_effects_",
 	"hl2a_effects_", "hl2a_noir", "hl2a_hide_viewmodel", "hl2a_viewmodel_fov", "hl2a_claustrophobia_fov", "hl2a_pitch_",
@@ -155,6 +155,7 @@ cv( "amod_weather_wait_min", 300 )
 cv( "amod_weather_wait_max", 600 )
 cv( "amod_weather_rain_density", 0.001 )
 cv( "amod_weather_rain_splashes", 1 )
+cv( "hl2a_perf", 0, "On-screen readout of what the gamemode costs per frame" )
 cv( "hl2a_soundscape_debug", 0, "Print each soundscape change and the rain ambience it picks" )
 cv( "hl2a_weather_ambience_volume", 1, "Rain and snow ambience volume (1 = the original mod's levels)" )
 cv( "amod_weather_thunder", 0, "Thunder sounds while it rains (the soundscape's ThunderSoundscape, default common.thunder)" )
