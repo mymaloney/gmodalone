@@ -115,6 +115,68 @@ hook.Add( "InitPostEntity", "hl2a.checkpoints", function()
 end )
 hook.Add( "ShutDown", "hl2a.checkpoints", function() checkpointsLive = false end )
 
+-- Pickups since the last checkpoint ---------------------------------------------------------
+-- A real autosave only holds what you had when it was made, but the maps
+-- autosave sparingly, so a weapon found after it was lost on death. HL2's own
+-- weapons (and the suit) are added to the player's checkpoint kit as they're
+-- picked up, with the ammo they came with.
+
+local HL2_WEAPONS = {
+	weapon_crowbar = true, weapon_stunstick = true, weapon_physcannon = true, weapon_pistol = true,
+	weapon_357 = true, weapon_smg1 = true, weapon_ar2 = true, weapon_shotgun = true, weapon_crossbow = true,
+	weapon_frag = true, weapon_rpg = true, weapon_slam = true, weapon_bugbait = true,
+}
+
+local function kitFor( ply )
+	if not checkpoint then return nil end
+	local s = checkpoint.players[ ply ]
+	if not s then
+		-- Joined or respawned since: start from the checkpoint's place with nothing
+		s = { weapons = {}, ammo = {}, suit = ply:IsSuitEquipped(), pos = checkpoint.fallback.pos, angles = checkpoint.fallback.ang }
+		checkpoint.players[ ply ] = s
+	end
+	s.weapons, s.ammo = s.weapons or {}, s.ammo or {}
+	return s
+end
+
+-- At least as much of this ammo as the player has now
+local function keepAmmo( s, ply, ammoID )
+	if not ammoID or ammoID < 0 then return end
+	local name = game.GetAmmoName( ammoID )
+	if name then s.ammo[ name ] = math.max( s.ammo[ name ] or 0, ply:GetAmmoCount( ammoID ) ) end
+end
+
+hook.Add( "WeaponEquip", "hl2a.checkpoints", function( wep, ply )
+	if not enabled() or not IsValid( ply ) or not ply:IsPlayer() then return end
+	local class = wep:GetClass()
+	if not HL2_WEAPONS[ class ] then return end
+	-- Next tick: the weapon's ammo has been handed over by then
+	timer.Simple( 0, function()
+		if not IsValid( ply ) or not IsValid( wep ) then return end
+		local s = kitFor( ply )
+		if not s then return end
+		local have = false
+		for _, w in ipairs( s.weapons ) do if w[ 1 ] == class then have = true break end end
+		if not have then
+			s.weapons[ #s.weapons + 1 ] = { class, wep:Clip1(), wep:Clip2() }
+			MsgN( "[HL2A] checkpoint kit: + " .. class .. " (" .. ply:Nick() .. ")" )
+		end
+		keepAmmo( s, ply, wep:GetPrimaryAmmoType() )
+		keepAmmo( s, ply, wep:GetSecondaryAmmoType() )
+	end )
+end )
+
+-- The suit (item_suit) is an item, not a weapon
+hook.Add( "PlayerCanPickupItem", "hl2a.checkpoints", function( ply, item )
+	if not enabled() or not IsValid( item ) or item:GetClass() ~= "item_suit" then return end
+	timer.Simple( 0, function()
+		if IsValid( ply ) and ply:IsSuitEquipped() then
+			local s = kitFor( ply )
+			if s then s.suit = true end
+		end
+	end )
+end )
+
 -- Coming back --------------------------------------------------------------------------------
 
 hook.Add( "PlayerDeath", "hl2a.checkpoints", function( ply )
