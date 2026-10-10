@@ -182,6 +182,8 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | Vignette end alpha (`amod_new_vignette_end_alpha`) | client.dll | **Ported** | `cl_view.lua` |
 | Level transitions in multiplayer | engine `trigger_changelevel` (single player only) | **Added:** co-op. When someone reaches a level exit (within `hl2a_mp_exit_reach`, 128 units of its edge; exits are often small), everyone alive must gather within `hl2a_mp_gather_radius` (768) of it ("You must gather your party before moving forward (2/4)", with a marker to the exit for stragglers). Then a `hl2a_mp_transition_delay` (3 s) countdown runs, and health, armour, suit, weapons, ammo and each player's place relative to the landmark carry over. Scripted exits (the `ChangeLevel` input) wait too: `hl2a_mp_gather_timeout` lets them go ahead without stragglers after a while, and `hl2a_mp_force_transition` goes now. NPCs and props don't cross over as they do in single player. `hl2a_mp_transitions 0` turns this off | `sv_transitions.lua`, `cl_transitions.lua` |
 | StormFox 2 compatibility | (GMod addon) | **Added:** with StormFox 2 installed it handles weather, sky and time (`hl2a_stormfox 1`, default). Each map's weather (time_info or the Weather panel: rain/snow, intensity, intervals, thunder) is fed to it at night (`hl2a_stormfox_time`, 23:30) with time stopped (`hl2a_stormfox_time_flow`); the port's particles, rain ambience and thunder step aside, while the maps' own night sky (clouds, stars, horizon, skybox, sun; `hl2a_stormfox_sky 1` uses StormFox's), fog (`hl2a_stormfox_fog 1` hands it over) and colour grade stay, and the maps' baked night lighting isn't relit (`hl2a_stormfox_maplight`). StormFox settings are changed for the session only and restored on exit. `hl2a_stormfox 0` keeps the port's weather and switches StormFox off while playing | `sh_stormfox.lua` |
+| Death and autosaves | engine: death reloads the last autosave (`logic_autosave`, `trigger_autosave`); nothing custom in the DLLs | **Replaced with checkpoints:** every autosave the map makes (and one 3 s after each map starts) records each player's place, health, armour, suit, weapons and ammo; after dying you come back there with that kit (at least 25 health, 2 s of spawn protection, back in your vehicle if it's free). The world isn't rewound. `hl2a_checkpoints 0` turns it off | `sv_checkpoints.lua` |
+| Story flags across co-op level changes | engine `env_global` states (antlion_allied, citizens_passive, super_phys_gun ...) | **Carried** across multiplayer transitions (single player keeps them itself): the flags HL2's code checks plus every name the maps' env_globals use (`data/hl2alone/globalstates.txt`) | `sv_transitions.lua` |
 | Sandbox hints, spawn/context menus, noclip | (GMod Sandbox) | **Off by default** for the campaign; `hl2a_sandbox_tools 1` (Options panel) brings them back | `sh_sandbox.lua` |
 
 ## Console commands
@@ -201,6 +203,7 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | `hl2a_check_cubemaps` | List maps with unbuilt cubemaps |
 | `hl2a_mp_force_transition` | Multiplayer: change level now without waiting for everyone at the exit (host/superadmin) |
 | `hl2a_stormfox_status` | StormFox 2 integration: what the map asks for, what StormFox has, session overrides |
+| `hl2a_checkpoint`, `hl2a_checkpoint_status` | Set a checkpoint here / show the current one |
 | `hl2a_settings_dump` | Server settings remembered this session and put back after a map change (`sv_settings.lua`) |
 | `hl2a_mp_gather_debug` | Multiplayer: each level exit's size and every player's distance from it |
 | `hl2a_mp_exits` | List the map's level exits (target map, landmark, disabled / input-only) |
@@ -302,6 +305,14 @@ a fixed build):
 In game, `hl2a_whichmap` lists every copy of the current map GMod can see
 (garrysmod/, legacy addons, each mounted Workshop addon, mounted games) and
 which of them has the check; it also runs by itself when a map with the check loads.
+
+## What chapter starts give you
+
+`tools/chapter_audit.py "<mod folder>/maps"` reports, for every chapter
+start, what a new game hands out (OnNewGame logic, `game_player_equip`,
+`give` commands, items at the start), the `env_global` story flags it sets,
+and its autosaves; then which maps have no autosaves and every story flag
+the campaign uses. `--all` covers every map.
 
 ## Finding why a map hangs
 

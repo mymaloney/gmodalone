@@ -36,6 +36,9 @@ function GM:PlayerSpawn( ply, transition )
 	applySpeeds( ply )
 	if CV.amod_enable_god:GetBool() then ply:GodEnable() end
 
+	-- After dying: back at the last checkpoint with that kit (sv_checkpoints.lua)
+	if HL2A.RestoreCheckpoint( ply ) then return end
+
 	-- Multiplayer level change: health, suit, weapons and place carried over (sv_transitions.lua)
 	if HL2A.RestoreTransitionCarry( ply ) then return end
 

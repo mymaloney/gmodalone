@@ -71,6 +71,47 @@ local function landmarkPos( name )
 	end
 end
 
+-- Story flags (env_global) ----------------------------------------------------------------
+-- In single player the engine carries HL2's global states (antlions friendly,
+-- citizens passive, gravity gun charged ...) across levels; a multiplayer
+-- changelevel starts them over, so they're carried here. Known: the ones the
+-- game code checks, plus every name the maps' env_globals use.
+
+local GLOBAL_NAMES = {
+	"gordon_precriminal", "gordon_invulnerable", "gordon_protect_driver", "antlion_allied",
+	"citizens_passive", "super_phys_gun", "suit_no_sprint", "friendly_encounter",
+	"no_seagulls_on_jeep", "ep_alyx_darknessmode", "ep2_alyx_injured", "hunters_to_run_over",
+}
+local KNOWN_GLOBALS_FILE = "hl2alone/globalstates.txt"
+local knownGlobals = {}
+for _, n in ipairs( GLOBAL_NAMES ) do knownGlobals[ n ] = true end
+for n in ( file.Read( KNOWN_GLOBALS_FILE, "DATA" ) or "" ):gmatch( "[^\r\n]+" ) do knownGlobals[ n ] = true end
+
+hook.Add( "EntityKeyValue", "hl2a.transitions.globals", function( ent, key, value )
+	if key:lower() ~= "globalstate" or ent:GetClass() ~= "env_global" or value == "" then return end
+	value = value:lower()
+	if knownGlobals[ value ] then return end
+	knownGlobals[ value ] = true
+	file.CreateDir( "hl2alone" )
+	file.Append( KNOWN_GLOBALS_FILE, value .. "\n" )
+end )
+
+local function captureGlobals()
+	local out = {}
+	for name in pairs( knownGlobals ) do
+		out[ name ] = { game.GetGlobalState( name ), game.GetGlobalCounter( name ) }
+	end
+	return out
+end
+
+local function applyGlobals( g )
+	if not istable( g ) then return end
+	for name, v in pairs( g ) do
+		if isnumber( v[ 1 ] ) then game.SetGlobalState( name, v[ 1 ] ) end
+		if isnumber( v[ 2 ] ) and v[ 2 ] ~= 0 then game.SetGlobalCounter( name, v[ 2 ] ) end
+	end
+end
+
 -- Carrying players over ----------------------------------------------------------------
 
 local function snapshot( ply, landmark )
@@ -98,7 +139,7 @@ end
 --- Saves every player's state for the next map. leader = the player who led the way.
 function HL2A.SaveTransitionCarry( map, landmarkName, leader )
 	local landmark = landmarkPos( landmarkName )
-	local out = { saved = os.time(), map = map, landmark = landmarkName, players = {} }
+	local out = { saved = os.time(), map = map, landmark = landmarkName, players = {}, globals = captureGlobals() }
 	for _, ply in player.Iterator() do
 		if ply:Alive() then
 			out.players[ carryKey( ply ) ] = snapshot( ply, landmark )
@@ -128,7 +169,11 @@ end
 
 -- Wrapped: a hook that returns anything (loadCarry returns false on a fresh
 -- game) stops every other InitPostEntity hook from running
-hook.Add( "InitPostEntity", "hl2a.transitions", function() loadCarry() end )
+hook.Add( "InitPostEntity", "hl2a.transitions", function()
+	local c = loadCarry()
+	-- After the new map's env_globals set their initial states: the carried ones are newer
+	if c then applyGlobals( c.globals ) end
+end )
 
 -- A new game from the chapter menu never carries anything
 hook.Add( "HL2A.NewGame", "hl2a.transitions", function()
@@ -186,6 +231,11 @@ local function restore( ply, s )
 	for name, count in pairs( s.ammo or {} ) do ply:SetAmmo( count, name ) end
 	if s.active and ply:HasWeapon( s.active ) then ply:SelectWeapon( s.active ) end
 end
+
+-- Shared with sv_checkpoints.lua
+HL2A.SnapshotPlayer = snapshot
+HL2A.RestorePlayerState = restore
+HL2A.PlacePlayer = place
 
 --- Called from GM:PlayerSpawn. Returns true if the player was carried over.
 function HL2A.RestoreTransitionCarry( ply )
