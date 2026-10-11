@@ -242,7 +242,7 @@ local function build()
 	skyBox:SetSortItems( false )
 
 	local function preview( sky, face )
-		local mat = sky and ( "skybox/" .. sky .. face )
+		local mat = sky and ( "skybox/" .. HL2A.SkyName( sky ) .. face )
 		image:SetVisible( mat ~= nil and file.Exists( "materials/" .. mat .. ".vmt", "GAME" ) )
 		if mat then image:SetImage( mat ) end
 	end

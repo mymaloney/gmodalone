@@ -274,6 +274,34 @@ def build_assets(out: Path, assets: Path, keep_backgrounds: bool, music_ogg: boo
         copy(f, out / "particles" / "hl2alone" / f.name.lower())
 
 
+SKY_FACES = ("bk", "dn", "ft", "lf", "rt", "up")
+SKY_VMT = '"UnlitGeneric"\n{{\n\t"$basetexture" "{tex}"\n\t"$nofog" 1\n\t"$ignorez" 1\n}}\n'
+
+
+def complete_upscaled_skies(out: Path):
+    """materials/skybox/upscaled/ holds the mod's upscaled night skies, which the original
+    never used: sky_borealis01 has textures but no .vmt and no bottom face. Writes each
+    face's material, pointing at the upscaled texture, or at the stock one for a face
+    with none, so the port can use them (HL2A.SkyName, hl2a_sky_upscaled)."""
+    folder = out / "materials" / "skybox" / "upscaled"
+    if not folder.is_dir():
+        return
+    skies = {f.stem[:-2] for f in folder.glob("*.vtf") if f.stem[-2:] in SKY_FACES}
+    written = 0
+    for sky in sorted(skies):
+        for face in SKY_FACES:
+            vmt = folder / f"{sky}{face}.vmt"
+            own = (folder / f"{sky}{face}.vtf").is_file()
+            tex = f"skybox/upscaled/{sky}{face}" if own else f"skybox/{sky}{face}"
+            if vmt.is_file():
+                m = re.search(r'"?\$basetexture"?\s+"?([^"\s]+)', vmt.read_text(encoding="latin-1"), re.I)
+                if m and m.group(1).replace("\\", "/").lower() == tex:
+                    continue
+            vmt.write_text(SKY_VMT.format(tex=tex), encoding="latin-1")
+            written += 1
+    print(f"skies    {len(skies)} upscaled night skies ({', '.join(sorted(skies))}), {written} materials written")
+
+
 def copy_graphs(out: Path, gmod: Path, navmesh: bool, cubemaps: bool = False):
     """Node graphs (and navmeshes, and maps with rebuilt cubemaps) GMod made
     for the addon's maps (hl2a_build_graphs in-game) replace the mod's."""
@@ -414,6 +442,7 @@ def main():
     build_data(out)
     if args.assets:
         build_assets(out, args.assets.resolve(), args.keep_background_maps, args.music_ogg)
+        complete_upscaled_skies(out)
         if args.videos:
             convert_videos(out, args.assets.resolve())
     else:

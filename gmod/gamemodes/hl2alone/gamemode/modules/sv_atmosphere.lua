@@ -10,15 +10,21 @@ local CV = HL2A.ConVars
 local TI = HL2A.TimeInfo
 local KV = HL2A.KV
 
+-- The map's own sky, before anything here changed sv_skyname
+local mapSky
+
 local function applySky()
 	local block = TI.GetCurrentBlock()
+	mapSky = mapSky or ( GetConVar( "sv_skyname" ):GetString():gsub( "^upscaled/", "" ) )
 
 	local sky = CV.amod_night_sky:GetString()
 	if sky == "" then sky = KV.Get( block, "DefaultNightSky" ) or "" end
 
 	-- Skybox names in time_info may carry a "%lf"-style face suffix
 	sky = sky:gsub( "%%.*$", "" )
-	if sky ~= "" then RunConsoleCommand( "sv_skyname", sky ) end
+	if sky == "" then sky = mapSky end
+	sky = HL2A.SkyName( sky )
+	if sky ~= "" and sky ~= GetConVar( "sv_skyname" ):GetString() then RunConsoleCommand( "sv_skyname", sky ) end
 end
 
 local function applySun()
@@ -117,7 +123,7 @@ timer.Create( "hl2a.filter", 0.25, 0, updateFilter )
 
 for _, name in ipairs( { "amod_night_sky", "amod_sun_disable", "hl2a_timeinfo_theme",
 	"amod_epic_filter", "hl2a_postprocess", "amod_epic_filter_night_filename", "amod_epic_filter_night_intensity",
-	"hl2a_stormfox", "hl2a_stormfox_sky" } ) do
+	"hl2a_stormfox", "hl2a_stormfox_sky", "hl2a_sky_upscaled" } ) do
 	cvars.AddChangeCallback( name, function() timer.Simple( 0, HL2A.ApplyAtmosphere ) end, "hl2a.atmosphere" )
 end
 

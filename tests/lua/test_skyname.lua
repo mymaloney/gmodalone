@@ -1,0 +1,10 @@
+-- Night skies use the mod's upscaled copy when there is one (hl2a_sky_upscaled)
+GM_LOAD( "core/sh_data.lua" )
+FILES[ "materials/skybox/upscaled/sky_borealis01bk.vmt" ] = "x"
+SetCV( "hl2a_sky_upscaled", 1 )
+assert( HL2A.SkyName( "sky_borealis01" ) == "upscaled/sky_borealis01" )
+assert( HL2A.SkyName( "upscaled/sky_borealis01" ) == "upscaled/sky_borealis01", "already mapped" )
+assert( HL2A.SkyName( "sky_day01_09" ) == "sky_day01_09", "no upscaled copy" )
+assert( HL2A.SkyName( "" ) == "" )
+SetCV( "hl2a_sky_upscaled", 0 )
+assert( HL2A.SkyName( "upscaled/sky_borealis01" ) == "sky_borealis01", "turned off: the stock sky" )

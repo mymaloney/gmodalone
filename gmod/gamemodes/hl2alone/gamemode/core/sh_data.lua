@@ -123,6 +123,22 @@ function HL2A.ResolveSound( path )
 	return path
 end
 
+local upscaled = {}
+
+--- The skybox name to use for sky: "upscaled/<sky>" when the mod ships an
+-- upscaled copy (materials/skybox/upscaled/, completed by build_addon.py)
+-- and hl2a_sky_upscaled is on. The original mod shipped these but never used them.
+function HL2A.SkyName( sky )
+	if not isstring( sky ) or sky == "" then return sky end
+	local base = sky:lower():gsub( "^upscaled/", "" )
+	local cv = HL2A.ConVars and HL2A.ConVars.hl2a_sky_upscaled
+	if cv and not cv:GetBool() then return base end
+	if upscaled[ base ] == nil then
+		upscaled[ base ] = file.Exists( "materials/skybox/upscaled/" .. base .. "bk.vmt", "GAME" )
+	end
+	return upscaled[ base ] and ( "upscaled/" .. base ) or base
+end
+
 --- Text shown to the player with the mod's "snowey" spelled "snowy".
 -- Only for display: map and folder names keep the original spelling.
 function HL2A.Spell( text )

@@ -143,3 +143,16 @@ def test_chapter_audit(tmp_path):
     assert "OnNewGame -> equip.Use()  [game_player_equip]" in joined
     assert "weapon_crowbar" in joined and "give weapon_shotgun" in joined and "weapon_pistol x1" in joined
     assert globals_ == ["antlion_allied"] and autosaves == 0
+
+
+def test_upscaled_skies(tmp_path):
+    up = tmp_path / "materials" / "skybox" / "upscaled"
+    up.mkdir(parents=True)
+    for face in ("bk", "ft", "lf", "rt", "up"):  # sky_borealis01: no .vmt, no bottom face
+        (up / f"sky_borealis01{face}.vtf").write_bytes(b"VTF")
+    (up / "sky_x02bk.vtf").write_bytes(b"VTF")
+    (up / "sky_x02bk.vmt").write_text('"UnlitGeneric" { "$basetexture" "skybox/upscaled/sky_x02bk" "$custom" 1 }')
+    build_addon.complete_upscaled_skies(tmp_path)
+    assert '"skybox/upscaled/sky_borealis01bk"' in (up / "sky_borealis01bk.vmt").read_text()
+    assert '"skybox/sky_borealis01dn"' in (up / "sky_borealis01dn.vmt").read_text(), "missing face uses the stock texture"
+    assert "$custom" in (up / "sky_x02bk.vmt").read_text(), "a correct material is kept"

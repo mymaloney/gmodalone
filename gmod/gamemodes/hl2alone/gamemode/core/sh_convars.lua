@@ -48,6 +48,7 @@ end
 -- Daytime (amod_day) isn't ported: with the maps' baked night lighting it
 -- can't look right, so it's being handled as a separate project.
 cv( "amod_night_sky", "", "Override the map's skybox" )
+cv( "hl2a_sky_upscaled", 1, "Use the mod's upscaled copies of night skies (materials/skybox/upscaled/) where there is one" )
 cv( "amod_sun_disable", 0 )
 cv( "amod_fog_disabled", 0 )
 cv( "hl2a_timeinfo_theme", "", "Sub-folder of resource/time_info to load (e.g. \"snowey coast\", \"hl2 beta\"); empty = default" )

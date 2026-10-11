@@ -138,6 +138,7 @@ it has to be moved into `data_static/` (as `.txt`/`.dat`/`.json`) and read from 
 | Feature | Original | Status | Where |
 |---|---|---|---|
 | Per-map night atmosphere (skybox, env_sun, fog, filter) | time_info "Night" blocks | **Ported** | `sv_atmosphere.lua`, `cl_fog.lua` |
+| Upscaled night skies (`materials/skybox/upscaled/`) | shipped by the mod, never used (`sky_borealis01` had no materials and no bottom face) | **Added:** `build_addon.py` writes the missing materials (the bottom face uses the stock texture) and the port uses the upscaled copy of a sky wherever there is one; `hl2a_sky_upscaled 0` goes back to the stock skies | `sh_data.lua` (`HL2A.SkyName`), `sv_atmosphere.lua` |
 | Daytime maps (`amod_day`) | time_info "Day" blocks + brightening filter | **Not ported: separate project.** The maps' baked night lighting can't be made to look like day by post-processing (the original only brightened it with `cc_daytime.raw`); doing it properly needs relit maps (VRAD) or a dynamic sun (CSM) | n/a |
 | time_info themes (snowey coast, hl2 beta) | time_info subfolders | **Ported:** `hl2a_timeinfo_theme` | `sh_timeinfo.lua` |
 | Fog + FogCubeTriggers | client.dll | **Ported**, with blending | `cl_fog.lua` |
