@@ -101,6 +101,8 @@ local HANDLERS = {
 	playvideo = function( _, args ) if args ~= "" then HL2A.SendVideo( args:match( "^(%S+)" ) ) end end,
 	amod_playvideo = function( _, args ) if args ~= "" then HL2A.SendVideo( args:match( "^(%S+)" ) ) end end,
 	amod_outrotest = function() HL2A.SendVideo( "amod_outrovideo" ) end,
+	-- credits_d: server.dll replaces this with "playvideo Amod_OutroVideo"
+	pov = function() HL2A.PlayOutroForCredits() end,
 
 	-- Screen fades. GMod won't run these from the server, so a map that
 	-- fades to black with "Stay Out" and lifts it with "fadein" (e.g. the

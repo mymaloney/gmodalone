@@ -162,7 +162,8 @@ local function missingSounds()
 	local out, seen = {}, {}
 	for _, e in ipairs( ents.FindByClass( "ambient_generic" ) ) do
 		local s = e:GetInternalVariable( "m_iszSound" )
-		if isstring( s ) and s ~= "" and not seen[ s ] then
+		-- "!NAME" is a sentence (sentences.txt), not a file or soundscript
+		if isstring( s ) and s ~= "" and not s:StartWith( "!" ) and not seen[ s ] then
 			seen[ s ] = true
 			local ok
 			if s:lower():match( "%.wav$" ) or s:lower():match( "%.mp3$" ) or s:lower():match( "%.ogg$" ) then
@@ -227,6 +228,8 @@ local function nextMap( s )
 	timer.Simple( 1, function() RunConsoleCommand( "map", map ) end )
 end
 
+local function settle( s ) return s.seconds > 10 and 5 or 0 end
+
 local function finish( s, map )
 	local r = { errors = found.errors }
 	r.models, r.sounds, r.classes = missingModels(), missingSounds(), uncreatable( map )
@@ -235,7 +238,7 @@ local function finish( s, map )
 	r.checkpoint, r.autosaves = HL2A.CheckpointInfo()
 	r.soundscapes = HL2A.SoundscapeCount and HL2A.SoundscapeCount() or 0
 	local top = HL2A.Perf.Top( 1 )[ 1 ]
-	if top then r.costly = string.format( "%s %.2f ms/s", top[ 1 ], top[ 2 ] * 1000 / s.seconds ) end
+	if top then r.costly = string.format( "%s %.2f ms/s", top[ 1 ], top[ 2 ] * 1000 / ( s.seconds - settle( s ) ) ) end
 
 	-- Ask the client for its frame time, then move on
 	net.Start( "hl2a.smoketest" ) net.Broadcast()
@@ -259,6 +262,9 @@ hook.Add( "InitPostEntity", "hl2a.smoketest", function()
 		hook.Remove( "PlayerSpawn", "hl2a.smoketest" )
 		timer.Simple( 0, function() if IsValid( ply ) then ply:GodEnable() end end )
 		timer.Simple( s.seconds, function() finish( s, map ) end )
+		-- Costs are measured after the map has settled: one-off start-up work
+		-- (particles, checkpoint, soundscapes) isn't a per-second cost
+		timer.Simple( settle( s ), HL2A.Perf.Reset )
 	end )
 end )
 

@@ -21,3 +21,9 @@ local lifted = false
 hook.Add( "HL2A_ScreenFadeIn", "test", function() lifted = true end )
 hook.Run( "AcceptInput", cc, "Command", A, cc, "fadein 1" )
 assert( lifted, "fadein handled" )
+
+-- credits_d's "pov" plays the outro, as server.dll did
+local played
+HL2A.PlayOutroForCredits = function() played = true end
+assert( hook.Run( "AcceptInput", cc, "Command", A, cc, "pov" ) == true )
+assert( played, "pov plays the outro" )

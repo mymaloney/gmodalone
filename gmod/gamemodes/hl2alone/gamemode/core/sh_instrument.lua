@@ -7,7 +7,8 @@
 	wrapped so that callbacks registered from this gamemode's files (and only
 	those: other addons are untouched) are
 	  * timed: HL2A.Perf.cost[ key ] accumulates seconds, key like
-	    "Think hl2a.weather" or "timer hl2a.filter";
+	    "Think hl2a.weather", "timer hl2a.filter" or
+	    "timer.Simple modules/sv_x.lua:42";
 	  * run under xpcall: an error is recorded (HL2A.Log.errors, with its
 	    traceback) and still printed, and no longer aborts the other hooks
 	    of the same event.
@@ -75,6 +76,14 @@ local function fromUs( level )
 	return info and info.short_src and info.short_src:find( OURS, 1, true ) ~= nil
 end
 
+-- "modules/sv_x.lua:42" for the function at that stack level (anonymous timers have no name)
+local function site( level )
+	local info = debug.getinfo( level + 1, "Sl" )
+	if not info then return "?" end
+	local src = info.short_src or "?"
+	return ( src:match( "gamemode/(.*)$" ) or src ) .. ":" .. tostring( info.currentline or "?" )
+end
+
 local function pack( ... ) return { n = select( "#", ... ), ... } end
 
 local function wrap( key, fn )
@@ -110,7 +119,7 @@ if not HL2A.InstrumentedAPI then
 
 	local oSimple = timer.Simple
 	function timer.Simple( delay, fn, ... )
-		if isfunction( fn ) and fromUs( 3 ) then fn = wrap( "timer.Simple", fn ) end
+		if isfunction( fn ) and fromUs( 3 ) then fn = wrap( "timer.Simple " .. site( 2 ), fn ) end
 		return oSimple( delay, fn, ... )
 	end
 

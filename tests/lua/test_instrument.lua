@@ -19,3 +19,12 @@ assert( #HL2A.Log.errors == 1 and HL2A.Log.errors[ 1 ].where == "Think hl2a.brok
 assert( HL2A.Perf.calls[ "SetupWorldFog hl2a.fog" ] == 1 )
 MsgN( "captured line" )
 assert( HL2A.Log.lines[ #HL2A.Log.lines ] == "captured line" )
+
+-- timer.Simple callbacks are told apart by where they were created
+local timers = loadstring( [[
+	timer.Simple( 1, function() end )
+	timer.Simple( 1, function() end )
+]], "@gamemodes/hl2alone/gamemode/modules/z.lua" )
+timers()
+Tick( 1.1 )
+assert( HL2A.Perf.calls[ "timer.Simple modules/z.lua:1" ] == 1 and HL2A.Perf.calls[ "timer.Simple modules/z.lua:2" ] == 1 )
